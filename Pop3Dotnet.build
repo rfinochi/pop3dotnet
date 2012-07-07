@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<project name="Pop3.NET Build and Code Deploy" default="rebuild.deploy.all">
+
+    <property name="configuration" value="Release"/>
+    <property name="version" value="1.1.0.3"/>
+    <property name="vsDir" value="C:\Program Files\Microsoft Visual Studio 10.0\Common7\IDE"/>
+    <property name="dotNetDir" value="C:\Windows\Microsoft.NET\Framework\v4.0.30319\"/>
+    <property name="nugetDir" value="C:\Trabajos\Bin\NuGet\"/>
+
+    <property name="deployDirectory" value="..\Pop3DotNetBuild"/>
+    <property name="deployDirectory.bin" value="${deployDirectory}\Bin"/>
+    <property name="deployDirectory.source" value="${deployDirectory}\Source"/>
+
+    <property name="buildlog" value="build.log"/>
+    <property name="buildlog.level" value="Verbose"/>
+
+    <property name="fileName" value="Pop3.dll"/>
+    <property name="fullPath" value=".\Library\bin\${configuration}\${fileName}"/>
+    <property name="fileName.pdb" value="Pop3.pdb"/>
+    <property name="fullPath.pdb" value=".\Library\bin\${configuration}\${fileName.pdb}"/>
+
+    <target name="rebuild" depends="clean, build, build.nuget"/>
+
+    <target name="rebuild.deploy.bin" depends="rebuild, deploy.bin"/>
+
+    <target name="rebuild.deploy.source" depends="rebuild, deploy.source"/>
+
+    <target name="deploy.all" depends="deploy.bin, deploy.nuget, deploy.source, deploy.packaging"/>
+
+    <target name="rebuild.deploy.all" depends="rebuild, deploy.all"/>
+
+    <target name="clean">
+        <delete>
+            <fileset>
+                <include name="**/bin/**"/>
+                <include name="**/obj/**"/>
+                <include name="**/Debug/**"/>
+                <include name="**/Release/**"/>
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="build">
+	<exec
+            program="devenv.com"
+            basedir="${vsDir}"
+            commandline="/rebuild ${configuration} Pop3DotNet.sln"
+        />
+
+        <fail unless="${file::exists(fullPath)}">The file ${fullPath} not exist</fail>
+        <fail unless="${file::exists(fullPath.pdb)}">The file ${fullPath.pdb} not exist</fail>
+    </target>
+
+    <target name="deploy.bin">
+        <property name="binDirectory" value="${deployDirectory.bin}\"/>
+        <mkdir dir="${binDirectory}"/>
+
+        <copy file="${fullPath}" tofile="${binDirectory}\${fileName}"/>
+        <copy file="${fullPath.pdb}" tofile="${binDirectory}\${fileName.pdb}"/>
+
+	<call target="clean"/>
+    </target>
+
+    <target name="deploy.source">
+        <property name="sourceDirectory" value="${deployDirectory.source}\"/>
+        <delete dir="${sourceDirectory}" if="${directory::exists(sourceDirectory)}"/>
+        <mkdir dir="${sourceDirectory}"/>
+
+        <copy todir="${deployDirectory.source}">
+            <fileset basedir=".">
+                <include name="**"/>
+            </fileset>
+        </copy>
+
+        <delete failonerror="false">
+            <fileset basedir="${deployDirectory.source}">
+                <include name="**/git/**"/>
+                <include name="**/bin/**"/>
+                <include name="**/obj/**"/>
+                <include name="**/Debug/**"/>
+                <include name="**/Release/**"/>
+                <include name="**/.gitattributes/**"/>
+                <include name="**/.gitignore/**"/>
+                <include name="**/buildlogs/**"/>
+                <include name="**/*.suo"/>
+                <include name="**/*.user"/>
+                <include name="**/*.nuspec"/>
+                <include name="**/*.nupkg"/>
+                <include name="**/build.log"/>
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="build.nuget">
+        <!--exec
+            program="nuget.exe"
+            basedir="${nugetDir}"
+	    workingdir=".\Library"
+            commandline="pack Library.nuspec -Prop Configuration=Release -Verbose"
+        /-->
+    </target>
+
+    <target name="deploy.nuget">
+        <!--exec
+            program="nuget.exe"
+            basedir="${nugetDir}"
+	    workingdir=".\Library"
+            commandline="push Pop3.${version}.nupkg"
+        /-->
+    </target>
+
+    <target name="deploy.packaging">
+        <property name="date" value=""/>
+        <property name="date.long" value=""/>
+        <tstamp property="date" pattern="yyyyMMdd" verbose="true"/>
+        <tstamp property="date.long" pattern="dd MMM yyyy" verbose="true"/>
+
+
+        <property name="zipFile" value="..\Pop3.zip"/>
+        <delete file="${zipFile}" if="${file::exists(zipFile)}"/>
+        <zip
+            zipfile="${zipFile}"
+            ziplevel="7"
+            includeemptydirs="true"
+            verbose="true"
+            comment="Pop3.NET (${date.long})">
+            <fileset basedir="${deployDirectory}">
+                <include name="**/*"/>
+            </fileset>
+        </zip>
+
+        <delete dir="${deployDirectory}" if="${directory::exists(deployDirectory)}"/>
+
+        <fail unless="${file::exists(zipFile)}">Error in the Deploy Task</fail>
+    </target>
+</project>

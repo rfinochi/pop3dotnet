@@ -1,0 +1,82 @@
+Buildfile: file:///c:/Trabajos/Propios/Fuentes/dotNET4/Tools/pop3dotnet/Pop3Dotnet.build
+Target framework: Microsoft .NET Framework 4.0
+Target(s) specified: rebuild.deploy.all 
+
+
+clean:
+
+   [delete] Deleting 19 files.
+   [delete] Deleted 16 directories.
+
+build:
+
+     [exec] 
+     [exec] Microsoft (R) Visual Studio Version 10.0.40219.1.
+     [exec] Copyright (C) Microsoft Corp. All rights reserved.
+     [exec] ------ Rebuild All started: Project: Library, Configuration: Release Any CPU ------
+     [exec]   Library -> c:\Trabajos\Propios\Fuentes\dotNET4\Tools\pop3dotnet\Library\bin\Release\Pop3.dll
+     [exec] ------ Rebuild All started: Project: TestClient, Configuration: Release Any CPU ------
+     [exec]   TestClient -> c:\Trabajos\Propios\Fuentes\dotNET4\Tools\pop3dotnet\TestClient\bin\Release\TestClient.exe
+     [exec] ========== Rebuild All: 2 succeeded, 0 failed, 0 skipped ==========
+
+build.nuget:
+
+
+rebuild:
+
+
+deploy.bin:
+
+    [mkdir] Creating directory 'c:\Trabajos\Propios\Fuentes\dotNET4\Tools\Pop3DotNetBuild\Bin\'.
+     [copy] Copying 1 file to 'c:\Trabajos\Propios\Fuentes\dotNET4\Tools\Pop3DotNetBuild\Bin\Pop3.dll'.
+     [copy] Copying 1 file to 'c:\Trabajos\Propios\Fuentes\dotNET4\Tools\Pop3DotNetBuild\Bin\Pop3.pdb'.
+
+clean:
+
+   [delete] Deleting 16 files.
+   [delete] Deleted 12 directories.
+
+deploy.nuget:
+
+
+deploy.source:
+
+    [mkdir] Creating directory 'c:\Trabajos\Propios\Fuentes\dotNET4\Tools\Pop3DotNetBuild\Source\'.
+     [copy] Copying 18 files to 'c:\Trabajos\Propios\Fuentes\dotNET4\Tools\Pop3DotNetBuild\Source'.
+   [delete] Deleting 5 files.
+
+deploy.packaging:
+
+   [tstamp] sábado, 07 de julio de 2012 12:24:07.
+   [tstamp] date = 20120707.
+   [tstamp] sábado, 07 de julio de 2012 12:24:07.
+   [tstamp] date.long = 07 Jul 2012.
+   [delete] Deleting file c:\Trabajos\Propios\Fuentes\dotNET4\Tools\Pop3.zip.
+      [zip] Zipping 15 files to 'c:\Trabajos\Propios\Fuentes\dotNET4\Tools\Pop3.zip'.
+      [zip] Adding Bin/Pop3.dll.
+      [zip] Adding Bin/Pop3.pdb.
+      [zip] Adding Source/Library/Properties/AssemblyInfo.cs.
+      [zip] Adding Source/Library/Base64EncodingHelper.cs.
+      [zip] Adding Source/Library/Library.csproj.
+      [zip] Adding Source/Library/Pop3Client.cs.
+      [zip] Adding Source/Library/Pop3Exception.cs.
+      [zip] Adding Source/Library/Pop3Message.cs.
+      [zip] Adding Source/TestClient/Properties/AssemblyInfo.cs.
+      [zip] Adding Source/TestClient/App.config.
+      [zip] Adding Source/TestClient/Program.cs.
+      [zip] Adding Source/TestClient/TestClient.csproj.
+      [zip] Adding Source/Pop3Dotnet.build.
+      [zip] Adding Source/Pop3DotNet.sln.
+      [zip] Adding Source/readme.txt.
+   [delete] Deleting directory 'c:\Trabajos\Propios\Fuentes\dotNET4\Tools\Pop3DotNetBuild'.
+
+deploy.all:
+
+
+rebuild.deploy.all:
+
+
+BUILD SUCCEEDED
+
+Total time: 2 seconds.
+
