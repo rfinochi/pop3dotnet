@@ -16,7 +16,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
 
-[assembly: AssemblyTitle( "Pop3SotNetTestClient" )]
+[assembly: AssemblyTitle( "Pop3DotNetTestClient" )]
 [assembly: AssemblyDescription( "Pop3.NET Library Test Client" )]
 [assembly: AssemblyConfiguration( "" )]
 [assembly: AssemblyCompany( "Rodolfo Finochietti - http://shockbyte.net" )]
