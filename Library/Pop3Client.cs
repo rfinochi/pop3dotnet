@@ -47,7 +47,7 @@ namespace Pop3
 
         public void Connect( string server, string userName, string password, bool useSsl )
         {
-            Connect( server, userName, password, 995, true );
+            Connect( server, userName, password, (useSsl ? 995 : 110), useSsl);
         }
         
         public void Connect( string server, string userName, string password, int portNumber, bool useSsl )
