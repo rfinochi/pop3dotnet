@@ -10,9 +10,9 @@
     <projectUrl>http://rfinochi.github.com/pop3dotnet</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Initial Release</releaseNotes>
+    <releaseNotes>Bug fix in Connect method overload</releaseNotes>
     <copyright></copyright>
-    <tags>Pop3 Mail</tags>
+    <tags>Pop3 Mail Email</tags>
   </metadata>
   <files>
     <file src="..\readme.txt" target="" /> 

@@ -5,7 +5,7 @@ Target(s) specified: rebuild.deploy.all
 
 clean:
 
-   [delete] Deleting 19 files.
+   [delete] Deleting 4 files.
    [delete] Deleted 16 directories.
 
 build:
@@ -21,6 +21,8 @@ build:
 
 build.nuget:
 
+     [exec] Attempting to build package from 'Library.nuspec'.
+     [exec] The replacement token 'id' has no value.
 
 rebuild:
 
@@ -42,15 +44,15 @@ deploy.nuget:
 deploy.source:
 
     [mkdir] Creating directory 'c:\Trabajos\Propios\Fuentes\dotNET4\Tools\Pop3DotNetBuild\Source\'.
-     [copy] Copying 18 files to 'c:\Trabajos\Propios\Fuentes\dotNET4\Tools\Pop3DotNetBuild\Source'.
-   [delete] Deleting 5 files.
+     [copy] Copying 19 files to 'c:\Trabajos\Propios\Fuentes\dotNET4\Tools\Pop3DotNetBuild\Source'.
+   [delete] Deleting 6 files.
 
 deploy.packaging:
 
-   [tstamp] sábado, 07 de julio de 2012 12:24:07.
-   [tstamp] date = 20120707.
-   [tstamp] sábado, 07 de julio de 2012 12:24:07.
-   [tstamp] date.long = 07 Jul 2012.
+   [tstamp] domingo, 08 de julio de 2012 09:11:40.
+   [tstamp] date = 20120708.
+   [tstamp] domingo, 08 de julio de 2012 09:11:40.
+   [tstamp] date.long = 08 Jul 2012.
    [delete] Deleting file c:\Trabajos\Propios\Fuentes\dotNET4\Tools\Pop3.zip.
       [zip] Zipping 15 files to 'c:\Trabajos\Propios\Fuentes\dotNET4\Tools\Pop3.zip'.
       [zip] Adding Bin/Pop3.dll.
@@ -76,7 +78,7 @@ deploy.all:
 rebuild.deploy.all:
 
 
-BUILD SUCCEEDED
+BUILD SUCCEEDED - 0 non-fatal error(s), 1 warning(s)
 
-Total time: 2 seconds.
+Total time: 2.3 seconds.
 

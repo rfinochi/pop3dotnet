@@ -2,24 +2,28 @@ POP3.NET is a simple and small library for retrieving messages from Post Office 
 
 How to use
 
-- Connect to Pop3 Server:
-	Pop3Client pop3Client = new Pop3Client( );
-	pop3Client.Connect( server, userName, password, true );
+Connect to Pop3 Server:
 
-- Retrive message list:
-	List<Pop3Message> messages = pop3Client.List( );
+Pop3Client pop3Client = new Pop3Client( );
+pop3Client.Connect( server, userName, password, true );
 
--Retrive messages:
-	foreach ( Pop3Message message in messages )
-	{ 
-		pop3Client.Retrieve( message );
+Retrive message list:
+
+List<Pop3Message> messages = pop3Client.List( );
+
+Retrive messages:
+
+foreach ( Pop3Message message in messages )
+{ 
+	pop3Client.Retrieve( message );
 	
-		Console.WriteLine( "\t* MessageID: {0}", message.MessageId );
-		Console.WriteLine( "\t* Date: {0}", message.Date );
-		Console.WriteLine( "\t* From: {0}", message.From );
-		Console.WriteLine( "\t* To: {0}", message.To );
-		Console.WriteLine( "\t* Subject: {0}", message.Subject );
-	} 
+	Console.WriteLine( "MessageId: {0}", message.MessageId );
+	Console.WriteLine( "Date: {0}", message.Date );
+	Console.WriteLine( "From: {0}", message.From );
+	Console.WriteLine( "To: {0}", message.To );
+	Console.WriteLine( "Subject: {0}", message.Subject );
+} 
 
-- Disconnect from the server:
-	pop3Client.Disconnect( );
+Disconnect from the server:
+
+pop3Client.Disconnect( );

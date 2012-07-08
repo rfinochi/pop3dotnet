@@ -2,7 +2,7 @@
 <project name="Pop3.NET Build and Code Deploy" default="rebuild.deploy.all">
 
     <property name="configuration" value="Release"/>
-    <property name="version" value="1.1.0.3"/>
+    <property name="version" value="1.1.0.4"/>
     <property name="vsDir" value="C:\Program Files\Microsoft Visual Studio 10.0\Common7\IDE"/>
     <property name="dotNetDir" value="C:\Windows\Microsoft.NET\Framework\v4.0.30319\"/>
     <property name="nugetDir" value="C:\Trabajos\Bin\NuGet\"/>
@@ -41,11 +41,11 @@
     </target>
 
     <target name="build">
-	<exec
-            program="devenv.com"
-            basedir="${vsDir}"
-            commandline="/rebuild ${configuration} Pop3DotNet.sln"
-        />
+		<exec
+			program="devenv.com"
+			basedir="${vsDir}"
+			commandline="/rebuild ${configuration} Pop3DotNet.sln"
+		/>
 
         <fail unless="${file::exists(fullPath)}">The file ${fullPath} not exist</fail>
         <fail unless="${file::exists(fullPath.pdb)}">The file ${fullPath.pdb} not exist</fail>
@@ -58,7 +58,7 @@
         <copy file="${fullPath}" tofile="${binDirectory}\${fileName}"/>
         <copy file="${fullPath.pdb}" tofile="${binDirectory}\${fileName.pdb}"/>
 
-	<call target="clean"/>
+		<call target="clean"/>
     </target>
 
     <target name="deploy.source">
@@ -95,7 +95,7 @@
         <!--exec
             program="nuget.exe"
             basedir="${nugetDir}"
-	    workingdir=".\Library"
+            workingdir=".\Library"
             commandline="pack Library.nuspec -Prop Configuration=Release -Verbose"
         /-->
     </target>
@@ -104,9 +104,15 @@
         <!--exec
             program="nuget.exe"
             basedir="${nugetDir}"
-	    workingdir=".\Library"
+            workingdir=".\Library"
             commandline="push Pop3.${version}.nupkg"
         /-->
+
+		<!--delete failonerror="false">
+            <fileset basedir=".\Library">
+                <include name="**/*.nupkg"/>
+            </fileset>
+        </delete-->
     </target>
 
     <target name="deploy.packaging">
