@@ -22,38 +22,35 @@ namespace Pop3
     {
         #region Public Methods
 
-        public static string Decode( string data )
+        public static string Decode(string data)
         {
-            UTF8Encoding encoder = new UTF8Encoding( );
-            Decoder utf8Decode = encoder.GetDecoder( );
+            var todecodeByte = Convert.FromBase64String(data);
 
-            byte[ ] todecode_byte = Convert.FromBase64String( data );
-
-            return Decode( todecode_byte );
+            return Decode(todecodeByte);
         }
 
-        public static string Decode( byte[ ] todecode_byte )
+        public static string Decode(byte[] todecodeByte)
         {
-            UTF8Encoding encoder = new UTF8Encoding( );
-            Decoder utf8Decode = encoder.GetDecoder( );
+            var encoder = new UTF8Encoding();
+            var utf8Decode = encoder.GetDecoder();
 
-            int charCount = utf8Decode.GetCharCount( todecode_byte, 0, todecode_byte.Length );
+            var charCount = utf8Decode.GetCharCount(todecodeByte, 0, todecodeByte.Length);
 
-            char[ ] decoded_char = new char[ charCount ];
-            utf8Decode.GetChars( todecode_byte, 0, todecode_byte.Length, decoded_char, 0 );
+            var decodedChar = new char[charCount];
+            utf8Decode.GetChars(todecodeByte, 0, todecodeByte.Length, decodedChar, 0);
 
-            return new String( decoded_char );
+            return new String(decodedChar);
         }
 
-        public static string Encode( string data )
+        public static string Encode(string data)
         {
-            byte[ ] encData_byte = Encoding.UTF8.GetBytes( data );
-            return Decode( encData_byte );
+            var encDataByte = Encoding.UTF8.GetBytes(data);
+            return Decode(encDataByte);
         }
 
-        public static string Encode( byte[ ] encData_byte )
+        public static string Encode(byte[] encDataByte)
         {
-            return Convert.ToBase64String( encData_byte );
+            return Convert.ToBase64String(encDataByte);
         }
 
         #endregion
