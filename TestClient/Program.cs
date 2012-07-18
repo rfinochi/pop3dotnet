@@ -12,50 +12,48 @@
 using System;
 using System.Collections.Generic;
 
-using Pop3;
-
 namespace TestClient
 {
-    class Program
+    using Pop3;
+
+    public class Program
     {
-        static void Main( string[] args )
+        public static void Main(string[] args)
         {
-            string server = "XXXX";
-            string userName = "XXXX";
-            string password = "XXXX";
-            
-            Pop3Client pop3Client = new Pop3Client( );
+            const string server = "XXXX";
+            const string userName = "XXXX";
+            const string password = "XXXX";
 
-            Console.WriteLine( "Connecting to POP3 server '{0}'...{1}", server, Environment.NewLine );
+            var pop3Client = new Pop3Client();
 
-            pop3Client.Connect( server, userName, password, true );
+            Console.WriteLine("Connecting to POP3 server '{0}'...{1}", server, Environment.NewLine);
 
-			Console.WriteLine( "List Messages...{0}", Environment.NewLine );
-			List<Pop3Message> messages = pop3Client.List( );
+            pop3Client.Connect(server, userName, password, true);
 
-			Console.WriteLine( "Retrieve Messages...{0}", Environment.NewLine );
-			foreach ( Pop3Message message in messages )
-			{
-				Console.WriteLine( "- Number: {0}", message.Number );
+            Console.WriteLine("List Messages...{0}", Environment.NewLine);
 
-				//popClient.RetrieveHeader( message );
-				//Console.WriteLine( "\t* Header: {0}", message.Header );
-	
-				pop3Client.Retrieve( message );
-				
-                Console.WriteLine( "\t* MessageID: {0}", message.MessageId );
-				Console.WriteLine( "\t* Date: {0}", message.Date );
-				Console.WriteLine( "\t* From: {0}", message.From );
-				Console.WriteLine( "\t* To: {0}", message.To );
-				Console.WriteLine( "\t* Subject: {0}", message.Subject );
+            var messages = pop3Client.List();
 
-				Console.WriteLine( );
-			}
+            Console.WriteLine("Retrieve Messages...{0}", Environment.NewLine);
 
-            Console.WriteLine( "Disconnecting...{0}", Environment.NewLine );
-            pop3Client.Disconnect( );
+            foreach (var message in messages)
+            {
+                Console.WriteLine("- Number: {0}", message.Number);
 
-            Console.ReadLine( );
+                pop3Client.Retrieve(message);
+
+                Console.WriteLine("\t* MessageID: {0}", message.MessageId);
+                Console.WriteLine("\t* Date: {0}", message.Date);
+                Console.WriteLine("\t* From: {0}", message.From);
+                Console.WriteLine("\t* To: {0}", message.To);
+                Console.WriteLine("\t* Subject: {0}", message.Subject);
+                Console.WriteLine();
+            }
+
+            Console.WriteLine("Disconnecting...{0}", Environment.NewLine);
+            pop3Client.Disconnect();
+
+            Console.ReadLine();
         }
     }
 }
