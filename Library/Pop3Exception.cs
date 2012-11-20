@@ -10,14 +10,22 @@
  * No warranties expressed or implied, use at your own risk.
  */
 using System;
+using System.Runtime.Serialization;
 
 namespace Pop3
 {
-    public class Pop3Exception : ApplicationException
+    [Serializable]
+    public class Pop3Exception : Exception
     {
         #region Constructors
 
-        public Pop3Exception( string errorMsg ) : base( errorMsg ) { }
+        public Pop3Exception( ) { }
+
+        public Pop3Exception( string message ) : base( message ) { }
+
+        public Pop3Exception( string message, Exception innerException ) : base( message, innerException ) { }
+
+        protected Pop3Exception( SerializationInfo info, StreamingContext context ) : base( info, context ) { }
 
         #endregion
     }

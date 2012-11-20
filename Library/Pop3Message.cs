@@ -28,6 +28,12 @@ namespace Pop3
 
         #endregion
 
+        #region Private Fields
+
+        private byte[] _bodyData;
+
+        #endregion
+
         #region Properties
 
         public long Number
@@ -48,13 +54,13 @@ namespace Pop3
             set;
         }
         
-        public string Header
+        public string RawHeader
         {
             get;
             set;
         }
         
-        public string Message
+        public string RawMessage
         {
             get;
             set;
@@ -67,7 +73,7 @@ namespace Pop3
             get
             {
                 if ( String.IsNullOrEmpty( _from ) )
-                    _from = GetHeader( FromHeader );
+                    _from = GetHeaderData( FromHeader );
 
                 return _from;
             }
@@ -80,7 +86,7 @@ namespace Pop3
             get
             {
                 if ( String.IsNullOrEmpty( _to ) )
-                    _to = GetHeader( ToHeader );
+                    _to = GetHeaderData( ToHeader );
 
                 return _to;
             }
@@ -93,7 +99,7 @@ namespace Pop3
             get
             {
                 if ( String.IsNullOrEmpty( _date ) )
-                    _date = GetHeader( DateHeader );
+                    _date = GetHeaderData( DateHeader );
 
                 return _date;
             }
@@ -106,7 +112,7 @@ namespace Pop3
             get
             {
                 if ( String.IsNullOrEmpty( _messageId ) )
-                    _messageId = GetHeader( MessageIdHeader );
+                    _messageId = GetHeaderData( MessageIdHeader );
 
                 return _messageId;
             }
@@ -119,7 +125,7 @@ namespace Pop3
             get
             {
                 if ( String.IsNullOrEmpty( _subject ) )
-                    _subject = GetHeader( SubjectHeader );
+                    _subject = GetHeaderData( SubjectHeader );
 
                 return _subject;
             }
@@ -132,7 +138,7 @@ namespace Pop3
             get
             {
                 if ( String.IsNullOrEmpty( _contentTransferEncoding ) )
-                    _contentTransferEncoding = GetHeader( ContentTransferEncodingHeader );
+                    _contentTransferEncoding = GetHeaderData( ContentTransferEncodingHeader );
 
                 return _contentTransferEncoding;
             }
@@ -151,26 +157,22 @@ namespace Pop3
             }
         }
 
-        private byte[] _bodyData;
-
-        public byte[] BodyData
-        {
-            get
-            {
-                return _bodyData ?? ( _bodyData = GetBodyData( ) );
-            }
-        }
-
         #endregion
 
-        #region Private Methods
+        #region Public Methods
 
-        private string GetHeader( string headerName )
+        public string GetHeaderData( string headerName )
         {
-            if ( String.IsNullOrEmpty( Message ) && String.IsNullOrEmpty( Header ) )
+            if ( String.IsNullOrEmpty( headerName ) )
+                throw new ArgumentNullException( "headerName" );
+            
+            if ( String.IsNullOrEmpty( RawMessage ) && String.IsNullOrEmpty( RawHeader ) )
                 throw new Pop3Exception( "Header can't be null" );
 
-            string result = String.IsNullOrEmpty( Header ) ? Message : Header;
+            if ( !headerName.EndsWith( ":", StringComparison.OrdinalIgnoreCase  ) )
+                headerName += ":";
+            
+            string result = String.IsNullOrEmpty( RawHeader ) ? RawMessage : RawHeader;
 
             if ( result == null )
                 return null;
@@ -185,21 +187,33 @@ namespace Pop3
             return result.Remove( result.IndexOf( '\r' ), ( result.Length - result.IndexOf( '\r' ) ) ).Replace( "\n", String.Empty ).Trim( );
         }
 
-        private string GetBody( )
+        public byte[] GetBodyData( )
         {
-            if ( String.IsNullOrEmpty( Message ) )
-                throw new Pop3Exception( "Message can't be null" );
+            if ( _bodyData == null && !String.IsNullOrEmpty( _body ) )
+            {
+                ASCIIEncoding enc = new ASCIIEncoding( );
+                _bodyData = enc.GetBytes( _body );
+            }
 
-            string body = Message.Remove( 0, ( Message.IndexOf( "\r\n\r\n" ) ) );
-
-            return String.Compare( ContentTransferEncoding, "base64", true ) == 0 ? Base64EncodingHelper.Decode( body ) : body;
+            return _bodyData;
         }
 
-        private byte[] GetBodyData( )
-        {
-            ASCIIEncoding enc = new ASCIIEncoding( );
+        #endregion
 
-            return enc.GetBytes( GetBody( ) );
+        #region Private Methods
+
+        private string GetBody( )
+        {
+            if ( String.IsNullOrEmpty( RawMessage ) )
+            {
+                return String.Empty;
+            }
+            else
+            {
+                string body = RawMessage.Remove( 0, ( RawMessage.IndexOf( "\r\n\r\n", StringComparison.OrdinalIgnoreCase ) ) );
+
+                return String.Compare( ContentTransferEncoding, "base64", StringComparison.OrdinalIgnoreCase ) == 0 ? Base64EncodingHelper.Decode( body ) : body;
+            }
         }
 
         #endregion

@@ -1,20 +1,25 @@
 <?xml version="1.0"?>
-<package >
+<package>
   <metadata>
-    <id>$id$</id>
-    <version>$version$</version>
-    <title>$title$</title>
-    <authors>$author$</authors>
-    <owners>$author$</owners>
+    <id>Pop3</id>
+    <version>1.5.0.0</version>
+    <title>Pop3.NET</title>
+    <authors>Rodolfo Finochietti</authors>
+    <owners>Rodolfo Finochietti</owners>
     <licenseUrl>http://creativecommons.org/licenses/by/2.0</licenseUrl>
     <projectUrl>http://rfinochi.github.com/pop3dotnet</projectUrl>
+    <iconUrl>http://shockbyte.files.wordpress.com/2012/11/pop3dotnet-200.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>$description$</description>
-    <releaseNotes>Bug fix in Connect method overload</releaseNotes>
-    <copyright></copyright>
+    <description>Small and simple library for retrieving messages from Post Office Protocol version 3 (POP3) servers with full support for .NET 4.5 asynchronous programming model.</description>
+    <releaseNotes>Asynchronous programming model in .NET 4.5 version</releaseNotes>
+    <language>en-US</language>
+    <copyright>
+    </copyright>
     <tags>Pop3 Mail Email</tags>
   </metadata>
   <files>
-    <file src="..\readme.txt" target="" /> 
+    <file src="..\readme.txt" target="" />
+    <file src="lib\net40\Pop3.dll" target="lib\net40" />
+    <file src="lib\net45\Pop3.dll" target="lib\net45" />
   </files>
 </package>

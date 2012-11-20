@@ -1,0 +1,7 @@
+1.1.0.8:
+	- NEW: Recompiled for .NET 4.5.
+1.1.0.12:
+	- NEW: NAnt build and deploy script.
+1.5.0.0:
+	- NEW: Asynchronous programming model in .NET 4.5 version.
+	- NEW: Unit testing of all libray

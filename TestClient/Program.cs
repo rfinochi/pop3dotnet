@@ -10,50 +10,110 @@
  * No warranties expressed or implied, use at your own risk.
  */
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
+#if NET45
+using System.Threading.Tasks;
+#endif
 
-using Pop3;
-
-namespace TestClient
+namespace Pop3.TestClient
 {
     public class Program
     {
         public static void Main( string[] args )
         {
-            const string server = "XXXX";
-            const string userName = "XXXX";
-            const string password = "XXXX";
+            const string server = "";
+            const string userName = "";
+            const string password = "";
+            const bool useSsl = false;
 
-            Pop3Client pop3Client = new Pop3Client( );
+            Console.ForegroundColor = ConsoleColor.White;
 
-            Console.WriteLine( "Connecting to POP3 server '{0}'...{1}", server, Environment.NewLine );
+            GetMessages( server, userName, password, useSsl );
+#if NET45
+            //GetMessagesAsync( server, userName, password, useSsl );
+#endif
 
-            pop3Client.Connect( server, userName, password, false );
-
-            Console.WriteLine( "List Messages...{0}", Environment.NewLine );
-
-            List<Pop3Message> messages = pop3Client.List( );
-
-            Console.WriteLine( "Retrieve Messages...{0}", Environment.NewLine );
-
-            foreach ( Pop3Message message in messages )
-            {
-                Console.WriteLine( "- Number: {0}", message.Number );
-
-                pop3Client.Retrieve( message );
-
-                Console.WriteLine( "\t* MessageId: {0}", message.MessageId );
-                Console.WriteLine( "\t* Date: {0}", message.Date );
-                Console.WriteLine( "\t* From: {0}", message.From );
-                Console.WriteLine( "\t* To: {0}", message.To );
-                Console.WriteLine( "\t* Subject: {0}", message.Subject );
-                Console.WriteLine( );
-            }
-
-            Console.WriteLine( "Disconnecting...{0}", Environment.NewLine );
-            pop3Client.Disconnect( );
-
+            Console.WriteLine( "Press any key to close", Environment.NewLine );
             Console.ReadLine( );
         }
+
+        public static void GetMessages( string server, string userName, string password, bool useSsl )
+        {
+            try
+            {
+                Pop3Client pop3Client = new Pop3Client( );
+
+                Console.WriteLine( "Connecting to POP3 server '{0}'...{1}", server, Environment.NewLine );
+
+                pop3Client.Connect( server, userName, password, useSsl );
+
+                Console.WriteLine( "List Messages...{0}", Environment.NewLine );
+
+                Collection<Pop3Message> messages = pop3Client.List( );
+
+                Console.WriteLine( "Retrieve Messages...{0}", Environment.NewLine );
+
+                foreach ( Pop3Message message in messages )
+                {
+                    Console.WriteLine( "- Number: {0}", message.Number );
+
+                    pop3Client.Retrieve( message );
+
+                    Console.WriteLine( "\t* MessageId: {0}", message.MessageId );
+                    Console.WriteLine( "\t* Date: {0}", message.Date );
+                    Console.WriteLine( "\t* From: {0}", message.From );
+                    Console.WriteLine( "\t* To: {0}", message.To );
+                    Console.WriteLine( "\t* Subject: {0}", message.Subject );
+                    Console.WriteLine( );
+                }
+
+                Console.WriteLine( "Disconnecting...{0}", Environment.NewLine );
+                pop3Client.Disconnect( );
+            }
+            catch ( Exception ex )
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine( ex.Message );
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+        }
+
+ #if NET45
+       public static async Task GetMessagesAsync( string server, string userName, string password, bool useSsl )
+        {
+            try
+            {
+                Pop3Client pop3Client = new Pop3Client( );
+
+                Console.WriteLine( "Connecting to POP3 server '{0}'...{1}", server, Environment.NewLine );
+
+                await pop3Client.ConnectAsync( server, userName, password, useSsl );
+
+                Console.WriteLine( "List and Retrieve Messages...{0}", Environment.NewLine );
+
+                Collection<Pop3Message> messages = await pop3Client.ListAndRetrieveAsync( );
+
+                foreach ( Pop3Message message in messages )
+                {
+                    Console.WriteLine( "- Number: {0}", message.Number );
+                    Console.WriteLine( "\t* MessageId: {0}", message.MessageId );
+                    Console.WriteLine( "\t* Date: {0}", message.Date );
+                    Console.WriteLine( "\t* From: {0}", message.From );
+                    Console.WriteLine( "\t* To: {0}", message.To );
+                    Console.WriteLine( "\t* Subject: {0}", message.Subject );
+                    Console.WriteLine( );
+                }
+
+                Console.WriteLine( "Disconnecting...{0}", Environment.NewLine );
+                await pop3Client.DisconnectAsync( );
+            }
+            catch ( Exception ex )
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine( ex.Message );
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+        }
+#endif
     }
 }
