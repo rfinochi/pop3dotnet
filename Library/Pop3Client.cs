@@ -234,12 +234,12 @@ namespace Pop3
 #if NET45  
         public async Task ConnectAsync( string server, string userName, string password )
         {
-            await ConnectAsync( server, userName, password, 110, false );
+            await ConnectAsync( server, userName, password, 110, false ).ConfigureAwait( false );
         }
 
         public async Task ConnectAsync( string server, string userName, string password, bool useSsl )
         {
-            await ConnectAsync( server, userName, password, ( useSsl ? 995 : 110 ), useSsl );
+            await ConnectAsync( server, userName, password, ( useSsl ? 995 : 110 ), useSsl ).ConfigureAwait( false );
         }
 
         public async Task ConnectAsync( string server, string userName, string password, int port, bool useSsl )
@@ -247,14 +247,14 @@ namespace Pop3
             if ( this.IsConnected )
                 throw new Pop3Exception( "Pop3 client already connected" );
 
-            await _networkOperations.OpenAsync( server, port, useSsl );
+            await _networkOperations.OpenAsync( server, port, useSsl ).ConfigureAwait( false );
 
             string response = await _networkOperations.ReadAsync( );
             if ( String.IsNullOrEmpty( response ) || response.Substring( 0, 3 ) != "+OK" )
                 throw new Pop3Exception( response );
 
-            await SendCommandAsync( String.Format( CultureInfo.InvariantCulture, "USER {0}", userName ) );
-            await SendCommandAsync( String.Format( CultureInfo.InvariantCulture, "PASS {0}", password ) );
+            await SendCommandAsync( String.Format( CultureInfo.InvariantCulture, "USER {0}", userName ) ).ConfigureAwait( false );
+            await SendCommandAsync( String.Format( CultureInfo.InvariantCulture, "PASS {0}", password ) ).ConfigureAwait( false );
 
             this.IsConnected = true;
         }
@@ -266,7 +266,7 @@ namespace Pop3
 
             try
             {
-                await SendCommandAsync( "QUIT" );
+                await SendCommandAsync( "QUIT" ).ConfigureAwait( false );
                 _networkOperations.Close( );
             }
             finally
@@ -283,11 +283,11 @@ namespace Pop3
 
             Collection<Pop3Message> result = new Collection<Pop3Message>( );
 
-            await SendCommandAsync( "LIST" );
+            await SendCommandAsync( "LIST" ).ConfigureAwait( false );
 
             while ( true )
             {
-                string response = await _networkOperations.ReadAsync( );
+                string response = await _networkOperations.ReadAsync( ).ConfigureAwait( false );
                 if ( response == ".\r\n" )
                     return result;
 
@@ -312,11 +312,11 @@ namespace Pop3
             if ( message == null )
                 throw new ArgumentNullException( "message" );
 
-            await SendCommandAsync( "TOP", "0", message );
+            await SendCommandAsync( "TOP", "0", message ).ConfigureAwait( false );
 
             while ( true )
             {
-                string response = await _networkOperations.ReadAsync( );
+                string response = await _networkOperations.ReadAsync( ).ConfigureAwait( false );
                 if ( response == ".\r\n" )
                     break;
 
@@ -332,7 +332,7 @@ namespace Pop3
                 throw new ArgumentNullException( "messages" );
 
             foreach ( Pop3Message message in messages )
-                await RetrieveHeaderAsync( message );      
+                await RetrieveHeaderAsync( message ).ConfigureAwait( false );      
         }
 
         public async Task RetrieveAsync( Pop3Message message )
@@ -342,11 +342,11 @@ namespace Pop3
             if ( message == null )
                 throw new ArgumentNullException( "message" );
 
-            await SendCommandAsync( "RETR", message );
+            await SendCommandAsync( "RETR", message ).ConfigureAwait( false );
 
             while ( true )
             {
-                string response = await _networkOperations.ReadAsync( );
+                string response = await _networkOperations.ReadAsync( ).ConfigureAwait( false );
                 if ( response == ".\r\n" )
                     break;
 
@@ -363,7 +363,7 @@ namespace Pop3
                 throw new ArgumentNullException( "messages" );
 
             foreach ( Pop3Message message in messages )
-                await RetrieveAsync( message );
+                await RetrieveAsync( message ).ConfigureAwait( false );
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage( "Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures" )]
@@ -372,9 +372,9 @@ namespace Pop3
             if ( !this.IsConnected )
                 throw new Pop3Exception( "Pop3 client is not connected to host" );
 
-            Collection<Pop3Message> messages = await ListAsync( );
+            Collection<Pop3Message> messages = await ListAsync( ).ConfigureAwait( false );
 
-            await RetrieveHeaderAsync( messages );
+            await RetrieveHeaderAsync( messages ).ConfigureAwait( false );
 
             return messages;
         }
@@ -385,9 +385,9 @@ namespace Pop3
             if ( !this.IsConnected )
                 throw new Pop3Exception( "Pop3 client is not connected to host" );
 
-            Collection<Pop3Message> messages = await ListAsync( );
+            Collection<Pop3Message> messages = await ListAsync( ).ConfigureAwait( false );
 
-            await RetrieveAsync( messages );
+            await RetrieveAsync( messages ).ConfigureAwait( false );
 
             return messages;
         }
@@ -399,7 +399,7 @@ namespace Pop3
             if ( message == null )
                 throw new ArgumentNullException( "message" );
 
-            await SendCommandAsync( "DELE", message );
+            await SendCommandAsync( "DELE", message ).ConfigureAwait( false );
         }
 #endif
 
@@ -441,7 +441,7 @@ namespace Pop3
 #if NET45
         private async Task SendCommandAsync( string command, Pop3Message message )
         {
-            await SendCommandAsync( command, null, message );
+            await SendCommandAsync( command, null, message ).ConfigureAwait( false );
         }
 
         private async Task SendCommandAsync( string command, string aditionalParameters = null, Pop3Message message = null )
@@ -458,9 +458,9 @@ namespace Pop3
 
             request.Append( "\r\n" );
 
-            await _networkOperations.WriteAsync( request.ToString( ) );
+            await _networkOperations.WriteAsync( request.ToString( ) ).ConfigureAwait( false );
 
-            var response = await _networkOperations.ReadAsync( );
+            var response = await _networkOperations.ReadAsync( ).ConfigureAwait( false );
 
             if ( String.IsNullOrEmpty( response ) || response.Substring( 0, 3 ) != "+OK" )
                 throw new Pop3Exception( response );

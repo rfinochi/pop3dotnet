@@ -115,7 +115,7 @@ namespace Pop3.IO
 #if NET45
         public async Task OpenAsync( string hostName, int port )
         {
-            await OpenAsync( hostName, port, false );
+            await OpenAsync( hostName, port, false ).ConfigureAwait( false );
         }
 
         public async Task OpenAsync( string hostName, int port, bool useSsl )
@@ -123,7 +123,7 @@ namespace Pop3.IO
             if ( _tcpClient == null )
             {
                 _tcpClient = new TcpClient( );
-                await _tcpClient.ConnectAsync( hostName, port );
+                await _tcpClient.ConnectAsync( hostName, port ).ConfigureAwait( false );
 
                 if ( useSsl )
                 {
@@ -149,7 +149,7 @@ namespace Pop3.IO
             while ( true )
             {
                 byte[] buff = new Byte[ 2 ];
-                int bytes = await _stream.ReadAsync( buff, 0, 1 );
+                int bytes = await _stream.ReadAsync( buff, 0, 1 ).ConfigureAwait( false );
                 if ( bytes != 1 )
                     break;
 
@@ -172,7 +172,7 @@ namespace Pop3.IO
 
             byte[] writeBuffer = en.GetBytes( data );
 
-            await _stream.WriteAsync( writeBuffer, 0, writeBuffer.Length );
+            await _stream.WriteAsync( writeBuffer, 0, writeBuffer.Length ).ConfigureAwait( false );
         }
 #endif
 

@@ -4,4 +4,6 @@
 	- NEW: NAnt build and deploy script.
 1.5.0.0:
 	- NEW: Asynchronous programming model in .NET 4.5 version.
-	- NEW: Unit testing of all libray
+	- NEW: Unit testing of all library methods.
+1.5.0.1:
+	- FIX: Improve of async methods to avoid deadlocks using ConfigureAwait(false).

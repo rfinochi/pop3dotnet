@@ -44,12 +44,12 @@ namespace Pop3.Tests.Support
 
         public async Task OpenAsync( string hostName, int port )
         {
-            await OpenAsync( hostName, port, false );
+            await OpenAsync( hostName, port, false ).ConfigureAwait( false );
         }
 
         public async Task OpenAsync( string hostName, int port, bool useSsl )
         {
-            await Task.Delay( 1 );
+            await Task.Delay( 1 ).ConfigureAwait( false );
         }
 
         public async Task<string> ReadAsync( )
@@ -58,12 +58,12 @@ namespace Pop3.Tests.Support
                                     {
                                         await Task.Delay( 0 );
                                         return GetData( );
-                                    } );
+                                    } ).ConfigureAwait( false );
         }
 
         public async Task WriteAsync( string data )
         {
-            await Task.Delay( 0 );
+            await Task.Delay( 0 ).ConfigureAwait( false );
         }
 #endif
 
