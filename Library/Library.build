@@ -78,6 +78,16 @@
 				<namespace prefix="x" uri="http://schemas.microsoft.com/developer/msbuild/2003" />
 			</namespaces>
 		</xmlpoke>
+		<xmlpoke file="..\TestClient\TestClient.csproj" value="TRACE" xpath="//x:Project/x:PropertyGroup[3]/x:DefineConstants">
+			<namespaces>
+				<namespace prefix="x" uri="http://schemas.microsoft.com/developer/msbuild/2003" />
+			</namespaces>
+		</xmlpoke>
+		<xmlpoke file="..\Tests\Tests.csproj" value="TRACE" xpath="//x:Project/x:PropertyGroup[3]/x:DefineConstants">
+			<namespaces>
+				<namespace prefix="x" uri="http://schemas.microsoft.com/developer/msbuild/2003" />
+			</namespaces>
+		</xmlpoke>
 		<exec
 			program="devenv.com"
 			basedir="${vsDir}"
@@ -97,6 +107,16 @@
 				<namespace prefix="x" uri="http://schemas.microsoft.com/developer/msbuild/2003" />
 			</namespaces>
 		</xmlpoke>
+		<xmlpoke file="..\TestClient\TestClient.csproj" value="TRACE;NET45" xpath="//x:Project/x:PropertyGroup[3]/x:DefineConstants">
+			<namespaces>
+				<namespace prefix="x" uri="http://schemas.microsoft.com/developer/msbuild/2003" />
+			</namespaces>
+		</xmlpoke>
+		<xmlpoke file="..\Tests\Tests.csproj" value="TRACE;NET45" xpath="//x:Project/x:PropertyGroup[3]/x:DefineConstants">
+			<namespaces>
+				<namespace prefix="x" uri="http://schemas.microsoft.com/developer/msbuild/2003" />
+			</namespaces>
+		</xmlpoke>
 		<exec
 			program="devenv.com"
 			basedir="${vsDir}"
@@ -110,13 +130,13 @@
             program="nuget.exe"
             basedir="${nugetDir}"
             workingdir=".\"
-            commandline="pack Library.nuspec -Verbosesity"
+            commandline="pack Library.nuspec -Verbosity detailed"
         />
         <exec
             program="nuget.exe"
             basedir="${nugetDir}"
             workingdir=".\"
-            commandline="push Pop3.${version}.nupkg"
+            commandline="push Pop3.${version}.nupkg -Verbosity detailed"
         />
 
 		<echo message="Final Cleanup"/>
