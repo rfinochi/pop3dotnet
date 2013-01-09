@@ -12,6 +12,7 @@
 using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Resources;
 
 [assembly: AssemblyTitle( "Pop3.NET" )]
 [assembly: AssemblyProduct( "Pop3.NET" )]

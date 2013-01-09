@@ -78,6 +78,7 @@ namespace Pop3
             _networkOperations.Open( server, port, useSsl );
 
             string response = _networkOperations.Read( );
+
             if ( String.IsNullOrEmpty ( response ) || response.Substring( 0, 3 ) != "+OK" )
                 throw new Pop3Exception( response );
 
