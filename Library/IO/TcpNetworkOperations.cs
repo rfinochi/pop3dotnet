@@ -60,9 +60,9 @@ namespace Pop3.IO
         public string Read( )
         {
             if ( _stream == null )
-                throw new Pop3Exception( "The Network Stream is null" );
+                throw new Exception( "The Network Stream is null" );
 
-            ASCIIEncoding enc = new ASCIIEncoding( );
+            UTF8Encoding enc = new UTF8Encoding( );
             byte[] serverBuffer = new Byte[ 1024 ];
             int count = 0;
 
@@ -86,9 +86,9 @@ namespace Pop3.IO
         public void Write( string data )
         {
             if ( _stream == null )
-                throw new Pop3Exception( "The Network Stream is null" );
+                throw new Exception( "The Network Stream is null" );
 
-            ASCIIEncoding en = new ASCIIEncoding( );
+            UTF8Encoding en = new UTF8Encoding( );
 
             byte[] writeBuffer = en.GetBytes( data );
 
@@ -140,9 +140,9 @@ namespace Pop3.IO
         public async Task<string> ReadAsync( )
         {
             if ( _stream == null )
-                throw new Pop3Exception( "The Network Stream is null" );
+                throw new Exception( "The Network Stream is null" );
 
-            ASCIIEncoding enc = new ASCIIEncoding( );
+            UTF8Encoding enc = new UTF8Encoding( );
             byte[] serverBuffer = new Byte[ 1024 ];
             int count = 0;
 
@@ -166,9 +166,9 @@ namespace Pop3.IO
         public async Task WriteAsync( string data )
         {
             if ( _stream == null )
-                throw new Pop3Exception( "The Network Stream is null" );
+                throw new Exception( "The Network Stream is null" );
 
-            ASCIIEncoding en = new ASCIIEncoding( );
+            UTF8Encoding en = new UTF8Encoding( );
 
             byte[] writeBuffer = en.GetBytes( data );
 

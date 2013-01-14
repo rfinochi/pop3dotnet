@@ -10,7 +10,7 @@
  * No warranties expressed or implied, use at your own risk.
  */
 using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 #if NET45
 using System.Threading.Tasks;
 #endif
@@ -49,7 +49,7 @@ namespace Pop3.TestClient
 
                 Console.WriteLine( "List Messages...{0}", Environment.NewLine );
 
-                Collection<Pop3Message> messages = pop3Client.List( );
+                List<Pop3Message> messages = pop3Client.List( );
 
                 Console.WriteLine( "Retrieve Messages...{0}", Environment.NewLine );
 
@@ -91,7 +91,7 @@ namespace Pop3.TestClient
 
                 Console.WriteLine( "List and Retrieve Messages...{0}", Environment.NewLine );
 
-                Collection<Pop3Message> messages = await pop3Client.ListAndRetrieveAsync( );
+                List<Pop3Message> messages = await pop3Client.ListAndRetrieveAsync( );
 
                 foreach ( Pop3Message message in messages )
                 {

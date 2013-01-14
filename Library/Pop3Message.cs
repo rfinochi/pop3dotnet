@@ -15,7 +15,11 @@ using System.Text;
 
 namespace Pop3
 {
+#if NETFX_CORE
+    public sealed class Pop3Message
+#else
     public class Pop3Message
+#endif
     {
         #region Constants
 
@@ -167,7 +171,7 @@ namespace Pop3
                 throw new ArgumentNullException( "headerName" );
             
             if ( String.IsNullOrEmpty( RawMessage ) && String.IsNullOrEmpty( RawHeader ) )
-                throw new Pop3Exception( "Header can't be null" );
+                throw new Exception( "Header can't be null" );
 
             if ( !headerName.EndsWith( ":", StringComparison.OrdinalIgnoreCase  ) )
                 headerName += ":";
@@ -191,7 +195,7 @@ namespace Pop3
         {
             if ( _bodyData == null && !String.IsNullOrEmpty( _body ) )
             {
-                ASCIIEncoding enc = new ASCIIEncoding( );
+                UTF8Encoding enc = new UTF8Encoding( );
                 _bodyData = enc.GetBytes( _body );
             }
 

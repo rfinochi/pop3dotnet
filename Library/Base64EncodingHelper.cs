@@ -14,7 +14,7 @@ using System.Text;
 
 namespace Pop3
 {
-    public static class Base64EncodingHelper
+    internal static class Base64EncodingHelper
     {
         #region Public Methods
 

@@ -78,7 +78,6 @@
     <Compile Include="Properties\GlobalSuppressions.cs" />
     <Compile Include="IO\INetworkOperations.cs" />
     <Compile Include="Pop3Client.cs" />
-    <Compile Include="Pop3Exception.cs" />
     <Compile Include="Pop3Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IO\TcpNetworkOperations.cs" />

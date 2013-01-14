@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Diagnostics;
-#if NET45
+#if NET45 || NETFX_CORE
 using System.Threading.Tasks;
 #endif
 
 namespace Pop3.IO
 {
-    public interface INetworkOperations : IDisposable
+    internal interface INetworkOperations : IDisposable
     {
         #region Methods
+
+#if !NETFX_CORE
 
         void Open( string hostName, int port );
 
@@ -17,6 +19,7 @@ namespace Pop3.IO
         string Read( );
 
         void Write( string data );
+#endif
 
         void Close( );
 
@@ -24,7 +27,7 @@ namespace Pop3.IO
 
         #region Async Methods
 
-#if NET45  
+#if NET45 || NETFX_CORE
         Task OpenAsync( string hostName, int port );
 
         Task OpenAsync( string hostName, int port, bool useSsl );

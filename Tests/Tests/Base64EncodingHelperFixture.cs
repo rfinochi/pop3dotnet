@@ -27,6 +27,6 @@ namespace Pop3.Tests
             Assert.AreEqual( String.Empty, Base64EncodingHelper.Decode( new byte[ 0 ] ) );
         }
 
-    #endregion
+        #endregion
     }
 }

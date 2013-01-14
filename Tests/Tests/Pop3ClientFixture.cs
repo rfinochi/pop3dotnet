@@ -10,10 +10,11 @@
  * No warranties expressed or implied, use at your own risk.
  */
 using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 #if NET45
 using System.Threading.Tasks;
 #endif
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
@@ -49,7 +50,7 @@ namespace Pop3.Tests
 
         [TestMethod]
         [Owner( "Rodolfo Finochietti" )]
-        [ExpectedException( typeof( Pop3Exception ) )]
+        [ExpectedException( typeof( Exception ) )]
         public void ConnectFail( )
         {
             Mock<INetworkOperations> mockNetworkOperations = new Mock<INetworkOperations>( );
@@ -63,20 +64,20 @@ namespace Pop3.Tests
 
         [TestMethod]
         [Owner( "Rodolfo Finochietti" )]
-        [ExpectedException( typeof( Pop3Exception ) )]
+        [ExpectedException( typeof( Exception ) )]
         public void ConnectFailNotResponse( )
         {
             Mock<INetworkOperations> mockNetworkOperations = new Mock<INetworkOperations>( );
 
             Pop3Client pop3Client = new Pop3Client( mockNetworkOperations.Object );
             Assert.IsFalse( pop3Client.IsConnected );
-
+                                                                                                
             pop3Client.Connect( "SERVER", "USERNAME", "PASSWORD" );
         }
         
         [TestMethod]
         [Owner( "Rodolfo Finochietti" )]
-        [ExpectedException( typeof( Pop3Exception ) )]
+        [ExpectedException( typeof( Exception ) )]
         public void ConnectAlreadyConnect( )
         {
             Pop3Client pop3Client = new Pop3Client( new FullMessagesDummyNetworkOperations( ) );
@@ -121,7 +122,7 @@ namespace Pop3.Tests
 
             pop3Client.Connect( "SERVER", "USERNAME", "PASSWORD", 995, true );
 
-            Collection<Pop3Message> messages = pop3Client.List( );
+            List<Pop3Message> messages = pop3Client.List( );
             Assert.AreEqual( 2, messages.Count );
             Assert.AreEqual( 1, messages[ 0 ].Number );
             Assert.AreEqual( 1586, messages[ 0 ].Bytes );
@@ -133,7 +134,7 @@ namespace Pop3.Tests
     
         [TestMethod]
         [Owner( "Rodolfo Finochietti" )]
-        [ExpectedException( typeof( Pop3Exception ) )]
+        [ExpectedException( typeof( Exception ) )]
         public void ListFail( )
         {
             Pop3Client pop3Client = new Pop3Client( new FullMessagesDummyNetworkOperations( ) );
@@ -149,7 +150,7 @@ namespace Pop3.Tests
 
             pop3Client.Connect( "SERVER", "USERNAME", "PASSWORD" );
 
-            Collection<Pop3Message> messages = pop3Client.List( );
+            List<Pop3Message> messages = pop3Client.List( );
  
             pop3Client.Retrieve( messages[ 0 ] );
             Assert.IsTrue( messages[ 0 ].Retrieved );
@@ -183,7 +184,7 @@ namespace Pop3.Tests
 
         [TestMethod]
         [Owner( "Rodolfo Finochietti" )]
-        [ExpectedException( typeof( Pop3Exception ) )]
+        [ExpectedException( typeof( Exception ) )]
         public void RetrieveFail( )
         {
             Pop3Client pop3Client = new Pop3Client( new FullMessagesDummyNetworkOperations( ) );
@@ -199,7 +200,7 @@ namespace Pop3.Tests
 
             pop3Client.Connect( "SERVER", "USERNAME", "PASSWORD" );
 
-            Collection<Pop3Message> messages = pop3Client.List( );
+            List<Pop3Message> messages = pop3Client.List( );
 
             pop3Client.Retrieve( messages );
             Assert.IsTrue( messages[ 0 ].Retrieved );
@@ -238,7 +239,7 @@ namespace Pop3.Tests
 
             pop3Client.Connect( "SERVER", "USERNAME", "PASSWORD" );
 
-            Collection<Pop3Message> messages = pop3Client.ListAndRetrieve( );
+            List<Pop3Message> messages = pop3Client.ListAndRetrieve( );
             Assert.IsTrue( messages[ 0 ].Retrieved );
             Assert.IsNull( messages[ 0 ].RawHeader );
             Assert.IsNotNull( messages[ 0 ].RawMessage );
@@ -274,7 +275,7 @@ namespace Pop3.Tests
 
             pop3Client.Connect( "SERVER", "USERNAME", "PASSWORD" );
 
-            Collection<Pop3Message> messages = pop3Client.ListAndRetrieveHeader( );
+            List<Pop3Message> messages = pop3Client.ListAndRetrieveHeader( );
             Assert.IsFalse ( messages[ 0 ].Retrieved );
             Assert.IsNotNull( messages[ 0 ].RawHeader );
             Assert.IsNull( messages[ 0 ].RawMessage );
@@ -310,7 +311,7 @@ namespace Pop3.Tests
 
             pop3Client.Connect( "SERVER", "USERNAME", "PASSWORD" );
 
-            Collection<Pop3Message> messages = pop3Client.List( );
+            List<Pop3Message> messages = pop3Client.List( );
 
             pop3Client.RetrieveHeader( messages[ 0 ] );
             Assert.IsFalse( messages[ 0 ].Retrieved );
@@ -351,7 +352,7 @@ namespace Pop3.Tests
 
             pop3Client.Connect( "SERVER", "USERNAME", "PASSWORD" );
 
-            Collection<Pop3Message> messages = pop3Client.List( );
+            List<Pop3Message> messages = pop3Client.List( );
 
             pop3Client.RetrieveHeader( messages );
             Assert.IsFalse( messages[ 0 ].Retrieved );
@@ -399,7 +400,7 @@ namespace Pop3.Tests
     
         [TestMethod]
         [Owner( "Rodolfo Finochietti" )]
-        [ExpectedException( typeof( Pop3Exception ) )]
+        [ExpectedException( typeof( Exception ) )]
         public void DeleteFailNotConnect( )
         {
             Mock<INetworkOperations> mockNetworkOperations = new Mock<INetworkOperations>( );
@@ -430,7 +431,7 @@ namespace Pop3.Tests
     
         [TestMethod]
         [Owner( "Rodolfo Finochietti" )]
-        [ExpectedException( typeof( Pop3Exception ) )]
+        [ExpectedException( typeof( Exception ) )]
         public void SendCommandFailNullResponse( )
         {
             Mock<INetworkOperations> mockNetworkOperations = new Mock<INetworkOperations>( );
@@ -462,7 +463,7 @@ namespace Pop3.Tests
 
         [TestMethod]
         [Owner( "Rodolfo Finochietti" )]
-        [ExpectedException( typeof( Pop3Exception ) )]
+        [ExpectedException( typeof( Exception ) )]
         public async Task ConnectFailAsync( )
         {
             Pop3Client pop3Client = new Pop3Client( new DummyNetworkOperations( "-ERR" ) );
@@ -473,7 +474,7 @@ namespace Pop3.Tests
 
         [TestMethod]
         [Owner( "Rodolfo Finochietti" )]
-        [ExpectedException( typeof( Pop3Exception ) )]
+        [ExpectedException( typeof( Exception ) )]
         public async Task ConnectFailNotResponseAsync( )
         {
             Pop3Client pop3Client = new Pop3Client( new DummyNetworkOperations( null ) );
@@ -484,7 +485,7 @@ namespace Pop3.Tests
 
         [TestMethod]
         [Owner( "Rodolfo Finochietti" )]
-        [ExpectedException( typeof( Pop3Exception ) )]
+        [ExpectedException( typeof( Exception ) )]
         public async Task ConnectAlreadyConnectAsync( )
         {
             Pop3Client pop3Client = new Pop3Client( new FullMessagesDummyNetworkOperations( ) );
@@ -529,7 +530,7 @@ namespace Pop3.Tests
 
             await pop3Client.ConnectAsync( "SERVER", "USERNAME", "PASSWORD", 995, true );
 
-            Collection<Pop3Message> messages = await pop3Client.ListAsync( );
+            List<Pop3Message> messages = await pop3Client.ListAsync( );
             Assert.AreEqual( 2, messages.Count );
             Assert.AreEqual( 1, messages[ 0 ].Number );
             Assert.AreEqual( 1586, messages[ 0 ].Bytes );
@@ -541,7 +542,7 @@ namespace Pop3.Tests
 
         [TestMethod]
         [Owner( "Rodolfo Finochietti" )]
-        [ExpectedException( typeof( Pop3Exception ) )]
+        [ExpectedException( typeof( Exception ) )]
         public async Task ListFailAsync( )
         {
             Pop3Client pop3Client = new Pop3Client( new FullMessagesDummyNetworkOperations( ) );
@@ -557,7 +558,7 @@ namespace Pop3.Tests
 
             await pop3Client.ConnectAsync( "SERVER", "USERNAME", "PASSWORD" );
 
-            Collection<Pop3Message> messages = await pop3Client.ListAsync( );
+            List<Pop3Message> messages = await pop3Client.ListAsync( );
 
             await pop3Client.RetrieveAsync( messages[ 0 ] );
             Assert.IsTrue( messages[ 0 ].Retrieved );
@@ -591,7 +592,7 @@ namespace Pop3.Tests
 
         [TestMethod]
         [Owner( "Rodolfo Finochietti" )]
-        [ExpectedException( typeof( Pop3Exception ) )]
+        [ExpectedException( typeof( Exception ) )]
         public async Task RetrieveFailAsync( )
         {
             Pop3Client pop3Client = new Pop3Client( new FullMessagesDummyNetworkOperations( ) );
@@ -607,7 +608,7 @@ namespace Pop3.Tests
 
             await pop3Client.ConnectAsync( "SERVER", "USERNAME", "PASSWORD" );
 
-            Collection<Pop3Message> messages = await pop3Client.ListAsync( );
+            List<Pop3Message> messages = await pop3Client.ListAsync( );
 
             await pop3Client.RetrieveAsync( messages );
             Assert.IsTrue( messages[ 0 ].Retrieved );
@@ -645,7 +646,7 @@ namespace Pop3.Tests
 
             await pop3Client.ConnectAsync( "SERVER", "USERNAME", "PASSWORD" );
 
-            Collection<Pop3Message> messages = await pop3Client.ListAndRetrieveAsync( );
+            List<Pop3Message> messages = await pop3Client.ListAndRetrieveAsync( );
             Assert.IsTrue( messages[ 0 ].Retrieved );
             Assert.IsNull( messages[ 0 ].RawHeader );
             Assert.IsNotNull( messages[ 0 ].RawMessage );
@@ -681,7 +682,7 @@ namespace Pop3.Tests
 
             await pop3Client.ConnectAsync( "SERVER", "USERNAME", "PASSWORD" );
 
-            Collection<Pop3Message> messages = await pop3Client.ListAndRetrieveHeaderAsync( );
+            List<Pop3Message> messages = await pop3Client.ListAndRetrieveHeaderAsync( );
             Assert.IsFalse( messages[ 0 ].Retrieved );
             Assert.IsNotNull( messages[ 0 ].RawHeader );
             Assert.IsNull( messages[ 0 ].RawMessage );
@@ -717,7 +718,7 @@ namespace Pop3.Tests
 
             await pop3Client.ConnectAsync( "SERVER", "USERNAME", "PASSWORD" );
 
-            Collection<Pop3Message> messages = await pop3Client.ListAsync( );
+            List<Pop3Message> messages = await pop3Client.ListAsync( );
 
             await pop3Client.RetrieveHeaderAsync( messages );
             Assert.IsFalse( messages[ 0 ].Retrieved );
@@ -762,7 +763,7 @@ namespace Pop3.Tests
 
         [TestMethod]
         [Owner( "Rodolfo Finochietti" )]
-        [ExpectedException( typeof( Pop3Exception ) )]
+        [ExpectedException( typeof( Exception ) )]
         public async Task DeleteFailNotConnectAsync( )
         {
             Pop3Client pop3Client = new Pop3Client( new DummyNetworkOperations( "+OK" ) );
@@ -787,7 +788,7 @@ namespace Pop3.Tests
 
         [TestMethod]
         [Owner( "Rodolfo Finochietti" )]
-        [ExpectedException( typeof( Pop3Exception ) )]
+        [ExpectedException( typeof( Exception ) )]
         public async Task SendCommandFailNullResponseAsync( )
         {
             Pop3Client pop3Client = new Pop3Client( new QueueDummyNetworkOperations( "+OK", String.Empty ) );
