@@ -112,6 +112,9 @@
     <Compile Include="..\Library\IO\INetworkOperations.cs">
       <Link>IO\INetworkOperations.cs</Link>
     </Compile>
+    <Compile Include="..\Library\IPop3Client.cs">
+      <Link>IPop3Client.cs</Link>
+    </Compile>
     <Compile Include="..\Library\Pop3Client.cs">
       <Link>Pop3Client.cs</Link>
     </Compile>
@@ -121,7 +124,7 @@
     <Compile Include="..\Resources\Misc\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="IO\TcpNetworkOperations.cs" />
+    <Compile Include="IO\StreamSocketNetworkOperations.cs" />
     <Compile Include="Pop3ClientRT.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

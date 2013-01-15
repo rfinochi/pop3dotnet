@@ -21,7 +21,7 @@ namespace Pop3
     {
         #region Private Fields
 
-        private Pop3Client2 _client = new Pop3Client2( );
+        private InternalPop3Client _client = new InternalPop3Client( );
 
         #endregion
 
@@ -61,7 +61,7 @@ namespace Pop3
 
         public IAsyncOperation<IEnumerable<Pop3Message>> ListAsync( )
         {
-            return _client.List( ).AsAsyncOperation( );
+            return _client.ListAsync( ).AsAsyncOperation( );
         }
 
         [DefaultOverload]
@@ -88,12 +88,12 @@ namespace Pop3
 
         public IAsyncOperation<IEnumerable<Pop3Message>> ListAndRetrieveHeaderAsync( )
         {
-            return _client.ListAndRetrieveHeader( ).AsAsyncOperation( );
+            return _client.ListAndRetrieveHeaderAsync( ).AsAsyncOperation( );
         }
 
         public IAsyncOperation<IEnumerable<Pop3Message>> ListAndRetrieveAsync( )
         {
-            return _client.ListAndRetrieve( ).AsAsyncOperation( );
+            return _client.ListAndRetrieveAsync( ).AsAsyncOperation( );
         }
 
         public IAsyncAction DeleteAsync( Pop3Message message )

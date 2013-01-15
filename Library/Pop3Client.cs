@@ -23,9 +23,9 @@ using Pop3.IO;
 namespace Pop3
 {
 #if NETFX_CORE
-    internal class Pop3Client2 : IDisposable
+    internal class InternalPop3Client : IPop3Client
 #else
-    public class Pop3Client : IDisposable
+    public class Pop3Client : IPop3Client
 #endif
     {
         #region Private Fields
@@ -37,14 +37,14 @@ namespace Pop3
         #region Constructors
 
 #if NETFX_CORE
-        public Pop3Client2( )
+        public InternalPop3Client( )
         {
-            _networkOperations = new TcpNetworkOperations( );
+            _networkOperations = new StreamSocketNetworkOperations( );
         }
 #else
         public Pop3Client( )
         {
-            _networkOperations = new TcpNetworkOperations( );
+            _networkOperations = new TcpClientNetworkOperations( );
         }
 
         internal Pop3Client( INetworkOperations networkOperations )
@@ -83,14 +83,14 @@ namespace Pop3
         public void Connect( string server, string userName, string password, int port, bool useSsl )
         {
             if ( this.IsConnected )
-                throw new Exception( "Pop3 client already connected" );
+                throw new InvalidOperationException( "Pop3 client already connected" );
 
             _networkOperations.Open( server, port, useSsl );
 
             string response = _networkOperations.Read( );
 
             if ( String.IsNullOrEmpty( response ) || response.Substring( 0, 3 ) != "+OK" )
-                throw new Exception( response );
+                throw new InvalidOperationException( response );
 
             SendCommand( String.Format( CultureInfo.InvariantCulture, "USER {0}", userName ) );
             SendCommand( String.Format( CultureInfo.InvariantCulture, "PASS {0}", password ) );
@@ -114,10 +114,10 @@ namespace Pop3
             }
         }
 
-        public List<Pop3Message> List( )
+        public IEnumerable<Pop3Message> List( )
         {
             if ( !this.IsConnected )
-                throw new Exception( "Pop3 client is not connected to host" );
+                throw new InvalidOperationException( "Pop3 client is not connected to host" );
 
             List<Pop3Message> result = new List<Pop3Message>( );
 
@@ -127,7 +127,7 @@ namespace Pop3
             {
                 string response = _networkOperations.Read( );
                 if ( response == ".\r\n" )
-                    return result;
+                    return result.AsEnumerable( );
 
                 Pop3Message message = new Pop3Message( );
 
@@ -145,7 +145,7 @@ namespace Pop3
         public void RetrieveHeader( Pop3Message message )
         {
             if ( !this.IsConnected )
-                throw new Exception( "Pop3 client is not connected to host" );
+                throw new InvalidOperationException( "Pop3 client is not connected to host" );
 
             if ( message == null )
                 throw new ArgumentNullException( "message" );
@@ -162,10 +162,10 @@ namespace Pop3
             }
         }
 
-        public void RetrieveHeader( List<Pop3Message> messages )
+        public void RetrieveHeader( IEnumerable<Pop3Message> messages )
         {
             if ( !this.IsConnected )
-                throw new Exception( "Pop3 client is not connected to host" );
+                throw new InvalidOperationException( "Pop3 client is not connected to host" );
             if ( messages == null )
                 throw new ArgumentNullException( "messages" );
 
@@ -176,7 +176,7 @@ namespace Pop3
         public void Retrieve( Pop3Message message )
         {
             if ( !this.IsConnected )
-                throw new Exception( "Pop3 client is not connected to host" );
+                throw new InvalidOperationException( "Pop3 client is not connected to host" );
             if ( message == null )
                 throw new ArgumentNullException( "message" );
 
@@ -193,10 +193,10 @@ namespace Pop3
             message.Retrieved = true;
         }
 
-        public void Retrieve( List<Pop3Message> messages )
+        public void Retrieve( IEnumerable<Pop3Message> messages )
         {
             if ( !this.IsConnected )
-                throw new Exception( "Pop3 client is not connected to host" );
+                throw new InvalidOperationException( "Pop3 client is not connected to host" );
             if ( messages == null )
                 throw new ArgumentNullException( "messages" );
 
@@ -204,24 +204,24 @@ namespace Pop3
                 Retrieve( message );
         }
 
-        public List<Pop3Message> ListAndRetrieveHeader( )
+        public IEnumerable<Pop3Message> ListAndRetrieveHeader( )
         {
             if ( !this.IsConnected )
-                throw new Exception( "Pop3 client is not connected to host" );
+                throw new InvalidOperationException( "Pop3 client is not connected to host" );
 
-            List<Pop3Message> messages = List( );
+            IEnumerable<Pop3Message> messages = List( );
 
             RetrieveHeader( messages );
 
             return messages;
         }
 
-        public List<Pop3Message> ListAndRetrieve( )
+        public IEnumerable<Pop3Message> ListAndRetrieve( )
         {
             if ( !this.IsConnected )
-                throw new Exception( "Pop3 client is not connected to host" );
+                throw new InvalidOperationException( "Pop3 client is not connected to host" );
 
-            List<Pop3Message> messages = List( );
+            IEnumerable<Pop3Message> messages = List( );
 
             Retrieve( messages );
 
@@ -231,7 +231,7 @@ namespace Pop3
         public void Delete( Pop3Message message )
         {
             if ( !this.IsConnected )
-                throw new Exception( "Pop3 client is not connected to host" );
+                throw new InvalidOperationException( "Pop3 client is not connected to host" );
             if ( message == null )
                 throw new ArgumentNullException( "message" );
 
@@ -257,13 +257,13 @@ namespace Pop3
         public async Task ConnectAsync( string server, string userName, string password, int port, bool useSsl )
         {
             if ( this.IsConnected )
-                throw new Exception( "Pop3 client already connected" );
+                throw new InvalidOperationException( "Pop3 client already connected" );
 
             await _networkOperations.OpenAsync( server, port, useSsl ).ConfigureAwait( false );
 
             string response = await _networkOperations.ReadAsync( );
             if ( String.IsNullOrEmpty( response ) || response.Substring( 0, 3 ) != "+OK" )
-                throw new Exception( response );
+                throw new InvalidOperationException( response );
 
             await SendCommandAsync( String.Format( CultureInfo.InvariantCulture, "USER {0}", userName ) ).ConfigureAwait( false );
             await SendCommandAsync( String.Format( CultureInfo.InvariantCulture, "PASS {0}", password ) ).ConfigureAwait( false );
@@ -288,10 +288,10 @@ namespace Pop3
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage( "Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures" )]
-        public async Task<List<Pop3Message>> ListAsync( )
+        public async Task<IEnumerable<Pop3Message>> ListAsync( )
         {
             if ( !this.IsConnected )
-                throw new Exception( "Pop3 client is not connected to host" );
+                throw new InvalidOperationException( "Pop3 client is not connected to host" );
 
             List<Pop3Message> result = new List<Pop3Message>( );
 
@@ -301,7 +301,7 @@ namespace Pop3
             {
                 string response = await _networkOperations.ReadAsync( ).ConfigureAwait( false );
                 if ( response == ".\r\n" )
-                    return result;
+                    return result.AsEnumerable( );
 
                 Pop3Message message = new Pop3Message( );
 
@@ -316,18 +316,10 @@ namespace Pop3
             }
         }
 
-#if NETFX_CORE
-        public async Task<IEnumerable<Pop3Message>> List( )
-        {
-            List<Pop3Message> result = await ListAsync( );
-            return result.AsEnumerable( );
-        }
-#endif
-
         public async Task RetrieveHeaderAsync( Pop3Message message )
         {
             if ( !this.IsConnected )
-                throw new Exception( "Pop3 client is not connected to host" );
+                throw new InvalidOperationException( "Pop3 client is not connected to host" );
 
             if ( message == null )
                 throw new ArgumentNullException( "message" );
@@ -344,10 +336,10 @@ namespace Pop3
             }
         }
 
-        public async Task RetrieveHeaderAsync( List<Pop3Message> messages )
+        public async Task RetrieveHeaderAsync( IEnumerable<Pop3Message> messages )
         {
             if ( !this.IsConnected )
-                throw new Exception( "Pop3 client is not connected to host" );
+                throw new InvalidOperationException( "Pop3 client is not connected to host" );
 
             if ( messages == null )
                 throw new ArgumentNullException( "messages" );
@@ -359,7 +351,7 @@ namespace Pop3
         public async Task RetrieveAsync( Pop3Message message )
         {
             if ( !this.IsConnected )
-                throw new Exception( "Pop3 client is not connected to host" );
+                throw new InvalidOperationException( "Pop3 client is not connected to host" );
 
             if ( message == null )
                 throw new ArgumentNullException( "message" );
@@ -377,11 +369,10 @@ namespace Pop3
             message.Retrieved = true;
         }
 
-        public async Task RetrieveAsync( List<Pop3Message> messages )
+        public async Task RetrieveAsync( IEnumerable<Pop3Message> messages )
         {
             if ( !this.IsConnected )
-                throw new Exception( "Pop3 client is not connected to host" );
-
+                throw new InvalidOperationException( "Pop3 client is not connected to host" );
             if ( messages == null )
                 throw new ArgumentNullException( "messages" );
 
@@ -390,51 +381,35 @@ namespace Pop3
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage( "Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures" )]
-        public async Task<List<Pop3Message>> ListAndRetrieveHeaderAsync( )
+        public async Task<IEnumerable<Pop3Message>> ListAndRetrieveHeaderAsync( )
         {
             if ( !this.IsConnected )
-                throw new Exception( "Pop3 client is not connected to host" );
+                throw new InvalidOperationException( "Pop3 client is not connected to host" );
 
-            List<Pop3Message> messages = await ListAsync( ).ConfigureAwait( false );
+            IEnumerable<Pop3Message> messages = await ListAsync( ).ConfigureAwait( false );
 
             await RetrieveHeaderAsync( messages ).ConfigureAwait( false );
 
             return messages;
         }
 
-#if NETFX_CORE
-        public async Task<IEnumerable<Pop3Message>> ListAndRetrieveHeader( )
-        {
-            List<Pop3Message> result = await ListAndRetrieveHeaderAsync( );
-            return result.AsEnumerable( );
-        }
-#endif
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage( "Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures" )]
-        public async Task<List<Pop3Message>> ListAndRetrieveAsync( )
+        public async Task<IEnumerable<Pop3Message>> ListAndRetrieveAsync( )
         {
             if ( !this.IsConnected )
-                throw new Exception( "Pop3 client is not connected to host" );
-                                                                           
-            List<Pop3Message> messages = await ListAsync( ).ConfigureAwait( false );
+                throw new InvalidOperationException( "Pop3 client is not connected to host" );
+
+            IEnumerable<Pop3Message> messages = await ListAsync( ).ConfigureAwait( false );
 
             await RetrieveAsync( messages ).ConfigureAwait( false );
 
             return messages;
         }
 
-#if NETFX_CORE
-        public async Task<IEnumerable<Pop3Message>> ListAndRetrieve( )
-        {
-            List<Pop3Message> result = await ListAndRetrieveAsync( );
-            return result.AsEnumerable( );
-        }
-#endif
-
         public async Task DeleteAsync( Pop3Message message )
         {
             if ( !this.IsConnected )
-                throw new Exception( "Pop3 client is not connected to host" );
+                throw new InvalidOperationException( "Pop3 client is not connected to host" );
 
             if ( message == null )
                 throw new ArgumentNullException( "message" );
@@ -472,7 +447,7 @@ namespace Pop3
             var response = _networkOperations.Read( );
 
             if ( String.IsNullOrEmpty( response ) || response.Substring( 0, 3 ) != "+OK" )
-                throw new Exception( response );
+                throw new InvalidOperationException( response );
         }
 #endif
 
@@ -505,7 +480,7 @@ namespace Pop3
             var response = await _networkOperations.ReadAsync( ).ConfigureAwait( false );
 
             if ( String.IsNullOrEmpty( response ) || response.Substring( 0, 3 ) != "+OK" )
-                throw new Exception( response );
+                throw new InvalidOperationException( response );
         }
 #endif
 
@@ -520,7 +495,7 @@ namespace Pop3
         }
 
 #if NETFX_CORE
-        ~Pop3Client2( )
+        ~InternalPop3Client( )
 #else
         ~Pop3Client( )
 #endif

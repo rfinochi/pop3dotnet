@@ -169,9 +169,8 @@ namespace Pop3
         {
             if ( String.IsNullOrEmpty( headerName ) )
                 throw new ArgumentNullException( "headerName" );
-            
             if ( String.IsNullOrEmpty( RawMessage ) && String.IsNullOrEmpty( RawHeader ) )
-                throw new Exception( "Header can't be null" );
+                throw new InvalidOperationException( "Header can't be null" );
 
             if ( !headerName.EndsWith( ":", StringComparison.OrdinalIgnoreCase  ) )
                 headerName += ":";

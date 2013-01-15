@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 
 namespace Pop3.IO
 {
-    internal class TcpNetworkOperations : INetworkOperations
+    internal class TcpClientNetworkOperations : INetworkOperations
     {
         #region Private Fields
 
@@ -60,7 +60,7 @@ namespace Pop3.IO
         public string Read( )
         {
             if ( _stream == null )
-                throw new Exception( "The Network Stream is null" );
+                throw new InvalidOperationException( "The Network Stream is null" );
 
             UTF8Encoding enc = new UTF8Encoding( );
             byte[] serverBuffer = new Byte[ 1024 ];
@@ -86,7 +86,7 @@ namespace Pop3.IO
         public void Write( string data )
         {
             if ( _stream == null )
-                throw new Exception( "The Network Stream is null" );
+                throw new InvalidOperationException( "The Network Stream is null" );
 
             UTF8Encoding en = new UTF8Encoding( );
 
@@ -140,7 +140,7 @@ namespace Pop3.IO
         public async Task<string> ReadAsync( )
         {
             if ( _stream == null )
-                throw new Exception( "The Network Stream is null" );
+                throw new InvalidOperationException( "The Network Stream is null" );
 
             UTF8Encoding enc = new UTF8Encoding( );
             byte[] serverBuffer = new Byte[ 1024 ];
@@ -166,7 +166,7 @@ namespace Pop3.IO
         public async Task WriteAsync( string data )
         {
             if ( _stream == null )
-                throw new Exception( "The Network Stream is null" );
+                throw new InvalidOperationException( "The Network Stream is null" );
 
             UTF8Encoding en = new UTF8Encoding( );
 

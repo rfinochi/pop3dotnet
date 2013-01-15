@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Pop3.IO
 {
+#if NETFX_CORE
     internal interface INetworkOperations : IDisposable
+#else
+    public interface INetworkOperations : IDisposable
+#endif
     {
         #region Methods
 

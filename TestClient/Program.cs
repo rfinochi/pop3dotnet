@@ -49,7 +49,7 @@ namespace Pop3.TestClient
 
                 Console.WriteLine( "List Messages...{0}", Environment.NewLine );
 
-                List<Pop3Message> messages = pop3Client.List( );
+                IEnumerable<Pop3Message> messages = pop3Client.List( );
 
                 Console.WriteLine( "Retrieve Messages...{0}", Environment.NewLine );
 
@@ -91,7 +91,7 @@ namespace Pop3.TestClient
 
                 Console.WriteLine( "List and Retrieve Messages...{0}", Environment.NewLine );
 
-                List<Pop3Message> messages = await pop3Client.ListAndRetrieveAsync( );
+                IEnumerable<Pop3Message> messages = await pop3Client.ListAndRetrieveAsync( );
 
                 foreach ( Pop3Message message in messages )
                 {

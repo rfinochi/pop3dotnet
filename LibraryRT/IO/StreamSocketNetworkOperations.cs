@@ -19,7 +19,7 @@ using Windows.Storage.Streams;
 
 namespace Pop3.IO
 {
-    internal class TcpNetworkOperations : INetworkOperations
+    internal class StreamSocketNetworkOperations : INetworkOperations
     {
         #region Private Fields
 
@@ -65,7 +65,7 @@ namespace Pop3.IO
         public async Task<string> ReadAsync( )
         {
             if ( _socket == null )
-                throw new Exception( "The Network Socket is null" );
+                throw new InvalidOperationException( "The Network Socket is null" );
 
             UTF8Encoding enc = new UTF8Encoding( );
             byte[] serverBuffer = new Byte[ 1024 ];
@@ -93,7 +93,7 @@ namespace Pop3.IO
         public async Task WriteAsync( string data )
         {
             if ( _socket == null )
-                throw new Exception( "Pop3 client already connected" );
+                throw new InvalidOperationException( "Pop3 client already connected" );
 
             using ( DataWriter writer = new DataWriter( _socket.OutputStream ) )
             {
