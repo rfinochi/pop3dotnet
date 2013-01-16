@@ -10,6 +10,7 @@
  * No warranties expressed or implied, use at your own risk.
  */
 using System;
+using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,6 +25,8 @@ namespace Pop3.IO
         #region Private Fields
 
         private StreamSocket _socket;
+        private DataReader _reader;
+        private DataWriter _writer;
 
         #endregion
 
@@ -33,6 +36,20 @@ namespace Pop3.IO
 
         public void Close( )
         {
+            if ( _reader != null )
+            {
+                _reader.DetachStream( );
+                _reader.Dispose( );
+                _reader = null;
+            }
+
+            if ( _writer != null )
+            {
+                _writer.DetachStream( );
+                _writer.Dispose( );
+                _writer = null;
+            }
+            
             if ( _socket != null )
             {
                 _socket.Dispose( );
@@ -59,35 +76,38 @@ namespace Pop3.IO
                     await _socket.ConnectAsync( new HostName( hostName ), port.ToString( ), SocketProtectionLevel.Ssl );
                 else
                     await _socket.ConnectAsync( new HostName( hostName ), port.ToString( ) );
+
+                _reader = new DataReader( _socket.InputStream );
+                _writer = new DataWriter( _socket.OutputStream );
             }
         }
-        
+
         public async Task<string> ReadAsync( )
         {
             if ( _socket == null )
                 throw new InvalidOperationException( "The Network Socket is null" );
 
-            UTF8Encoding enc = new UTF8Encoding( );
-            byte[] serverBuffer = new Byte[ 1024 ];
+            byte[] buffer = new byte[ Constants.BufferSize ];
             int count = 0;
 
             while ( true )
             {
-                using ( DataReader reader = new DataReader( _socket.InputStream ) )
-                {
-                    uint bytes = await reader.LoadAsync( 1 );
-                    if ( bytes != 1 )
-                        break;
+                uint bytes = await _reader.LoadAsync( 1 );
+                if ( bytes != 1 )
+                    break;
 
-                    serverBuffer[ count ] = reader.ReadByte( );
-                    count++;
+                buffer[ count ] = _reader.ReadByte( );
+                count++;
 
-                    if ( serverBuffer[ count ] == '\n' )
-                        break;
-                }
+                if ( count >= Constants.BufferSize )
+                    throw new OutOfMemoryException( String.Format( CultureInfo.InvariantCulture, "The message is to large (current buffer size {0})", Constants.BufferSize ) );
+
+                if ( buffer[ count ] == '\n' )
+                    break;
             }
 
-            return enc.GetString( serverBuffer, 0, count );
+            UTF8Encoding enc = new UTF8Encoding( );
+            return enc.GetString( buffer, 0, count );
         }
 
         public async Task WriteAsync( string data )
@@ -95,11 +115,8 @@ namespace Pop3.IO
             if ( _socket == null )
                 throw new InvalidOperationException( "Pop3 client already connected" );
 
-            using ( DataWriter writer = new DataWriter( _socket.OutputStream ) )
-            {
-                writer.WriteString( data );
-                await writer.StoreAsync( );
-            }
+            _writer.WriteString( data );
+            await _writer.StoreAsync( );
         }
 
         #endregion

@@ -10,6 +10,8 @@
  * No warranties expressed or implied, use at your own risk.
  */
 using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.IO;
 using System.Net.Security;
 using System.Net.Sockets;
@@ -56,31 +58,35 @@ namespace Pop3.IO
                 }
             }
         }
-        
+
+        [SuppressMessage( "Microsoft.Usage", "CA2201:DoNotRaiseReservedExceptionTypes" )]
         public string Read( )
         {
             if ( _stream == null )
                 throw new InvalidOperationException( "The Network Stream is null" );
 
-            UTF8Encoding enc = new UTF8Encoding( );
-            byte[] serverBuffer = new Byte[ 1024 ];
+            byte[] buffer = new byte[ Constants.BufferSize ];
             int count = 0;
 
             while ( true )
             {
-                byte[] buff = new Byte[ 2 ];
-                int bytes = _stream.Read( buff, 0, 1 );
+                byte[] data = new byte[ 2 ];
+                int bytes = _stream.Read( data, 0, 1 );
                 if ( bytes != 1 )
                     break;
 
-                serverBuffer[ count ] = buff[ 0 ];
+                buffer[ count ] = data[ 0 ];
                 count++;
 
-                if ( buff[ 0 ] == '\n' )
+                if ( count >= Constants.BufferSize )
+                    throw new OutOfMemoryException( String.Format( CultureInfo.InvariantCulture, "The message is to large (current buffer size {0})", Constants.BufferSize ) );
+
+                if ( data[ 0 ] == '\n' )
                     break;
             }
 
-            return enc.GetString( serverBuffer, 0, count );
+            UTF8Encoding enc = new UTF8Encoding( );
+            return enc.GetString( buffer, 0, count );
         }
 
         public void Write( string data )
@@ -89,7 +95,6 @@ namespace Pop3.IO
                 throw new InvalidOperationException( "The Network Stream is null" );
 
             UTF8Encoding en = new UTF8Encoding( );
-
             byte[] writeBuffer = en.GetBytes( data );
 
             _stream.Write( writeBuffer, 0, writeBuffer.Length );
@@ -136,31 +141,35 @@ namespace Pop3.IO
                 }
             }
         }
-        
+
+        [SuppressMessage( "Microsoft.Usage", "CA2201:DoNotRaiseReservedExceptionTypes" )]
         public async Task<string> ReadAsync( )
         {
             if ( _stream == null )
                 throw new InvalidOperationException( "The Network Stream is null" );
 
-            UTF8Encoding enc = new UTF8Encoding( );
-            byte[] serverBuffer = new Byte[ 1024 ];
+            byte[] buffer = new byte[ Constants.BufferSize ];
             int count = 0;
 
             while ( true )
             {
-                byte[] buff = new Byte[ 2 ];
-                int bytes = await _stream.ReadAsync( buff, 0, 1 ).ConfigureAwait( false );
+                byte[] data = new byte[ 2 ];
+                int bytes = await _stream.ReadAsync( data, 0, 1 ).ConfigureAwait( false );
                 if ( bytes != 1 )
                     break;
 
-                serverBuffer[ count ] = buff[ 0 ];
+                buffer[ count ] = data[ 0 ];
                 count++;
 
-                if ( buff[ 0 ] == '\n' )
+                if ( count >= Constants.BufferSize )
+                    throw new OutOfMemoryException( String.Format( CultureInfo.InvariantCulture, "The message is to large (current buffer size {0})", Constants.BufferSize ) );
+
+                if ( data[ 0 ] == '\n' )
                     break;
             }
 
-            return enc.GetString( serverBuffer, 0, count );
+            UTF8Encoding enc = new UTF8Encoding( );
+            return enc.GetString( buffer, 0, count );
         }
 
         public async Task WriteAsync( string data )
@@ -169,7 +178,6 @@ namespace Pop3.IO
                 throw new InvalidOperationException( "The Network Stream is null" );
 
             UTF8Encoding en = new UTF8Encoding( );
-
             byte[] writeBuffer = en.GetBytes( data );
 
             await _stream.WriteAsync( writeBuffer, 0, writeBuffer.Length ).ConfigureAwait( false );

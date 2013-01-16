@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
+  <Identity Name="52a70f99-c04e-4f20-a378-db464c687533" Version="2.0.0.0" Publisher="CN=Rodolfo" />
+  <Properties>
+    <DisplayName>Pop3RT Test Client</DisplayName>
+    <PublisherDisplayName>Rodolfo Finochietti - http://shockbyte.net</PublisherDisplayName>
+    <Logo>images\storelogo.png</Logo>
+  </Properties>
+  <Prerequisites>
+    <OSMinVersion>6.2.1</OSMinVersion>
+    <OSMaxVersionTested>6.2.1</OSMaxVersionTested>
+  </Prerequisites>
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+  <Applications>
+    <Application Id="App" StartPage="default.html">
+      <VisualElements DisplayName="Pop3RT Test Client" Logo="images\logo.png" SmallLogo="images\smalllogo.png" Description="Pop3RT Library Test Client" ForegroundText="dark" BackgroundColor="#FFFFFF">
+        <DefaultTile ShowName="allLogos" ShortName="Pop3RT Test Client" />
+        <SplashScreen Image="images\splashscreen.png" />
+      </VisualElements>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <Capability Name="privateNetworkClientServer" />
+    <Capability Name="internetClient" />
+  </Capabilities>
+</Package>

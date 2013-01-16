@@ -75,6 +75,7 @@
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Base64EncodingHelper.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="IPop3Client.cs" />
     <Compile Include="Properties\GlobalSuppressions.cs" />
     <Compile Include="IO\INetworkOperations.cs" />

@@ -109,6 +109,9 @@
     <Compile Include="..\Library\Base64EncodingHelper.cs">
       <Link>Base64EncodingHelper.cs</Link>
     </Compile>
+    <Compile Include="..\Library\Constants.cs">
+      <Link>Constants.cs</Link>
+    </Compile>
     <Compile Include="..\Library\IO\INetworkOperations.cs">
       <Link>IO\INetworkOperations.cs</Link>
     </Compile>

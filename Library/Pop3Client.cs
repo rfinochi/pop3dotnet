@@ -11,6 +11,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -287,7 +288,7 @@ namespace Pop3
             }
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage( "Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures" )]
+        [SuppressMessage( "Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures" )]
         public async Task<IEnumerable<Pop3Message>> ListAsync( )
         {
             if ( !this.IsConnected )
@@ -380,7 +381,7 @@ namespace Pop3
                 await RetrieveAsync( message ).ConfigureAwait( false );
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage( "Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures" )]
+        [SuppressMessage( "Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures" )]
         public async Task<IEnumerable<Pop3Message>> ListAndRetrieveHeaderAsync( )
         {
             if ( !this.IsConnected )
@@ -393,7 +394,7 @@ namespace Pop3
             return messages;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage( "Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures" )]
+        [SuppressMessage( "Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures" )]
         public async Task<IEnumerable<Pop3Message>> ListAndRetrieveAsync( )
         {
             if ( !this.IsConnected )

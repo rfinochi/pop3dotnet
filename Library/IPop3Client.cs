@@ -11,6 +11,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 #if NET45 || NETFX_CORE
 using System.Threading.Tasks;
 #endif
@@ -71,7 +72,7 @@ namespace Pop3
         
         Task DisconnectAsync( );
         
-        [System.Diagnostics.CodeAnalysis.SuppressMessage( "Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures" )]
+        [SuppressMessage( "Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures" )]
         Task<IEnumerable<Pop3Message>> ListAsync( );
         
         Task RetrieveAsync( Pop3Message message );
@@ -82,10 +83,10 @@ namespace Pop3
         
         Task RetrieveHeaderAsync( IEnumerable<Pop3Message> messages );
         
-        [System.Diagnostics.CodeAnalysis.SuppressMessage( "Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures" )]
+        [SuppressMessage( "Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures" )]
         Task<IEnumerable<Pop3Message>> ListAndRetrieveAsync( );
         
-        [System.Diagnostics.CodeAnalysis.SuppressMessage( "Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures" )]
+        [SuppressMessage( "Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures" )]
         Task<IEnumerable<Pop3Message>> ListAndRetrieveHeaderAsync( );
         
         Task DeleteAsync( Pop3Message message );
