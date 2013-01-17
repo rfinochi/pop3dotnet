@@ -78,6 +78,8 @@ namespace Pop3.IO
                     await _socket.ConnectAsync( new HostName( hostName ), port.ToString( ) );
 
                 _reader = new DataReader( _socket.InputStream );
+                _reader.InputStreamOptions = InputStreamOptions.Partial;
+
                 _writer = new DataWriter( _socket.OutputStream );
             }
         }
@@ -87,27 +89,16 @@ namespace Pop3.IO
             if ( _socket == null )
                 throw new InvalidOperationException( "The Network Socket is null" );
 
-            byte[] buffer = new byte[ Constants.BufferSize ];
-            int count = 0;
+            StringBuilder sb = new StringBuilder();
+            uint len = Constants.BufferSize + 1;
 
-            while ( true )
+            while ( len > Constants.BufferSize )
             {
-                uint bytes = await _reader.LoadAsync( 1 );
-                if ( bytes != 1 )
-                    break;
-
-                buffer[ count ] = _reader.ReadByte( );
-                count++;
-
-                if ( count >= Constants.BufferSize )
-                    throw new OutOfMemoryException( String.Format( CultureInfo.InvariantCulture, "The message is to large (current buffer size {0})", Constants.BufferSize ) );
-
-                if ( buffer[ count ] == '\n' )
-                    break;
+                len = await _reader.LoadAsync( Constants.BufferSize );
+                sb.Append( _reader.ReadString( _reader.UnconsumedBufferLength ) );
             }
 
-            UTF8Encoding enc = new UTF8Encoding( );
-            return enc.GetString( buffer, 0, count );
+            return sb.ToString( );
         }
 
         public async Task WriteAsync( string data )

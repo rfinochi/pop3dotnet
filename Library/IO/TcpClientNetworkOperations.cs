@@ -59,34 +59,28 @@ namespace Pop3.IO
             }
         }
 
-        [SuppressMessage( "Microsoft.Usage", "CA2201:DoNotRaiseReservedExceptionTypes" )]
         public string Read( )
         {
             if ( _stream == null )
                 throw new InvalidOperationException( "The Network Stream is null" );
 
-            byte[] buffer = new byte[ Constants.BufferSize ];
-            int count = 0;
+            byte[] data = new byte[ 1 ];
+            StringBuilder sb = new StringBuilder( );
+            UTF8Encoding enc = new UTF8Encoding( );
 
             while ( true )
             {
-                byte[] data = new byte[ 2 ];
-                int bytes = _stream.Read( data, 0, 1 );
-                if ( bytes != 1 )
+                int dataLength = _stream.Read( data, 0, 1 );
+                if ( dataLength != 1 )
                     break;
 
-                buffer[ count ] = data[ 0 ];
-                count++;
-
-                if ( count >= Constants.BufferSize )
-                    throw new OutOfMemoryException( String.Format( CultureInfo.InvariantCulture, "The message is to large (current buffer size {0})", Constants.BufferSize ) );
+                sb.Append( enc.GetString( data, 0, 1 ) );
 
                 if ( data[ 0 ] == '\n' )
                     break;
             }
 
-            UTF8Encoding enc = new UTF8Encoding( );
-            return enc.GetString( buffer, 0, count );
+            return sb.ToString( );
         }
 
         public void Write( string data )
@@ -142,34 +136,28 @@ namespace Pop3.IO
             }
         }
 
-        [SuppressMessage( "Microsoft.Usage", "CA2201:DoNotRaiseReservedExceptionTypes" )]
         public async Task<string> ReadAsync( )
         {
             if ( _stream == null )
                 throw new InvalidOperationException( "The Network Stream is null" );
 
-            byte[] buffer = new byte[ Constants.BufferSize ];
-            int count = 0;
+            byte[] data = new byte[ 1 ];
+            StringBuilder sb = new StringBuilder( );
+            UTF8Encoding enc = new UTF8Encoding( );
 
             while ( true )
             {
-                byte[] data = new byte[ 2 ];
-                int bytes = await _stream.ReadAsync( data, 0, 1 ).ConfigureAwait( false );
-                if ( bytes != 1 )
+                int dataLength = await _stream.ReadAsync( data, 0, 1 );
+                if ( dataLength != 1 )
                     break;
 
-                buffer[ count ] = data[ 0 ];
-                count++;
-
-                if ( count >= Constants.BufferSize )
-                    throw new OutOfMemoryException( String.Format( CultureInfo.InvariantCulture, "The message is to large (current buffer size {0})", Constants.BufferSize ) );
+                sb.Append( enc.GetString( data, 0, 1 ) );
 
                 if ( data[ 0 ] == '\n' )
                     break;
             }
 
-            UTF8Encoding enc = new UTF8Encoding( );
-            return enc.GetString( buffer, 0, count );
+            return sb.ToString( );
         }
 
         public async Task WriteAsync( string data )

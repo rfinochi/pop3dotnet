@@ -215,7 +215,14 @@ namespace Pop3
             {
                 string body = RawMessage.Remove( 0, ( RawMessage.IndexOf( "\r\n\r\n", StringComparison.OrdinalIgnoreCase ) ) );
 
-                return String.Compare( ContentTransferEncoding, "base64", StringComparison.OrdinalIgnoreCase ) == 0 ? Base64EncodingHelper.Decode( body ) : body;
+                try
+                {
+                    return String.Compare( ContentTransferEncoding, "base64", StringComparison.OrdinalIgnoreCase ) == 0 ? Base64EncodingHelper.Decode( body ) : body;
+                }
+                catch ( FormatException )
+                {
+                    return body;
+                }
             }
         }
 

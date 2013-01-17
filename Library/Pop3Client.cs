@@ -474,7 +474,7 @@ namespace Pop3
             if ( !String.IsNullOrEmpty( aditionalParameters ) )
                 request.AppendFormat( " {0}", aditionalParameters );
 
-            request.Append( "\r\n" );
+            request.Append( Environment.NewLine );
 
             await _networkOperations.WriteAsync( request.ToString( ) ).ConfigureAwait( false );
 

@@ -40,15 +40,37 @@ function getMessagesAsync() {
 
     var pop3Client = new Pop3.Pop3Client();
 
-    document.getElementById('output').innerHTML += "<br/>" + "Connecting to POP3 server...";
+    consoleLog("Connecting to POP3 server...");
 
-    resultAsync = pop3Client.connectAsync( "X", "Y", "Z", false )
+    resultAsync = pop3Client.connectAsync("X", "Y", "Z", false)
+            .then(function () {
+                document.getElementById('output').innerHTML += "<br/>" + "List and Retrieve Messages...";
+                return pop3Client.listAndRetrieveAsync();
+            })
+            .then(function (messages) {
+                for (message in messages) {
+                    consoleLog("- Number: " + message.Number);
+                    consoleLog("     * MessageId: " + message.MessageId);
+                    consoleLog("     * Date: " + message.Date);
+                    consoleLog("     * From: " + message.From);
+                    consoleLog("     * To: " + message.To);
+                    consoleLog("     * Subject: " + message.Subject);
+                    consoleLog("");
+                }
+
+                consoleLog("Disconnecting...");
+                return pop3Client.disconnectAsync();
+            })
             .done(function () {
                 btnCancel.disabled = "disabled";
                 btnAsync.disabled = "";
             });
 }
 
-function asyncCancel() {    
+function getMessagesAsyncCancel() {
     resultAsync.cancel();
+}
+
+function consoleLog(data) {
+    document.getElementById('output').innerHTML += "<br/>" + data;
 }

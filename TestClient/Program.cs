@@ -64,6 +64,7 @@ namespace Pop3.TestClient
                     Console.WriteLine( "\t* From: {0}", message.From );
                     Console.WriteLine( "\t* To: {0}", message.To );
                     Console.WriteLine( "\t* Subject: {0}", message.Subject );
+                    Console.WriteLine( "\t* Body Length: {0}", message.Body.Length );
                     Console.WriteLine( );
                 }
 
@@ -101,6 +102,7 @@ namespace Pop3.TestClient
                     Console.WriteLine( "\t* From: {0}", message.From );
                     Console.WriteLine( "\t* To: {0}", message.To );
                     Console.WriteLine( "\t* Subject: {0}", message.Subject );
+                    Console.WriteLine( "\t* Body Length: {0}", message.Body.Length );
                     Console.WriteLine( );
                 }
 
