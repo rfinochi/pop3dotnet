@@ -24,7 +24,7 @@ namespace Pop3.TestClient
             const string server = "X";
             const string userName = "Y";
             const string password = "Z";
-            const bool useSsl = true;
+            const bool useSsl = false;
 
             Console.ForegroundColor = ConsoleColor.White;
 

@@ -15,10 +15,30 @@
 </head>
 <body>
     <div id="buttons">
-        <button id="buttonGetMessages" onclick="getMessagesAsync();">Get Messages</button>
-        <button id="buttonGetMessagesCancel" onclick="getMessagesAsyncCancel();" disabled="disabled">Cancel</button>
-    </div>
-    <div id="output">
+        <p>
+            <label for="textboxServer">Server:</label>
+            <input id="textboxServer" type="text" />
+        </p>
+        <p>
+            <label for="textboxUserName">User Name:</label>
+            <input id="textboxUserName" type="text" />
+        </p>
+        <p>
+            <label for="textboxPassword">Password:</label>
+            <input id="textboxPassword" type="password" />
+        </p>
+        <p>
+            <label for="checkboxUseSsl">Use SSL:</label>
+            <input id="checkboxUseSsl" type="checkbox" />
+        </p>
+        <p></p>
+        <p>
+            <button id="buttonGetMessages" onclick="getMessagesAsync();">Get Messages</button>
+        </p>
+        <p></p>
+        <p>
+            <textarea id="textareaOutput" style="width:600px;height:400px;" contenteditable="false"></textarea>
+        </p>
     </div>
 </body>
 </html>

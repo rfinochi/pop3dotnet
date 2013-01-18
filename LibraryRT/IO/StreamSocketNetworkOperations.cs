@@ -90,12 +90,17 @@ namespace Pop3.IO
                 throw new InvalidOperationException( "The Network Socket is null" );
 
             StringBuilder sb = new StringBuilder();
-            uint len = Constants.BufferSize + 1;
 
-            while ( len > Constants.BufferSize )
+            while ( true )
             {
-                len = await _reader.LoadAsync( Constants.BufferSize );
+                uint dataLength = await _reader.LoadAsync( 1 );
+                if ( dataLength != 1 )
+                    break;
+
                 sb.Append( _reader.ReadString( _reader.UnconsumedBufferLength ) );
+
+                if ( sb[ sb.Length - 1 ] == '\n' )
+                    break;
             }
 
             return sb.ToString( );

@@ -33,44 +33,46 @@
     app.start();
 })();
 
-var resultAsync;
 function getMessagesAsync() {
-    buttonGetMessages.disabled = "disabled";
-    buttonGetMessagesCancel.disabled = "";
+    try {
+        buttonGetMessages.disabled = "disabled";
 
-    var pop3Client = new Pop3.Pop3Client();
+        var pop3Client = new Pop3.Pop3Client();
 
-    consoleLog("Connecting to POP3 server...");
+        consoleLog("Connecting to POP3 server...");
+        pop3Client.connectAsync(textboxServer.value, textboxUserName.value, textboxPassword.value, checkboxUseSsl.value)
+                .then(function () {
+                    consoleLog("List and Retrieve Messages...");
+                    return pop3Client.listAndRetrieveAsync();
+                })
+                .then(function (messages) {
+                    for (var i = 0, len = messages.size; i < len; i++) {
+                        var message = messages[i];
 
-    resultAsync = pop3Client.connectAsync("X", "Y", "Z", false)
-            .then(function () {
-                document.getElementById('output').innerHTML += "<br/>" + "List and Retrieve Messages...";
-                return pop3Client.listAndRetrieveAsync();
-            })
-            .then(function (messages) {
-                for (message in messages) {
-                    consoleLog("- Number: " + message.Number);
-                    consoleLog("     * MessageId: " + message.MessageId);
-                    consoleLog("     * Date: " + message.Date);
-                    consoleLog("     * From: " + message.From);
-                    consoleLog("     * To: " + message.To);
-                    consoleLog("     * Subject: " + message.Subject);
-                    consoleLog("");
-                }
+                        consoleLog("- Number: " + message.number);
+                        consoleLog("     * MessageId: " + message.messageId);
+                        consoleLog("     * Date: " + message.date);
+                        consoleLog("     * From: " + message.from);
+                        consoleLog("     * To: " + message.to);
+                        consoleLog("     * Subject: " + message.subject);
+                        consoleLog("");
+                    }
 
-                consoleLog("Disconnecting...");
-                return pop3Client.disconnectAsync();
-            })
-            .done(function () {
-                btnCancel.disabled = "disabled";
-                btnAsync.disabled = "";
-            });
-}
-
-function getMessagesAsyncCancel() {
-    resultAsync.cancel();
+                    consoleLog("Disconnecting...");
+                    return pop3Client.disconnectAsync();
+                })
+                .done(function () {
+                    consoleLog("Communication done...");
+                });
+    }
+    catch (e) {
+        consoleLog(e.message);
+    }
+    finally {
+        buttonGetMessages.disabled = "";
+    }
 }
 
 function consoleLog(data) {
-    document.getElementById('output').innerHTML += "<br/>" + data;
+    textareaOutput.value += "\r\n" + data;
 }
