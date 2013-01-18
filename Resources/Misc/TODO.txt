@@ -1,2 +1,1 @@
-- Windows Runtime Support
 - MINE Parser

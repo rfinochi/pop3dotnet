@@ -3,15 +3,18 @@
     <property name="buildlog" value=".\build.log"/>
     <property name="buildlog.level" value="Verbose"/>
 
-    <property name="version" value="1.5.0.1"/>
+    <property name="version" value="2.0.0.1"/>
     <property name="vsDir" value="C:\Program Files\Microsoft Visual Studio 11.0\Common7\IDE"/>
-    <property name="nugetDir" value="z:\Work\Bin\NuGet"/>
+    <property name="nugetDir" value="z:\Tools\Dev\NuGet\"/>
 
     <property name="assemblyFileName" value="Pop3.dll"/>
     <property name="assemblyFullPath" value=".\bin\Release\${assemblyFileName}"/>
+    <property name="winRTPackageFileName" value="Pop3.winmd"/>
+    <property name="winRTPackageFullPath" value="..\LibraryRT\bin\Release\${winRTPackageFileName}"/>
 	<property name="lib" value=".\lib"/>
 	<property name="libNet40" value="${lib}\net40"/>
 	<property name="libNet45" value="${lib}\net45"/>
+	<property name="libNetCore45" value="${lib}\netcore45"/>
 	<property name="globalAssemblyInfo" value="..\Resources\Misc\GlobalAssemblyInfo.cs" />
 
     <target name="buildAndDelpoy">
@@ -20,6 +23,7 @@
 		<mkdir dir="${lib}"/>
         <mkdir dir="${libNet40}"/>
         <mkdir dir="${libNet45}"/>
+        <mkdir dir="${libNetCore45}"/>
 
 		<echo message="Change version number"/>
 		<xmlpoke
@@ -28,6 +32,15 @@
             value="${version}"
         />
 		
+		<xmlpoke
+            file="..\TestClientRT\package.appxmanifest"
+            xpath="/x:Package/x:Identity/@Version"
+            value="${version}">
+			<namespaces>
+				<namespace prefix="x" uri="http://schemas.microsoft.com/appx/2010/manifest" />
+			</namespaces>
+		</xmlpoke>
+
 		<foreach item="File" property="filename">
 			<in>
 				<items basedir="..\Resources\Misc">
@@ -96,7 +109,7 @@
 		<fail unless="${file::exists(assemblyFullPath)}">The file ${assemblyFullPath} not exist</fail>
 		<copy file="${assemblyFullPath}" tofile="${libNet40}\${assemblyFileName}"/>
 
-		<echo message="Compile .NET 4.5 version"/>
+		<echo message="Compile .NET 4.5 adn Windows Runtime version"/>
 		<xmlpoke file=".\Library.csproj" value="v4.5" xpath="//x:Project/x:PropertyGroup[1]/x:TargetFrameworkVersion">
 			<namespaces>
 				<namespace prefix="x" uri="http://schemas.microsoft.com/developer/msbuild/2003" />
@@ -124,6 +137,8 @@
 		/>
 		<fail unless="${file::exists(assemblyFullPath)}">The file ${assemblyFullPath} not exist</fail>
 		<copy file="${assemblyFullPath}" tofile="${libNet45}\${assemblyFileName}"/>
+		<fail unless="${file::exists(winRTPackageFullPath)}">The file ${winRTPackageFullPath} not exist</fail>
+		<copy file="${winRTPackageFullPath}" tofile="${libNetCore45}\${winRTPackageFileName}"/>
 
 		<echo message="Deploy in nuget.org"/>
 		<exec

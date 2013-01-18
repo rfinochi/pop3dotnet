@@ -7,3 +7,6 @@
 	- NEW: Unit testing of all library methods.
 1.5.0.1:
 	- FIX: Improve of async methods to avoid deadlocks using ConfigureAwait(false).
+2.0.0.0:
+	- FIX: Improve of memory use.
+	- NEW: Windows Runtime support
