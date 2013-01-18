@@ -4,7 +4,7 @@
   <head>
     <meta charset='utf-8' />
     <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="POP3.NET : Small and simple library for retrieving messages from Post Office Protocol version 3 (POP3) servers with full support for .NET 4.5 asynchronous programming model" />
+    <meta name="description" content="POP3.NET : Small and simple library for retrieving messages from Post Office Protocol version 3 (POP3) servers with full support for .NET 4.5 asynchronous programming model and Windows Runtime" />
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
@@ -19,7 +19,7 @@
           <a id="forkme_banner" href="https://github.com/rfinochi/pop3dotnet">View on GitHub</a>
 
           <h1 id="project_title">POP3.NET</h1>
-          <h2 id="project_tagline">Small and simple library for retrieving messages from Post Office Protocol version 3 (POP3) servers with full support for .NET 4.5 asynchronous programming model</h2>
+          <h2 id="project_tagline">Small and simple library for retrieving messages from Post Office Protocol version 3 (POP3) servers with full support for .NET 4.5 asynchronous programming model and Windows Runtime</h2>
 
             <section id="downloads">
               <a class="zip_download_link" href="https://github.com/rfinochi/pop3dotnet/zipball/master">Download this project as a .zip file</a>
@@ -93,6 +93,38 @@
 <h3>Disconnect from the server</h3>
 
 <div class="highlight"><pre><span class="k">await</span> <span class="n">pop3Client</span><span class="p">.</span><span class="n">DisconnectAsync</span><span class="p">(</span> <span class="p">);</span>
+</pre></div>
+
+<h2>How to use in Windows Runtime</h2>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">pop3Client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Pop3</span><span class="p">.</span><span class="nx">Pop3Client</span><span class="p">();</span>
+
+<span class="nx">consoleLog</span><span class="p">(</span><span class="s2">"Connecting to POP3 server..."</span><span class="p">);</span>
+<span class="nx">pop3Client</span><span class="p">.</span><span class="nx">connectAsync</span><span class="p">(</span><span class="s2">"SERVER"</span><span class="p">,</span> <span class="s2">"USERNAME"</span><span class="p">,</span> <span class="s2">"PASSWORD"</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">consoleLog</span><span class="p">(</span><span class="s2">"List and Retrieve Messages..."</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nx">pop3Client</span><span class="p">.</span><span class="nx">listAndRetrieveAsync</span><span class="p">();</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">messages</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">len</span> <span class="o">=</span> <span class="nx">messages</span><span class="p">.</span><span class="nx">size</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">len</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">message</span> <span class="o">=</span> <span class="nx">messages</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+
+        <span class="nx">consoleLog</span><span class="p">(</span><span class="s2">"- Number: "</span> <span class="o">+</span> <span class="nx">message</span><span class="p">.</span><span class="nx">number</span><span class="p">);</span>
+        <span class="nx">consoleLog</span><span class="p">(</span><span class="s2">"\t* MessageId: "</span> <span class="o">+</span> <span class="nx">message</span><span class="p">.</span><span class="nx">messageId</span><span class="p">);</span>
+        <span class="nx">consoleLog</span><span class="p">(</span><span class="s2">"\t* Date: "</span> <span class="o">+</span> <span class="nx">message</span><span class="p">.</span><span class="nx">date</span><span class="p">);</span>
+        <span class="nx">consoleLog</span><span class="p">(</span><span class="s2">"\t* From: "</span> <span class="o">+</span> <span class="nx">message</span><span class="p">.</span><span class="nx">from</span><span class="p">);</span>
+        <span class="nx">consoleLog</span><span class="p">(</span><span class="s2">"\t* To: "</span> <span class="o">+</span> <span class="nx">message</span><span class="p">.</span><span class="nx">to</span><span class="p">);</span>
+        <span class="nx">consoleLog</span><span class="p">(</span><span class="s2">"\t* Subject: "</span> <span class="o">+</span> <span class="nx">message</span><span class="p">.</span><span class="nx">subject</span><span class="p">);</span>
+        <span class="nx">consoleLog</span><span class="p">(</span><span class="s2">"\t* Body Lenght: "</span> <span class="o">+</span> <span class="nx">message</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+        <span class="nx">consoleLog</span><span class="p">(</span><span class="s2">""</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="nx">consoleLog</span><span class="p">(</span><span class="s2">"Disconnecting..."</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nx">pop3Client</span><span class="p">.</span><span class="nx">disconnectAsync</span><span class="p">();</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">consoleLog</span><span class="p">(</span><span class="s2">"Communication closed..."</span><span class="p">);</span>
+    <span class="p">});</span>
 </pre></div>
       </section>
     </div>
