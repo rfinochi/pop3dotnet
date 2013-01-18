@@ -39,7 +39,7 @@ function getMessagesAsync() {
 
         var pop3Client = new Pop3.Pop3Client();
 
-        consoleLog("Connecting to POP3 server...");
+        consoleLog("Connecting to POP3 server '" + textboxServer.value + "'...");
         pop3Client.connectAsync(textboxServer.value, textboxUserName.value, textboxPassword.value, checkboxUseSsl.value)
                 .then(function () {
                     consoleLog("List and Retrieve Messages...");
@@ -50,11 +50,12 @@ function getMessagesAsync() {
                         var message = messages[i];
 
                         consoleLog("- Number: " + message.number);
-                        consoleLog("     * MessageId: " + message.messageId);
-                        consoleLog("     * Date: " + message.date);
-                        consoleLog("     * From: " + message.from);
-                        consoleLog("     * To: " + message.to);
-                        consoleLog("     * Subject: " + message.subject);
+                        consoleLog("\t* MessageId: " + message.messageId);
+                        consoleLog("\t* Date: " + message.date);
+                        consoleLog("\t* From: " + message.from);
+                        consoleLog("\t* To: " + message.to);
+                        consoleLog("\t* Subject: " + message.subject);
+                        consoleLog("\t* Body Lenght: " + message.body.length);
                         consoleLog("");
                     }
 
@@ -62,7 +63,7 @@ function getMessagesAsync() {
                     return pop3Client.disconnectAsync();
                 })
                 .done(function () {
-                    consoleLog("Communication done...");
+                    consoleLog("Communication closed...");
                 });
     }
     catch (e) {

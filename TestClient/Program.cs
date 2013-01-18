@@ -21,12 +21,19 @@ namespace Pop3.TestClient
     {
         public static void Main( string[] args )
         {
-            const string server = "X";
-            const string userName = "Y";
-            const string password = "Z";
-            const bool useSsl = false;
-
             Console.ForegroundColor = ConsoleColor.White;
+
+            Console.WriteLine( "Enter Server:" );
+            string server = Console.ReadLine( );
+
+            Console.WriteLine( "Enter User Name:" );
+            string userName = Console.ReadLine( );
+
+            Console.WriteLine( "Enter Password:" );
+            string password = Console.ReadLine( );
+
+            Console.WriteLine( "Use SSL (1 or 0):" );
+            bool useSsl = ( Console.ReadLine( ) == "1" ? true : false );
 
             GetMessages( server, userName, password, useSsl );
 #if NET45

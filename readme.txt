@@ -1,11 +1,11 @@
-Small and simple library for retrieving messages from Post Office Protocol version 3 (POP3) servers with full support for .NET 4.5 asynchronous programming model.
+Small and simple library for retrieving messages from Post Office Protocol version 3 (POP3) servers with full support for .NET 4.5 asynchronous programming model and Windows Runtime.
 
 How to use
 
 Connect to Pop3 Server:
 
 Pop3Client pop3Client = new Pop3Client( );
-pop3Client.Connect( server, userName, password, true );
+pop3Client.Connect( "SERVER", "USERNAME", "PASSWORD", true );
 
 Retrieve message list:
 
@@ -34,7 +34,7 @@ How to use in asynchronously way
 Connect to Pop3 Server:
 
 Pop3Client pop3Client = new Pop3Client( );
-await pop3Client.ConnectAsync( server, userName, password, true );
+await pop3Client.ConnectAsync( "SERVER", "USERNAME", "PASSWORD", true );
 
 Retrieve message list:
 
@@ -56,3 +56,35 @@ foreach ( Pop3Message message in messages )
 Disconnect from the server:
 
 await pop3Client.DisconnectAsync( );
+
+
+How to use in Windows Runtime
+
+var pop3Client = new Pop3.Pop3Client();
+
+consoleLog("Connecting to POP3 server...");
+pop3Client.connectAsync("SERVER", "USERNAME", "PASSWORD", true)
+	.then(function () {
+	    consoleLog("List and Retrieve Messages...");
+	    return pop3Client.listAndRetrieveAsync();
+	})
+	.then(function (messages) {
+	    for (var i = 0, len = messages.size; i < len; i++) {
+		var message = messages[i];
+
+		consoleLog("- Number: " + message.number);
+		consoleLog("\t* MessageId: " + message.messageId);
+		consoleLog("\t* Date: " + message.date);
+		consoleLog("\t* From: " + message.from);
+		consoleLog("\t* To: " + message.to);
+		consoleLog("\t* Subject: " + message.subject);
+		consoleLog("\t* Body Lenght: " + message.body.length);
+		consoleLog("");
+	    }
+
+	    consoleLog("Disconnecting...");
+	    return pop3Client.disconnectAsync();
+	})
+	.done(function () {
+	    consoleLog("Communication closed...");
+	});
