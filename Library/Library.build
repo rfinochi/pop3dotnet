@@ -3,7 +3,7 @@
     <property name="buildlog" value=".\build.log"/>
     <property name="buildlog.level" value="Verbose"/>
 
-    <property name="version" value="2.0.0.1"/>
+    <property name="version" value="2.0.0.2"/>
     <property name="vsDir" value="C:\Program Files\Microsoft Visual Studio 11.0\Common7\IDE"/>
     <property name="nugetDir" value="z:\Tools\Dev\NuGet\"/>
 
@@ -109,7 +109,7 @@
 		<fail unless="${file::exists(assemblyFullPath)}">The file ${assemblyFullPath} not exist</fail>
 		<copy file="${assemblyFullPath}" tofile="${libNet40}\${assemblyFileName}"/>
 
-		<echo message="Compile .NET 4.5 adn Windows Runtime version"/>
+		<echo message="Compile .NET 4.5 and Windows Runtime version"/>
 		<xmlpoke file=".\Library.csproj" value="v4.5" xpath="//x:Project/x:PropertyGroup[1]/x:TargetFrameworkVersion">
 			<namespaces>
 				<namespace prefix="x" uri="http://schemas.microsoft.com/developer/msbuild/2003" />

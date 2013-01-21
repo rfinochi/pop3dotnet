@@ -72,14 +72,11 @@ pop3Client.connectAsync("SERVER", "USERNAME", "PASSWORD", true)
 	    for (var i = 0, len = messages.size; i < len; i++) {
 		var message = messages[i];
 
-		consoleLog("- Number: " + message.number);
-		consoleLog("\t* MessageId: " + message.messageId);
-		consoleLog("\t* Date: " + message.date);
-		consoleLog("\t* From: " + message.from);
-		consoleLog("\t* To: " + message.to);
-		consoleLog("\t* Subject: " + message.subject);
-		consoleLog("\t* Body Lenght: " + message.body.length);
-		consoleLog("");
+		consoleLog("MessageId: " + message.messageId);
+		consoleLog("Date: " + message.date);
+		consoleLog("From: " + message.from);
+		consoleLog("To: " + message.to);
+		consoleLog("Subject: " + message.subject);
 	    }
 
 	    consoleLog("Disconnecting...");

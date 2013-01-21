@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Pop3</id>
-    <version>2.0.0.1</version>
+    <version>2.0.0.2</version>
     <title>Pop3.NET</title>
     <authors>Rodolfo Finochietti</authors>
     <owners>Rodolfo Finochietti</owners>
@@ -15,7 +15,7 @@
     <language>en-US</language>
     <copyright>
     </copyright>
-    <tags>Pop3 Mail Email</tags>
+    <tags>pop3 mail email winrt windows8</tags>
   </metadata>
   <files>
     <file src="..\readme.txt" target="" />

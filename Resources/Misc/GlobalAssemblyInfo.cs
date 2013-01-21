@@ -20,9 +20,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration( "" )]
 [assembly: AssemblyCulture( "" )]
 
-[assembly: AssemblyVersion( "2.0.0.1" )]
-[assembly: AssemblyFileVersion( "2.0.0.1" )]
-[assembly: AssemblyInformationalVersion( "2.0.0.1" )]
+[assembly: AssemblyVersion( "2.0.0.2" )]
+[assembly: AssemblyFileVersion( "2.0.0.2" )]
+[assembly: AssemblyInformationalVersion( "2.0.0.2" )]
 
 [assembly: ComVisible( false )]
 [assembly: CLSCompliant( true )]
