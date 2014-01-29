@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Pop3</id>
-    <version>2.0.0.2</version>
+    <version>2.0.0.4</version>
     <title>Pop3.NET</title>
     <authors>Rodolfo Finochietti</authors>
     <owners>Rodolfo Finochietti</owners>
@@ -11,11 +11,11 @@
     <iconUrl>http://shockbyte.files.wordpress.com/2012/11/pop3dotnet-200.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Small and simple library for retrieving messages from Post Office Protocol version 3 (POP3) servers with full support for .NET 4.5 asynchronous programming model and Windows Runtime.</description>
-    <releaseNotes>Memory use improved and Windows Runtime support!</releaseNotes>
+    <releaseNotes>Support for .NET 4.5.1 and Windows 8.1!</releaseNotes>
     <language>en-US</language>
     <copyright>
     </copyright>
-    <tags>pop3 mail email winrt windows8</tags>
+    <tags>pop3 mail email winrt windows8 windows8.1</tags>
   </metadata>
   <files>
     <file src="..\readme.txt" target="" />

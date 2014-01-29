@@ -73,7 +73,7 @@ namespace Pop3.IO
                 _socket = new StreamSocket( );
 
                 if ( useSsl )
-                    await _socket.ConnectAsync( new HostName( hostName ), port.ToString( ), SocketProtectionLevel.Ssl );
+                    await _socket.ConnectAsync( new HostName( hostName ), port.ToString( ), SocketProtectionLevel.Tls10 );
                 else
                     await _socket.ConnectAsync( new HostName( hostName ), port.ToString( ) );
 

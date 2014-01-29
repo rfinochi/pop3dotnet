@@ -3,9 +3,9 @@
     <property name="buildlog" value=".\build.log"/>
     <property name="buildlog.level" value="Verbose"/>
 
-    <property name="version" value="2.0.0.2"/>
-    <property name="vsDir" value="C:\Program Files\Microsoft Visual Studio 11.0\Common7\IDE"/>
-    <property name="nugetDir" value="z:\Tools\Dev\NuGet\"/>
+    <property name="version" value="2.0.0.4"/>
+    <property name="vsDir" value="C:\Program Files\Microsoft Visual Studio 12.0\Common7\IDE"/>
+    <property name="nugetDir" value="C:\NuGet\"/>
 
     <property name="assemblyFileName" value="Pop3.dll"/>
     <property name="assemblyFullPath" value=".\bin\Release\${assemblyFileName}"/>
@@ -91,26 +91,16 @@
 				<namespace prefix="x" uri="http://schemas.microsoft.com/developer/msbuild/2003" />
 			</namespaces>
 		</xmlpoke>
-		<xmlpoke file="..\TestClient\TestClient.csproj" value="TRACE" xpath="//x:Project/x:PropertyGroup[3]/x:DefineConstants">
-			<namespaces>
-				<namespace prefix="x" uri="http://schemas.microsoft.com/developer/msbuild/2003" />
-			</namespaces>
-		</xmlpoke>
-		<xmlpoke file="..\Tests\Tests.csproj" value="TRACE" xpath="//x:Project/x:PropertyGroup[3]/x:DefineConstants">
-			<namespaces>
-				<namespace prefix="x" uri="http://schemas.microsoft.com/developer/msbuild/2003" />
-			</namespaces>
-		</xmlpoke>
 		<exec
 			program="devenv.com"
 			basedir="${vsDir}"
-			commandline="/rebuild Release ..\Pop3DotNet.sln"
+			commandline="/rebuild Release ..\Pop3DotNet_Build.sln"
 		/>
 		<fail unless="${file::exists(assemblyFullPath)}">The file ${assemblyFullPath} not exist</fail>
 		<copy file="${assemblyFullPath}" tofile="${libNet40}\${assemblyFileName}"/>
 
-		<echo message="Compile .NET 4.5 and Windows Runtime version"/>
-		<xmlpoke file=".\Library.csproj" value="v4.5" xpath="//x:Project/x:PropertyGroup[1]/x:TargetFrameworkVersion">
+		<echo message="Compile .NET 4.5.1 and Windows Runtime"/>
+		<xmlpoke file=".\Library.csproj" value="v4.5.1" xpath="//x:Project/x:PropertyGroup[1]/x:TargetFrameworkVersion">
 			<namespaces>
 				<namespace prefix="x" uri="http://schemas.microsoft.com/developer/msbuild/2003" />
 			</namespaces>
@@ -120,20 +110,10 @@
 				<namespace prefix="x" uri="http://schemas.microsoft.com/developer/msbuild/2003" />
 			</namespaces>
 		</xmlpoke>
-		<xmlpoke file="..\TestClient\TestClient.csproj" value="TRACE;NET45" xpath="//x:Project/x:PropertyGroup[3]/x:DefineConstants">
-			<namespaces>
-				<namespace prefix="x" uri="http://schemas.microsoft.com/developer/msbuild/2003" />
-			</namespaces>
-		</xmlpoke>
-		<xmlpoke file="..\Tests\Tests.csproj" value="TRACE;NET45" xpath="//x:Project/x:PropertyGroup[3]/x:DefineConstants">
-			<namespaces>
-				<namespace prefix="x" uri="http://schemas.microsoft.com/developer/msbuild/2003" />
-			</namespaces>
-		</xmlpoke>
 		<exec
 			program="devenv.com"
 			basedir="${vsDir}"
-			commandline="/rebuild Release ..\Pop3DotNet.sln"
+			commandline="/rebuild Release ..\Pop3DotNet_BuildRT.sln"
 		/>
 		<fail unless="${file::exists(assemblyFullPath)}">The file ${assemblyFullPath} not exist</fail>
 		<copy file="${assemblyFullPath}" tofile="${libNet45}\${assemblyFileName}"/>
