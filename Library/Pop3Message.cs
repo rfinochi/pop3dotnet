@@ -185,7 +185,7 @@ namespace Pop3
             if ( index < 0 )
                 return null;
 
-            result = result.Remove( 0, ( index + headerName.Length + 2 ) );
+            result = result.Remove( 0, ( index + headerName.Length + 2 ) ).Replace( "\r\n ", "" );
 
             return result.Remove( result.IndexOf( '\r' ), ( result.Length - result.IndexOf( '\r' ) ) ).Replace( "\n", String.Empty ).Trim( );
         }

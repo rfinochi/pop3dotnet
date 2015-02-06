@@ -9,7 +9,9 @@
  * 
  * No warranties expressed or implied, use at your own risk.
  */
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Pop3.Tests.Support
 {
@@ -58,6 +60,7 @@ namespace Pop3.Tests.Support
             results.Enqueue( "user-agent: Microsoft-MacOutlook/14.2.4.120824\r\n" );
             results.Enqueue( "acceptlanguage: en-US\r\n" );
             results.Enqueue( "Content-Type: text/plain; charset=\"us-ascii\"\r\n" );
+            results.Enqueue( String.Format( CultureInfo.InvariantCulture, "Content-Type-Custom: multipart/mixed;{0}{1}boundary=\"--boundary_0_........-....-....-....-............\"\r\n", "\r\n", " " ) );
             results.Enqueue( "Content-Transfer-Encoding: quoted-printable\r\n" );
             results.Enqueue( "MIME-Version: 1.0\r\n" );
             results.Enqueue( ".\r\n" );

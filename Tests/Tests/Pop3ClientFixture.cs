@@ -346,6 +346,23 @@ namespace Pop3.Tests
 
         [TestMethod]
         [Owner( "Rodolfo Finochietti" )]
+        public void RetrieveFoldHeaderOk( )
+        {
+            Pop3Client pop3Client = new Pop3Client( new OnlyHeadersDummyNetworkOperations( ) );
+
+            pop3Client.Connect( "SERVER", "USERNAME", "PASSWORD" );
+
+            List<Pop3Message> messages = new List<Pop3Message>( pop3Client.List( ) );
+
+            pop3Client.RetrieveHeader( messages[ 0 ] );
+            Assert.IsFalse( messages[ 0 ].Retrieved );
+            Assert.IsNotNull( messages[ 0 ].RawHeader );
+            Assert.IsNull( messages[ 0 ].RawMessage );
+            Assert.AreEqual( "multipart/mixed;boundary=\"--boundary_0_........-....-....-....-............\"", messages[ 0 ].GetHeaderData( "Content-Type-Custom" ) );
+        }
+
+        [TestMethod]
+        [Owner( "Rodolfo Finochietti" )]
         public void RetrieveHeaderListOk( )
         {
             Pop3Client pop3Client = new Pop3Client( new OnlyHeadersDummyNetworkOperations( ) );
