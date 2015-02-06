@@ -346,7 +346,7 @@ namespace Pop3.Tests
 
         [TestMethod]
         [Owner( "Rodolfo Finochietti" )]
-        public void RetrieveFoldHeaderOk( )
+        public void RetrieveFoldedHeaderOk( )
         {
             Pop3Client pop3Client = new Pop3Client( new OnlyHeadersDummyNetworkOperations( ) );
 

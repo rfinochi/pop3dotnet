@@ -13,3 +13,6 @@
 
 2.0.0.2:
 	- FIX: Updates in the documentation
+2.0.0.5:
+	- FIX: Add support for folding headers (http://tools.ietf.org/html/rfc5322#section-2.2.3)
+	- NEW: Testing and compiling in .NET 4.5.2

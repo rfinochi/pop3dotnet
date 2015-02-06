@@ -3,9 +3,9 @@
     <property name="buildlog" value=".\build.log"/>
     <property name="buildlog.level" value="Verbose"/>
 
-    <property name="version" value="2.0.0.4"/>
-    <property name="vsDir" value="C:\Program Files\Microsoft Visual Studio 12.0\Common7\IDE"/>
-    <property name="nugetDir" value="C:\NuGet\"/>
+    <property name="version" value="2.0.0.5"/>
+    <property name="vsDir" value="C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE"/>
+    <property name="nugetDir" value="C:\Tools\Dev\NuGet\"/>
 
     <property name="assemblyFileName" value="Pop3.dll"/>
     <property name="assemblyFullPath" value=".\bin\Release\${assemblyFileName}"/>
@@ -99,8 +99,8 @@
 		<fail unless="${file::exists(assemblyFullPath)}">The file ${assemblyFullPath} not exist</fail>
 		<copy file="${assemblyFullPath}" tofile="${libNet40}\${assemblyFileName}"/>
 
-		<echo message="Compile .NET 4.5.1 and Windows Runtime"/>
-		<xmlpoke file=".\Library.csproj" value="v4.5.1" xpath="//x:Project/x:PropertyGroup[1]/x:TargetFrameworkVersion">
+		<echo message="Compile .NET 4.5.2 and Windows Runtime"/>
+		<xmlpoke file=".\Library.csproj" value="v4.5.2" xpath="//x:Project/x:PropertyGroup[1]/x:TargetFrameworkVersion">
 			<namespaces>
 				<namespace prefix="x" uri="http://schemas.microsoft.com/developer/msbuild/2003" />
 			</namespaces>
