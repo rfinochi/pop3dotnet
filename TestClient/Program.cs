@@ -11,9 +11,7 @@
  */
 using System;
 using System.Collections.Generic;
-#if NET45
 using System.Threading.Tasks;
-#endif
 
 namespace Pop3.TestClient
 {
@@ -36,9 +34,7 @@ namespace Pop3.TestClient
             bool useSsl = ( Console.ReadLine( ) == "1" ? true : false );
 
             GetMessages( server, userName, password, useSsl );
-#if NET45
-            //GetMessagesAsync( server, userName, password, useSsl );
-#endif
+            GetMessagesAsync( server, userName, password, useSsl ).Wait( );
 
             Console.WriteLine( "Press any key to close", Environment.NewLine );
             Console.ReadLine( );
@@ -86,8 +82,7 @@ namespace Pop3.TestClient
             }
         }
 
- #if NET45
-       public static async Task GetMessagesAsync( string server, string userName, string password, bool useSsl )
+        public static async Task GetMessagesAsync( string server, string userName, string password, bool useSsl )
         {
             try
             {
@@ -123,6 +118,5 @@ namespace Pop3.TestClient
                 Console.ForegroundColor = ConsoleColor.White;
             }
         }
-#endif
     }
 }

@@ -9,9 +9,7 @@
  * 
  * No warranties expressed or implied, use at your own risk.
  */
-#if NET45
 using System.Threading.Tasks;
-#endif
 
 using Pop3.IO;
 
@@ -40,8 +38,6 @@ namespace Pop3.Tests.Support
 
         #region Public Async Methods
 
-#if NET45
-
         public async Task OpenAsync( string hostName, int port )
         {
             await OpenAsync( hostName, port, false ).ConfigureAwait( false );
@@ -65,7 +61,6 @@ namespace Pop3.Tests.Support
         {
             await Task.Delay( 0 ).ConfigureAwait( false );
         }
-#endif
 
         #endregion
 

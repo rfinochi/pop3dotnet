@@ -1,4 +1,5 @@
-Small and simple library for retrieving messages from Post Office Protocol version 3 (POP3) servers with full support for .NET 4.5 asynchronous programming model and Windows Runtime.
+Small and simple library for retrieving messages from Post Office Protocol version 3 (POP3) servers with full support for .NET 4.6, .NET Core 1.0 and asynchronous programming model.
+
 
 How to use
 

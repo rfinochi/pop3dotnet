@@ -31,6 +31,7 @@ namespace Pop3.Tests.Support
             results.Enqueue( "2 1584\r\n" );
             results.Enqueue( ".\r\n" );
             results.Enqueue( "+OK" );
+
             results.Enqueue( "Delivered-To: rfinochi@shockbyte.net\r\n" );
             results.Enqueue( "Received: by 10.112.163.194 with SMTP id yk2csp334265lbb;\r\n" );
             results.Enqueue( "Tue, 13 Nov 2012 07:57:16 -0800 (PST)\r\n" );
@@ -64,7 +65,9 @@ namespace Pop3.Tests.Support
             results.Enqueue( "Content-Transfer-Encoding: quoted-printable\r\n" );
             results.Enqueue( "MIME-Version: 1.0\r\n" );
             results.Enqueue( ".\r\n" );
+
             results.Enqueue( "+OK" );
+
             results.Enqueue( "Delivered-To: rfinochi2@shockbyte.net\r\n" );
             results.Enqueue( "Received: by 10.112.163.194 with SMTP id yk2csp334323lbb;\r\n" );
             results.Enqueue( "        Tue, 13 Nov 2012 07:57:41 -0800 (PST)\r\n" );

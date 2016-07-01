@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Pop3</RootNamespace>
     <AssemblyName>Pop3</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -38,7 +38,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NET45</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;FULL</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
@@ -49,7 +49,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;NET45</DefineConstants>
+    <DefineConstants>FULL</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
@@ -71,18 +71,37 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\LibraryCore\Base64EncodingHelper.cs">
+      <Link>Base64EncodingHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\LibraryCore\Constants.cs">
+      <Link>Constants.cs</Link>
+    </Compile>
+    <Compile Include="..\LibraryCore\IO\INetworkOperations.cs">
+      <Link>IO\INetworkOperations.cs</Link>
+    </Compile>
+    <Compile Include="..\LibraryCore\IO\TcpClientNetworkOperations.cs">
+      <Link>IO\TcpClientNetworkOperations.cs</Link>
+    </Compile>
+    <Compile Include="..\LibraryCore\IPop3Client.cs">
+      <Link>IPop3Client.cs</Link>
+    </Compile>
+    <Compile Include="..\LibraryCore\Pop3Attachment.cs">
+      <Link>Pop3Attachment.cs</Link>
+    </Compile>
+    <Compile Include="..\LibraryCore\Pop3Client.cs">
+      <Link>Pop3Client.cs</Link>
+    </Compile>
+    <Compile Include="..\LibraryCore\Pop3Message.cs">
+      <Link>Pop3Message.cs</Link>
+    </Compile>
+    <Compile Include="..\LibraryCore\Properties\GlobalSuppressions.cs">
+      <Link>Properties\GlobalSuppressions.cs</Link>
+    </Compile>
     <Compile Include="..\Resources\Misc\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Base64EncodingHelper.cs" />
-    <Compile Include="Constants.cs" />
-    <Compile Include="IPop3Client.cs" />
-    <Compile Include="Properties\GlobalSuppressions.cs" />
-    <Compile Include="IO\INetworkOperations.cs" />
-    <Compile Include="Pop3Client.cs" />
-    <Compile Include="Pop3Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="IO\TcpClientNetworkOperations.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -102,14 +121,14 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\Resources\Media\App.ico">
-      <Link>App.ico</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="..\Resources\Key\Pop3.snk">
       <Link>Pop3.snk</Link>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\Resources\Media\App.ico">
+      <Link>App.ico</Link>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
