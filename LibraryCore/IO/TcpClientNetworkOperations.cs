@@ -39,9 +39,9 @@ namespace Pop3.IO
             Open( hostName, port, false, true );
         }
 
-        public void Open(string hostName, int port, bool useSsl)
+        public void Open( string hostName, int port, bool useSsl )
         {
-            Open(hostName, port, useSsl, true);
+            Open( hostName, port, useSsl, true );
         }
 
         public void Open( string hostName, int port, bool useSsl, bool checkCertificate )
@@ -55,7 +55,7 @@ namespace Pop3.IO
 
                 if ( useSsl )
                 {
-                    _stream = new SslStream(_tcpClient.GetStream(), false, ValidateServerCertificate);
+                    _stream = new SslStream( _tcpClient.GetStream( ), false, ValidateServerCertificate );
                     ( (SslStream)_stream ).AuthenticateAsClient( hostName );
                 }
                 else
@@ -65,13 +65,13 @@ namespace Pop3.IO
             }
         }
 
-        private static bool ValidateServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        private static bool ValidateServerCertificate( object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors )
         {
-            if (!_checkCertificate)
+            if ( !_checkCertificate )
             {
                 return true;
             }
-            if (sslPolicyErrors == SslPolicyErrors.None)
+            if ( sslPolicyErrors == SslPolicyErrors.None )
             {
                 return true;
             }
@@ -113,7 +113,7 @@ namespace Pop3.IO
             _stream.Write( writeBuffer, 0, writeBuffer.Length );
         }
 #endif
-        
+
         public void Close( )
         {
             IDisposable disposableStream = _stream as IDisposable;
@@ -129,7 +129,7 @@ namespace Pop3.IO
                 _tcpClient.Dispose( );
 #endif
                 _tcpClient = null;
-            }                  
+            }
         }
 
         #endregion
@@ -210,7 +210,7 @@ namespace Pop3.IO
         public void Dispose( )
         {
             Close( );
-            
+
             GC.SuppressFinalize( this );
         }
 

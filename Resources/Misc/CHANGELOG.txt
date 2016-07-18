@@ -18,3 +18,5 @@
 	- NEW: Testing and compiling in .NET 4.5.2
 2.1.0.0:
 	- NEW: Testing and compiling in .NET Standard 1.6 RTM and .NET 4.6.1
+2.1.1.0:
+	- NEW: Add support for ignoring invalid (self signed) certificates

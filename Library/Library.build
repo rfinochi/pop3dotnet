@@ -3,8 +3,8 @@
     <property name="buildlog" value=".\build.log"/>
     <property name="buildlog.level" value="Verbose"/>
 
-    <property name="version" value="2.1.0.0"/>
-    <property name="projectJsonVersion" value="2.1.0-0"/>
+    <property name="version" value="2.1.1.0"/>
+    <property name="projectJsonVersion" value="2.1.1-0"/>
     <property name="vsDir" value="C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE"/>
     <property name="nugetDir" value="C:\Users\ml\OneDrive\Tools\Dev\NuGet"/>
 
@@ -209,7 +209,7 @@
             program="nuget.exe"
             basedir="${nugetDir}"
             workingdir=".\"
-            commandline="push Pop3.${version}.nupkg -Source http://www.nuget.org/api/v2/package -Verbosity detailed"
+            commandline="push Pop3.${version}.nupkg -Source https://www.nuget.org/api/v2/package -Verbosity detailed"
         />
 
 		<echo message="Final Cleanup"/>

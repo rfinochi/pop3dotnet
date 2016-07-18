@@ -15,27 +15,37 @@ using Pop3.IO;
 
 namespace Pop3.Tests.Support
 {
-    public abstract class BaseDummyNetworkOperations  : INetworkOperations
+    public abstract class BaseDummyNetworkOperations : INetworkOperations
     {
         #region INetworkOperations
 
         #region Public Methods
 
-        public void Open( string hostName, int port ) { }
+        public void Open( string hostName, int port )
+        {
+        }
 
-        public void Open( string hostName, int port, bool useSsl ) { }
+        public void Open( string hostName, int port, bool useSsl )
+        {
+        }
 
-        public void Open(string hostName, int port, bool useSsl, bool checkCertificate) { }
+        public void Open( string hostName, int port, bool useSsl, bool checkCertificate )
+        {
+        }
 
         public string Read( )
         {
             return GetData( );
         }
 
-        public void Write( string data ) { }
+        public void Write( string data )
+        {
+        }
 
-        public void Close( ) { }
-        
+        public void Close( )
+        {
+        }
+
         #endregion
 
         #region Public Async Methods
@@ -68,7 +78,9 @@ namespace Pop3.Tests.Support
 
         #region Dispose-Finalize Pattern
 
-        public void Dispose( ) { }
+        public void Dispose( )
+        {
+        }
 
         #endregion
 

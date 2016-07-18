@@ -31,30 +31,30 @@ namespace Pop3
 
 #if FULL
         void Connect( string server, string userName, string password );
-        
+
         void Connect( string server, string userName, string password, bool useSsl );
-        
+
         void Connect( string server, string userName, string password, int port, bool useSsl );
 
-        void Connect(string server, string userName, string password, bool useSsl, bool checkCertificate);
-        void Connect(string server, string userName, string password, int port, bool useSsl, bool checkCertificate);
-        
+        void Connect( string server, string userName, string password, bool useSsl, bool checkCertificate );
+        void Connect( string server, string userName, string password, int port, bool useSsl, bool checkCertificate );
+
         void Disconnect( );
-        
+
         IEnumerable<Pop3Message> List( );
-        
+
         void Retrieve( Pop3Message message );
-        
+
         void Retrieve( IEnumerable<Pop3Message> messages );
-        
+
         void RetrieveHeader( Pop3Message message );
-        
+
         void RetrieveHeader( IEnumerable<Pop3Message> messages );
-        
+
         IEnumerable<Pop3Message> ListAndRetrieve( );
-        
+
         IEnumerable<Pop3Message> ListAndRetrieveHeader( );
-        
+
         void Delete( Pop3Message message );
 #endif
 
@@ -64,32 +64,32 @@ namespace Pop3
 
 #if !NET40
         Task ConnectAsync( string server, string userName, string password );
-        
+
         Task ConnectAsync( string server, string userName, string password, bool useSsl );
-        
+
         Task ConnectAsync( string server, string userName, string password, int port, bool useSsl );
-        
+
         Task DisconnectAsync( );
-        
+
         [SuppressMessage( "Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures" )]
         Task<IEnumerable<Pop3Message>> ListAsync( );
-        
+
         Task RetrieveAsync( Pop3Message message );
-        
+
         Task RetrieveAsync( IEnumerable<Pop3Message> messages );
-        
+
         Task RetrieveHeaderAsync( Pop3Message message );
-        
+
         Task RetrieveHeaderAsync( IEnumerable<Pop3Message> messages );
-        
+
         [SuppressMessage( "Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures" )]
         Task<IEnumerable<Pop3Message>> ListAndRetrieveAsync( );
-        
+
         [SuppressMessage( "Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures" )]
         Task<IEnumerable<Pop3Message>> ListAndRetrieveHeaderAsync( );
-        
+
         Task DeleteAsync( Pop3Message message );
- #endif
+#endif
 
         #endregion
     }

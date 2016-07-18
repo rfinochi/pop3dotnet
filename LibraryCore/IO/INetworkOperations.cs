@@ -12,8 +12,8 @@ namespace Pop3.IO
 
         void Open( string hostName, int port, bool useSsl );
 
-        void Open(string hostName, int port, bool useSsl, bool checkCertificate);
-        
+        void Open( string hostName, int port, bool useSsl, bool checkCertificate );
+
         string Read( );
 
         void Write( string data );
@@ -23,7 +23,7 @@ namespace Pop3.IO
 
         #endregion
 
-    #region Async Methods
+        #region Async Methods
 
 #if !NET40
         Task OpenAsync( string hostName, int port );
