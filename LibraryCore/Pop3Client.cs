@@ -71,28 +71,37 @@ namespace Pop3
 #if FULL
         public void Connect( string server, string userName, string password )
         {
-            Connect( server, userName, password, 110, false );
+            Connect( server, userName, password, 110, false, true );
         }
 
         public void Connect( string server, string userName, string password, bool useSsl )
         {
-            Connect( server, userName, password, ( useSsl ? 995 : 110 ), useSsl );
+            Connect( server, userName, password, ( useSsl ? 995 : 110 ), useSsl, true );
         }
 
+        public void Connect(string server, string userName, string password, bool useSsl, bool checkCertificate)
+        {
+            Connect(server, userName, password, (useSsl ? 995 : 110), useSsl, checkCertificate);
+        }
         public void Connect( string server, string userName, string password, int port, bool useSsl )
         {
-            if ( this.IsConnected )
-                throw new InvalidOperationException( "Pop3 client already connected" );
+            Connect(server, userName, password, port, useSsl, true);
+        }
 
-            _networkOperations.Open( server, port, useSsl );
+        public void Connect(string server, string userName, string password, int port, bool useSsl, bool checkCertificate)
+        {
+            if (this.IsConnected)
+                throw new InvalidOperationException("Pop3 client already connected");
 
-            string response = _networkOperations.Read( );
+            _networkOperations.Open(server, port, useSsl, checkCertificate);
 
-            if ( String.IsNullOrEmpty( response ) || response.Substring( 0, 3 ) != "+OK" )
-                throw new InvalidOperationException( response );
+            string response = _networkOperations.Read();
 
-            SendCommand( String.Format( CultureInfo.InvariantCulture, "USER {0}", userName ) );
-            SendCommand( String.Format( CultureInfo.InvariantCulture, "PASS {0}", password ) );
+            if (String.IsNullOrEmpty(response) || response.Substring(0, 3) != "+OK")
+                throw new InvalidOperationException(response);
+
+            SendCommand(String.Format(CultureInfo.InvariantCulture, "USER {0}", userName));
+            SendCommand(String.Format(CultureInfo.InvariantCulture, "PASS {0}", password));
 
             this.IsConnected = true;
         }

@@ -35,6 +35,9 @@ namespace Pop3
         void Connect( string server, string userName, string password, bool useSsl );
         
         void Connect( string server, string userName, string password, int port, bool useSsl );
+
+        void Connect(string server, string userName, string password, bool useSsl, bool checkCertificate);
+        void Connect(string server, string userName, string password, int port, bool useSsl, bool checkCertificate);
         
         void Disconnect( );
         
