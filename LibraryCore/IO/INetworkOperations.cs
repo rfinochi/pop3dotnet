@@ -11,6 +11,8 @@ namespace Pop3.IO
         void Open( string hostName, int port );
 
         void Open( string hostName, int port, bool useSsl );
+
+        void Open(string hostName, int port, bool useSsl, bool checkCertificate);
         
         string Read( );
 

@@ -25,6 +25,8 @@ namespace Pop3.Tests.Support
 
         public void Open( string hostName, int port, bool useSsl ) { }
 
+        public void Open(string hostName, int port, bool useSsl, bool checkCertificate) { }
+
         public string Read( )
         {
             return GetData( );

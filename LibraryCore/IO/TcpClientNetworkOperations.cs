@@ -13,6 +13,7 @@ using System;
 using System.IO;
 using System.Net.Security;
 using System.Net.Sockets;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,6 +25,7 @@ namespace Pop3.IO
 
         private TcpClient _tcpClient;
         private Stream _stream;
+        private static bool _checkCertificate;
 
         #endregion
 
@@ -34,11 +36,18 @@ namespace Pop3.IO
 #if FULL
         public void Open( string hostName, int port )
         {
-            Open( hostName, port, false );
+            Open( hostName, port, false, true );
         }
-        
-        public void Open( string hostName, int port, bool useSsl )
+
+        public void Open(string hostName, int port, bool useSsl)
         {
+            Open(hostName, port, useSsl, true);
+        }
+
+        public void Open( string hostName, int port, bool useSsl, bool checkCertificate )
+        {
+            _checkCertificate = checkCertificate;
+
             if ( _tcpClient == null )
             {
                 _tcpClient = new TcpClient( );
@@ -46,7 +55,7 @@ namespace Pop3.IO
 
                 if ( useSsl )
                 {
-                    _stream = new SslStream( _tcpClient.GetStream( ), false );
+                    _stream = new SslStream(_tcpClient.GetStream(), false, ValidateServerCertificate);
                     ( (SslStream)_stream ).AuthenticateAsClient( hostName );
                 }
                 else
@@ -54,6 +63,19 @@ namespace Pop3.IO
                     _stream = _tcpClient.GetStream( );
                 }
             }
+        }
+
+        private static bool ValidateServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        {
+            if (!_checkCertificate)
+            {
+                return true;
+            }
+            if (sslPolicyErrors == SslPolicyErrors.None)
+            {
+                return true;
+            }
+            return false;
         }
 
         public string Read( )
