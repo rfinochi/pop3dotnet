@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Pop3</id>
-    <version>2.1.1.0</version>
+    <version>2.1.2.0</version>
     <title>Pop3.NET</title>
     <authors>Rodolfo Finochietti</authors>
     <owners>Rodolfo Finochietti</owners>
@@ -12,7 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Small and simple library for retrieving messages from Post Office Protocol version 3 (POP3) servers with full support for .NET 4.6, .NET Core 1.0, Windows Runtime and asynchronous programming model.</description>
     <summary>Small and simple library for retrieving messages from Post Office Protocol version 3 (POP3) servers with full support for .NET 4.6, .NET Core 1.0, Windows Runtime and asynchronous programming model.</summary>
-    <releaseNotes>Support for .NET 4.6.1 and .NET Core 1.0!</releaseNotes>
+    <releaseNotes>Add support for multi-line headers</releaseNotes>
     <language>en-US</language>
     <copyright>
 	Rodolfo Finochietti

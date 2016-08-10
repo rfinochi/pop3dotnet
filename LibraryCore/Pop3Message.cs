@@ -213,9 +213,9 @@ namespace Pop3
             if ( String.IsNullOrEmpty( RawMessage ) && String.IsNullOrEmpty( RawHeader ) )
                 throw new InvalidOperationException( "Header can't be null" );
 
-            if ( !headerName.EndsWith( ":", StringComparison.OrdinalIgnoreCase  ) )
+            if ( !headerName.EndsWith( ":", StringComparison.OrdinalIgnoreCase ) )
                 headerName += ":";
-            
+
             string result = String.IsNullOrEmpty( RawHeader ) ? RawMessage : RawHeader;
 
             if ( result == null )
@@ -228,7 +228,17 @@ namespace Pop3
 
             result = result.Remove( 0, ( index + headerName.Length + 2 ) ).Replace( "\r\n ", "" );
 
-            return result.Remove( result.IndexOf( '\r' ), ( result.Length - result.IndexOf( '\r' ) ) ).Replace( "\n", String.Empty ).Trim( );
+            index = Regex.Match( result, @"^[A-Za-z\-]+\:.*$", RegexOptions.Multiline ).Index;
+
+            if ( index > 0 )
+            {
+                return result.Remove( index, ( result.Length - index ) ).Trim( );
+            }
+            else
+            {
+                index = result.IndexOf( '\r' );
+                return result.Remove( index, ( result.Length - index ) ).Replace( "\n", String.Empty ).Trim( );
+            }
         }
 
         internal void ParseRawMessage( )

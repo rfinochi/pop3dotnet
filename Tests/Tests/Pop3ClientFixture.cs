@@ -280,6 +280,7 @@ namespace Pop3.Tests
             Assert.AreEqual( "quoted-printable", messages[ 0 ].ContentTransferEncoding );
             Assert.IsNull( messages[ 0 ].Body );
             Assert.AreEqual( "1.0", messages[ 0 ].GetHeaderData( "MIME-Version" ) );
+            Assert.AreEqual( "by 10.112.163.194 with SMTP id yk2csp334265lbb;\r\nTue, 13 Nov 2012 07:57:16 -0800 (PST)", messages[ 0 ].GetHeaderData( "Received" ) );
             Assert.AreEqual( "Ac3Bt4nMDtM3y3FyQ1yd71JVtsSGJQ==", messages[ 0 ].GetHeaderData( "Thread-Index" ) );
             Assert.IsFalse( messages[ 1 ].Retrieved );
             Assert.IsNotNull( messages[ 1 ].RawHeader );
@@ -702,6 +703,7 @@ namespace Pop3.Tests
             Assert.AreEqual( "quoted-printable", messages[ 0 ].ContentTransferEncoding );
             Assert.IsNull( messages[ 0 ].Body );
             Assert.AreEqual( "1.0", messages[ 0 ].GetHeaderData( "MIME-Version" ) );
+            Assert.AreEqual( "by 10.112.163.194 with SMTP id yk2csp334265lbb;\r\nTue, 13 Nov 2012 07:57:16 -0800 (PST)", messages[ 0 ].GetHeaderData( "Received" ) );
             Assert.AreEqual( "Ac3Bt4nMDtM3y3FyQ1yd71JVtsSGJQ==", messages[ 0 ].GetHeaderData( "Thread-Index" ) );
             Assert.IsFalse( messages[ 1 ].Retrieved );
             Assert.IsNotNull( messages[ 1 ].RawHeader );

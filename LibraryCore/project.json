@@ -1,7 +1,7 @@
 {
   "title": "Pop3.NET",
   "description": "Small and simple library for retrieving messages from Post Office Protocol version 3 (POP3) servers.",
-  "version": "2.1.1-0",
+  "version": "2.1.2-0",
   "copyright": "Rodolfo Finochietti",
   "dependencies": {
     "NETStandard.Library": "1.6.0",

@@ -1,13 +1,13 @@
 {
-  "version": "2.1.1-0",
+  "version": "2.1.2-0",
   "buildOptions": {
     "emitEntryPoint": true
   },
   "dependencies": {
-    "LibraryCore": "2.1.1-0",
+    "LibraryCore": "2.1.2-0",
     "Microsoft.NETCore.App": {
       "type": "platform",
-      "version": "2.1.1-0"
+      "version": "2.1.2-0"
     }
   },
   "frameworks": {
