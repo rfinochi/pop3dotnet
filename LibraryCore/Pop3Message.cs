@@ -11,7 +11,6 @@
  */
 using System;
 using System.Globalization;
-using System.Text;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
@@ -229,8 +228,7 @@ namespace Pop3
 
             result = result.Remove( 0, ( index + headerName.Length + 2 ) ).Replace( "\r\n ", "" );
 
-            int lastIndex = Regex.Match(result, @"^[A-Za-z\-]+\:.*$", RegexOptions.Multiline).Index;
-            return result.Remove( lastIndex, ( result.Length - lastIndex ) ).Trim( );
+            return result.Remove( result.IndexOf( '\r' ), ( result.Length - result.IndexOf( '\r' ) ) ).Replace( "\n", String.Empty ).Trim( );
         }
 
         internal void ParseRawMessage( )
