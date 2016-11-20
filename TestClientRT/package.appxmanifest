@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
-  <Identity Name="52a70f99-c04e-4f20-a378-db464c687533" Version="2.1.2.0" Publisher="CN=Rodolfo" />
+  <Identity Name="52a70f99-c04e-4f20-a378-db464c687533" Version="2.1.4.0" Publisher="CN=Rodolfo" />
   <Properties>
     <DisplayName>Pop3RT Test Client</DisplayName>
     <PublisherDisplayName>Rodolfo Finochietti - http://shockbyte.net</PublisherDisplayName>

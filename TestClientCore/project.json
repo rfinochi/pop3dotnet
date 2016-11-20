@@ -4,15 +4,17 @@
     "emitEntryPoint": true
   },
   "dependencies": {
-    "LibraryCore": "2.1.2-0",
-    "Microsoft.NETCore.App": {
-      "type": "platform",
-      "version": "2.1.2-0"
-    }
+    "LibraryCore": "2.1.4-0",
+    "Microsoft.NETCore.App": "1.1.0"
   },
   "frameworks": {
-    "netcoreapp1.0": {
+    "netcoreapp1.1": {
       "imports": "dnxcore50"
+
     }
+  },
+  "runtimes": {
+    "win10-x86": {},
+    "win10-x64": {}
   }
 }

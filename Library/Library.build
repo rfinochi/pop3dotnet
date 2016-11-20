@@ -3,8 +3,8 @@
     <property name="buildlog" value=".\build.log"/>
     <property name="buildlog.level" value="Verbose"/>
 
-    <property name="version" value="2.1.2.0"/>
-    <property name="projectJsonVersion" value="2.1.2-0"/>
+    <property name="version" value="2.1.4.0"/>
+    <property name="projectJsonVersion" value="2.1.4-0"/>
     <property name="vsDir" value="C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE"/>
     <property name="nugetDir" value="C:\Users\ml\OneDrive\Tools\Dev\NuGet"/>
 
@@ -16,8 +16,8 @@
 	<property name="lib" value=".\lib"/>
 	<property name="libRT" value="${lib}\win81"/>
 	<property name="libNet40" value="${lib}\net40"/>
-	<property name="libNet46" value="${lib}\net461"/>
-	<property name="libNetCore" value="${lib}\netcoreapp"/>
+	<property name="libNet46" value="${lib}\net462"/>
+	<property name="libNetCore" value="${lib}\netstandard1.6"/>
 	<property name="globalAssemblyInfo" value="..\Resources\Misc\GlobalAssemblyInfo.cs" />
 
     <target name="buildAndDelpoy">
@@ -140,11 +140,9 @@
 							  string content = reader.ReadToEnd();
 							  reader.Close();
 
-							  string version = string.Format("\"version\": \"{0}\"", project.Properties["projectJsonVersion"]);
 							  string libraryVersion = string.Format("\"LibraryCore\": \"{0}\"", project.Properties["projectJsonVersion"]);
 							  
-							  string newContent = Regex.Replace(content, @"""version"": "".*""", version);
-							  newContent = Regex.Replace(newContent, @"""LibraryCore"": "".*""", libraryVersion);
+							  string newContent = Regex.Replace(content, @"""LibraryCore"": "".*""", libraryVersion);
 
 							  StreamWriter writer = new StreamWriter(project.Properties["filename"], false);
 							  writer.Write(newContent);
@@ -175,8 +173,8 @@
 		<fail unless="${file::exists(assemblyFullPath)}">The file ${assemblyFullPath} not exist</fail>
 		<copy file="${assemblyFullPath}" tofile="${libNet40}\${assemblyFileName}"/>
 
-		<echo message="Compile .NET 4.6.1 .NET Core 1.0 and Windows Runtime"/>
-		<xmlpoke file=".\Library.csproj" value="v4.6.1" xpath="//x:Project/x:PropertyGroup[1]/x:TargetFrameworkVersion">
+		<echo message="Compile .NET 4.6.2 .NET Core 1.1.0 and Windows Runtime"/>
+		<xmlpoke file=".\Library.csproj" value="v4.6.2" xpath="//x:Project/x:PropertyGroup[1]/x:TargetFrameworkVersion">
 			<namespaces>
 				<namespace prefix="x" uri="http://schemas.microsoft.com/developer/msbuild/2003" />
 			</namespaces>

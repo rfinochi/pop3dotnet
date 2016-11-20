@@ -25,7 +25,9 @@ namespace Pop3.IO
 
         private TcpClient _tcpClient;
         private Stream _stream;
+#if FULL
         private static bool _checkCertificate;
+#endif
 
         #endregion
 
