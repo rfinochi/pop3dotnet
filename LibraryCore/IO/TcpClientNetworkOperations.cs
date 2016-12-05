@@ -86,8 +86,9 @@ namespace Pop3.IO
                 throw new InvalidOperationException( "The Network Stream is null" );
 
             byte[] data = new byte[ 1 ];
+            char[] chars = new char[ 1 ];
             StringBuilder sb = new StringBuilder( );
-            UTF8Encoding enc = new UTF8Encoding( );
+            Decoder decoder = Encoding.UTF8.GetDecoder( );
 
             while ( true )
             {
@@ -95,7 +96,11 @@ namespace Pop3.IO
                 if ( dataLength != 1 )
                     break;
 
-                sb.Append( enc.GetString( data, 0, 1 ) );
+                int charCount = decoder.GetChars( data, 0, 1, chars, 0 );
+                if ( charCount == 0 )
+                    continue;
+
+                sb.Append( chars[ 0 ] );
 
                 if ( data[ 0 ] == '\n' )
                     break;
