@@ -24,3 +24,5 @@
 	- FIX: Reading entire header including line breaks
 2.1.4.0:
 	- NEW: Testing in .NET Core 1.1.0 and compiling for .NET Standard 1.6 and .NET 4.6.2
+2.1.5.0:
+	- NEW: Testing in .NET Core 2.0.0 and compiling for .NET Standard 2.0 and .NET 4.7

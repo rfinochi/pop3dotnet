@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>Small and simple library for retrieving messages from Post Office Protocol version 3 (POP3) servers.</Description>
+    <Copyright>Rodolfo Finochietti</Copyright>
+    <AssemblyTitle>Pop3.NET</AssemblyTitle>
+    <VersionPrefix>2.1.5.0</VersionPrefix>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Pop3</AssemblyName>
+    <PackageId>LibraryCore</PackageId>
+    <NetStandardImplicitPackageVersion>2.0.0</NetStandardImplicitPackageVersion>
+    <PackageTargetFallback>$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Net.Security" Version="4.3.0" />
+  </ItemGroup>
+</Project>

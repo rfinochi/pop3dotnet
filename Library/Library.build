@@ -3,48 +3,31 @@
     <property name="buildlog" value=".\build.log"/>
     <property name="buildlog.level" value="Verbose"/>
 
-    <property name="version" value="2.1.4.0"/>
-    <property name="projectJsonVersion" value="2.1.4-0"/>
-    <property name="vsDir" value="C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE"/>
-    <property name="nugetDir" value="C:\Users\ml\OneDrive\Tools\Dev\NuGet"/>
+    <property name="version" value="2.1.5.0"/>
+    <property name="projectVersion" value="2.1.5"/>
+    <property name="vsDir" value="C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE"/>
+    <property name="nugetDir" value="c:\Users\ml\OneDrive\Tools\Dev\NuGet"/>
 
     <property name="assemblyFileName" value="Pop3.dll"/>
     <property name="assemblyFullPath" value=".\bin\Release\${assemblyFileName}"/>
-    <property name="assemblyFullPathCore" value="..\LibraryCore\bin\Release\netstandard1.6\${assemblyFileName}"/>
-    <property name="winRTPackageFileName" value="Pop3.winmd"/>
-    <property name="winRTPackageFullPath" value="..\LibraryRT\bin\Release\${winRTPackageFileName}"/>
+    <property name="assemblyFullPathCore" value="..\LibraryCore\bin\Release\netstandard2.0\${assemblyFileName}"/>
 	<property name="lib" value=".\lib"/>
-	<property name="libRT" value="${lib}\win81"/>
 	<property name="libNet40" value="${lib}\net40"/>
-	<property name="libNet46" value="${lib}\net462"/>
-	<property name="libNetCore" value="${lib}\netstandard1.6"/>
+	<property name="libNet47" value="${lib}\net47"/>
+	<property name="libNetCore" value="${lib}\netstandard2.0"/>
 	<property name="globalAssemblyInfo" value="..\Resources\Misc\GlobalAssemblyInfo.cs" />
 
     <target name="buildAndDelpoy">
 		<echo message="Clean old deploy directory"/>
 		<delete dir="${lib}" />
 		<mkdir dir="${lib}"/>
-        <mkdir dir="${libRT}"/>
         <mkdir dir="${libNet40}"/>
-        <mkdir dir="${libNet46}"/>
+        <mkdir dir="${libNet47}"/>
         <mkdir dir="${libNetCore}"/>
 
 		<echo message="Change version number"/>
-		<xmlpoke
-            file=".\Library.nuspec"
-            xpath="/package/metadata/version"
-            value="${version}"
-        />
+		<xmlpoke file=".\Library.nuspec" xpath="/package/metadata/version" value="${version}" />
 		
-		<xmlpoke
-            file="..\TestClientRT\package.appxmanifest"
-            xpath="/x:Package/x:Identity/@Version"
-            value="${version}">
-			<namespaces>
-				<namespace prefix="x" uri="http://schemas.microsoft.com/appx/2010/manifest" />
-			</namespaces>
-		</xmlpoke>
-
 		<foreach item="File" property="filename">
 			<in>
 				<items basedir="..\Resources\Misc">
@@ -84,75 +67,8 @@
 			</do>
 		</foreach>
 
-		<foreach item="File" property="filename">
-			<in>
-				<items basedir="..\LibraryCore">
-					 <include name="**\project.json"></include>
-				</items>
-			</in>
-			<do>
-				<script language="c#">
-					<references>
-						<include name="System.dll" />
-					</references>
-					<imports>
-						<import namespace="System.Text.RegularExpressions" />
-					</imports>
-					<code><![CDATA[
-						 public static void ScriptMain(Project project)
-						 {
-							  StreamReader reader = new StreamReader(project.Properties["filename"]);
-							  string content = reader.ReadToEnd();
-							  reader.Close();
-
-							  string version = string.Format("\"version\": \"{0}\"", project.Properties["projectJsonVersion"]);
-							  
-							  string newContent = Regex.Replace(content, @"""version"": "".*""", version);
-
-							  StreamWriter writer = new StreamWriter(project.Properties["filename"], false);
-							  writer.Write(newContent);
-							  writer.Close();
-						 }
-						]]>
-					</code>
-				</script>
-			</do>
-		</foreach>
-
-		<foreach item="File" property="filename">
-			<in>
-				<items basedir="..\TestClientCore">
-					 <include name="**\project.json"></include>
-				</items>
-			</in>
-			<do>
-				<script language="c#">
-					<references>
-						<include name="System.dll" />
-					</references>
-					<imports>
-						<import namespace="System.Text.RegularExpressions" />
-					</imports>
-					<code><![CDATA[
-						 public static void ScriptMain(Project project)
-						 {
-							  StreamReader reader = new StreamReader(project.Properties["filename"]);
-							  string content = reader.ReadToEnd();
-							  reader.Close();
-
-							  string libraryVersion = string.Format("\"LibraryCore\": \"{0}\"", project.Properties["projectJsonVersion"]);
-							  
-							  string newContent = Regex.Replace(content, @"""LibraryCore"": "".*""", libraryVersion);
-
-							  StreamWriter writer = new StreamWriter(project.Properties["filename"], false);
-							  writer.Write(newContent);
-							  writer.Close();
-						 }
-						]]>
-					</code>
-				</script>
-			</do>
-		</foreach>
+		<xmlpoke file="..\LibraryCore\LibraryCore.csproj" value="${version}" xpath="//Project/PropertyGroup[1]/VersionPrefix"/>
+		<xmlpoke file="..\TestClientCore\TestClientCore.csproj" value="${version}" xpath="//Project/PropertyGroup[1]/VersionPrefix"/>
 
 		<echo message="Compile .NET 4.0 version"/>
 		<xmlpoke file=".\Library.csproj" value="v4.0" xpath="//x:Project/x:PropertyGroup[1]/x:TargetFrameworkVersion">
@@ -173,8 +89,8 @@
 		<fail unless="${file::exists(assemblyFullPath)}">The file ${assemblyFullPath} not exist</fail>
 		<copy file="${assemblyFullPath}" tofile="${libNet40}\${assemblyFileName}"/>
 
-		<echo message="Compile .NET 4.6.2 .NET Core 1.1.0 and Windows Runtime"/>
-		<xmlpoke file=".\Library.csproj" value="v4.6.2" xpath="//x:Project/x:PropertyGroup[1]/x:TargetFrameworkVersion">
+		<echo message="Compile .NET 4.7 and .NET Standard 2.0"/>
+		<xmlpoke file=".\Library.csproj" value="v4.7" xpath="//x:Project/x:PropertyGroup[1]/x:TargetFrameworkVersion">
 			<namespaces>
 				<namespace prefix="x" uri="http://schemas.microsoft.com/developer/msbuild/2003" />
 			</namespaces>
@@ -190,11 +106,10 @@
 			commandline="/rebuild Release ..\Pop3DotNet_BuildComplete.sln"
 		/>
 		<fail unless="${file::exists(assemblyFullPath)}">The file ${assemblyFullPath} not exist</fail>
-		<copy file="${assemblyFullPath}" tofile="${libNet46}\${assemblyFileName}"/>
+		<copy file="${assemblyFullPath}" tofile="${libNet47}\${assemblyFileName}"/>
+		<copy file="${assemblyFullPath}" tofile="${lib}\${assemblyFileName}"/>
 		<fail unless="${file::exists(assemblyFullPathCore)}">The file ${assemblyFullPathCore} not exist</fail>
 		<copy file="${assemblyFullPathCore}" tofile="${libNetCore}\${assemblyFileName}"/>
-		<fail unless="${file::exists(winRTPackageFullPath)}">The file ${winRTPackageFullPath} not exist</fail>
-		<copy file="${winRTPackageFullPath}" tofile="${libRT}\${winRTPackageFileName}"/>
 
 		<echo message="Deploy in nuget.org"/>
 		<exec
@@ -207,7 +122,7 @@
             program="nuget.exe"
             basedir="${nugetDir}"
             workingdir=".\"
-            commandline="push Pop3.${version}.nupkg -Source https://www.nuget.org/api/v2/package -Verbosity detailed"
+            commandline="push Pop3.${projectVersion}.nupkg -Source https://www.nuget.org/api/v2/package -Verbosity detailed"
         />
 
 		<echo message="Final Cleanup"/>

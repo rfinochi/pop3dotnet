@@ -73,14 +73,14 @@ namespace Pop3.TestClient
 
                 Console.WriteLine( "Disconnecting...{0}", Environment.NewLine );
                 pop3Client.Disconnect( );
-            }
-            catch ( Exception ex )
+        }
+            catch (Exception ex )
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine( ex.Message );
+                Console.WriteLine(ex.Message );
                 Console.ForegroundColor = ConsoleColor.White;
             }
-        }
+}
 
         public static async Task GetMessagesAsync( string server, string userName, string password, bool useSsl )
         {
