@@ -1,7 +1,6 @@
-Small and simple library for retrieving messages from Post Office Protocol version 3 (POP3) servers with full support for .NET 4.7, .NET Standard 2.0 and asynchronous programming model.
+# Small and simple library for retrieving messages from Post Office Protocol version 3 (POP3) servers with full support for .NET 4.7, .NET Standard 2.0 and asynchronous programming model.
 
-
-How to use
+## How to use
 
 Connect to Pop3 Server:
 
@@ -29,8 +28,7 @@ Disconnect from the server:
 
 pop3Client.Disconnect( );
 
-
-How to use in asynchronously way
+## How to use in asynchronously way
 
 Connect to Pop3 Server:
 
