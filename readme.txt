@@ -1,4 +1,4 @@
-Small and simple library for retrieving messages from Post Office Protocol version 3 (POP3) servers with full support for .NET 4.6, .NET Core 1.0, Windows Runtime and asynchronous programming model.
+Small and simple library for retrieving messages from Post Office Protocol version 3 (POP3) servers with full support for .NET 4.7, .NET Standard 2.0 and asynchronous programming model.
 
 
 How to use
@@ -57,32 +57,3 @@ foreach ( Pop3Message message in messages )
 Disconnect from the server:
 
 await pop3Client.DisconnectAsync( );
-
-
-How to use in Windows Runtime
-
-var pop3Client = new Pop3.Pop3Client();
-
-consoleLog("Connecting to POP3 server...");
-pop3Client.connectAsync("SERVER", "USERNAME", "PASSWORD", true)
-	.then(function () {
-	    consoleLog("List and Retrieve Messages...");
-	    return pop3Client.listAndRetrieveAsync();
-	})
-	.then(function (messages) {
-	    for (var i = 0, len = messages.size; i < len; i++) {
-		var message = messages[i];
-
-		consoleLog("MessageId: " + message.messageId);
-		consoleLog("Date: " + message.date);
-		consoleLog("From: " + message.from);
-		consoleLog("To: " + message.to);
-		consoleLog("Subject: " + message.subject);
-	    }
-
-	    consoleLog("Disconnecting...");
-	    return pop3Client.disconnectAsync();
-	})
-	.done(function () {
-	    consoleLog("Communication closed...");
-	});
