@@ -10,7 +10,6 @@
 2.0.0.0:
 	- FIX: Improve of memory use.
 	- NEW: Windows Runtime support
-
 2.0.0.2:
 	- FIX: Updates in the documentation
 2.0.0.5:
@@ -26,3 +25,5 @@
 	- NEW: Testing in .NET Core 1.1.0 and compiling for .NET Standard 1.6 and .NET 4.6.2
 2.1.5.0:
 	- NEW: Testing in .NET Core 2.0.0 and compiling for .NET Standard 2.0 and .NET 4.7
+2.2.0.0:
+	- FIX: Fix a bug that prevent to download large attachments

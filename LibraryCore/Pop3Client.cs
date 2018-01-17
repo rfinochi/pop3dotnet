@@ -160,14 +160,18 @@ namespace Pop3
 
             SendCommand( "TOP", "0", message );
 
+            StringBuilder rawHeader = new StringBuilder();
+
             while ( true )
             {
-                string response = _networkOperations.Read( );
+                string response = _networkOperations.Read();
                 if ( response == ".\r\n" )
                     break;
 
-                message.RawHeader += response;
+                rawHeader.Append( response );
             }
+
+            message.RawHeader = rawHeader.ToString();
         }
 
         public void RetrieveHeader( IEnumerable<Pop3Message> messages )
@@ -190,14 +194,18 @@ namespace Pop3
 
             SendCommand( "RETR", message );
 
+            StringBuilder rawMessage = new StringBuilder( );
+
             while ( true )
             {
                 string response = _networkOperations.Read( );
                 if ( response == ".\r\n" )
                     break;
 
-                message.RawMessage += response;
+                rawMessage.Append( response );
             }
+
+            message.RawMessage = rawMessage.ToString( );
             message.ParseRawMessage( );
 
             message.Retrieved = true;
@@ -336,14 +344,18 @@ namespace Pop3
 
             await SendCommandAsync( "TOP", "0", message ).ConfigureAwait( false );
 
+            StringBuilder rawHeader = new StringBuilder();
+
             while ( true )
             {
                 string response = await _networkOperations.ReadAsync( ).ConfigureAwait( false );
                 if ( response == ".\r\n" )
                     break;
 
-                message.RawHeader += response;
+                rawHeader.Append( response );
             }
+
+            message.RawHeader = rawHeader.ToString();
         }
 
         public async Task RetrieveHeaderAsync( IEnumerable<Pop3Message> messages )
@@ -368,15 +380,18 @@ namespace Pop3
 
             await SendCommandAsync( "RETR", message ).ConfigureAwait( false );
 
+            StringBuilder rawMessage = new StringBuilder();
+
             while ( true )
             {
                 string response = await _networkOperations.ReadAsync( ).ConfigureAwait( false );
                 if ( response == ".\r\n" )
                     break;
 
-                message.RawMessage += response;
+                rawMessage.Append( response );
             }
 
+            message.RawMessage = rawMessage.ToString( );
             message.ParseRawMessage( );
 
             message.Retrieved = true;

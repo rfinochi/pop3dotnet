@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <VersionPrefix>2.1.5.0</VersionPrefix>
+    <VersionPrefix>2.2.0.0</VersionPrefix>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssemblyName>TestClientCore</AssemblyName>
     <OutputType>Exe</OutputType>
