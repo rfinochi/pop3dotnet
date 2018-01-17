@@ -67,33 +67,3 @@ foreach ( Pop3Message message in messages )
 ```c#
 await pop3Client.DisconnectAsync( );
 ```
-
-##How to use in Windows Runtime
-
-```javascript
-var pop3Client = new Pop3.Pop3Client();
-
-consoleLog("Connecting to POP3 server...");
-pop3Client.connectAsync("SERVER", "USERNAME", "PASSWORD", true)
-	.then(function () {
-	    consoleLog("List and Retrieve Messages...");
-	    return pop3Client.listAndRetrieveAsync();
-	})
-	.then(function (messages) {
-	    for (var i = 0, len = messages.size; i < len; i++) {
-		var message = messages[i];
-
-		consoleLog("MessageId: " + message.messageId);
-		consoleLog("Date: " + message.date);
-		consoleLog("From: " + message.from);
-		consoleLog("To: " + message.to);
-		consoleLog("Subject: " + message.subject);
-	    }
-
-	    consoleLog("Disconnecting...");
-	    return pop3Client.disconnectAsync();
-	})
-	.done(function () {
-	    consoleLog("Communication closed...");
-	});
-```
