@@ -4,7 +4,7 @@
 	- NEW: NAnt build and deploy script.
 1.5.0.0:
 	- NEW: Asynchronous programming model in .NET 4.5 version.
-	- NEW: Unit testing of all library methods.
+	- NEW: Unit Tested of all library methods.
 1.5.0.1:
 	- FIX: Improve of async methods to avoid deadlocks using ConfigureAwait(false).
 2.0.0.0:
@@ -14,16 +14,18 @@
 	- FIX: Updates in the documentation
 2.0.0.5:
 	- FIX: Add support for folding headers (http://tools.ietf.org/html/rfc5322#section-2.2.3)
-	- NEW: Testing and compiling in .NET 4.5.2
+	- NEW: Tested and compiled in .NET 4.5.2
 2.1.0.0:
-	- NEW: Testing and compiling in .NET Standard 1.6 RTM and .NET 4.6.1
+	- NEW: Tested and compiled in .NET Standard 1.6 RTM and .NET 4.6.1
 2.1.1.0:
 	- NEW: Add support for ignoring invalid (self signed) certificates
 2.1.2.0:
 	- FIX: Reading entire header including line breaks
 2.1.4.0:
-	- NEW: Testing in .NET Core 1.1.0 and compiling for .NET Standard 1.6 and .NET 4.6.2
+	- NEW: Tested in .NET Core 1.1.0 and compiled for .NET Standard 1.6 and .NET 4.6.2
 2.1.5.0:
-	- NEW: Testing in .NET Core 2.0.0 and compiling for .NET Standard 2.0 and .NET 4.7
+	- NEW: Tested in .NET Core 2.0.0 and compiled for .NET Standard 2.0 and .NET 4.7
 2.2.0.0:
 	- FIX: Fix a bug that prevent to download large attachments
+2.2.0.1:
+	- NEW: Tested in .NET Core 2.1.0 and compiled for .NET Standard 2.0 and .NET 4.7.2

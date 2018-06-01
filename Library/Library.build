@@ -3,8 +3,8 @@
     <property name="buildlog" value=".\build.log"/>
     <property name="buildlog.level" value="Verbose"/>
 
-    <property name="version" value="2.2.0.0"/>
-    <property name="projectVersion" value="2.2.0"/>
+    <property name="version" value="2.2.0.1"/>
+    <property name="projectVersion" value="2.2.1"/>
     <property name="vsDir" value="C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE"/>
     <property name="nugetDir" value="c:\Users\ml\OneDrive\Tools\Dev\NuGet"/>
 
@@ -89,8 +89,8 @@
 		<fail unless="${file::exists(assemblyFullPath)}">The file ${assemblyFullPath} not exist</fail>
 		<copy file="${assemblyFullPath}" tofile="${libNet40}\${assemblyFileName}"/>
 
-		<echo message="Compile .NET 4.7 and .NET Standard 2.0"/>
-		<xmlpoke file=".\Library.csproj" value="v4.7" xpath="//x:Project/x:PropertyGroup[1]/x:TargetFrameworkVersion">
+		<echo message="Compile .NET 4.7.2 and .NET Standard 2.0"/>
+		<xmlpoke file=".\Library.csproj" value="v4.7.2" xpath="//x:Project/x:PropertyGroup[1]/x:TargetFrameworkVersion">
 			<namespaces>
 				<namespace prefix="x" uri="http://schemas.microsoft.com/developer/msbuild/2003" />
 			</namespaces>
@@ -122,7 +122,7 @@
             program="nuget.exe"
             basedir="${nugetDir}"
             workingdir=".\"
-            commandline="push Pop3.${projectVersion}.nupkg -Source https://www.nuget.org/api/v2/package -Verbosity detailed"
+            commandline="push Pop3.${version}.nupkg -Source https://www.nuget.org/api/v2/package -Verbosity detailed"
         />
 
 		<echo message="Final Cleanup"/>
