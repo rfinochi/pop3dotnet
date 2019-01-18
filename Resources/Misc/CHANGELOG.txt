@@ -29,3 +29,6 @@
 	- FIX: Fix a bug that prevent to download large attachments
 2.2.0.1:
 	- NEW: Tested in .NET Core 2.1.0 and compiled for .NET Standard 2.0 and .NET 4.7.2
+2.2.2.0:
+	- NEW: Tested in .NET Core 2.2.0 and compiled for .NET Standard 2.0 and .NET 4.7.2
+	- FIX: Incorrect buffer size for non US charsets
