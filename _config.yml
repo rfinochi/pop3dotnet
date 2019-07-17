@@ -1,8 +1,8 @@
 title: POP3.NET
 description: Small and simple library for retrieving messages from Post Office Protocol version 3 (POP3) servers with full support for .NET 4.7, .NET Standard 2.0 and asynchronous programming model
-google_analytics: UA-33682454-1
 show_downloads: true
 theme: jekyll-theme-cayman
+google_analytics: UA-33682454-1
 
 gems:
   - jekyll-mentions
