@@ -2,7 +2,7 @@
 
 [![Latest version](https://img.shields.io/nuget/v/Pop3.svg?style=plastic)](https://www.nuget.org/packages/Pop3)
 [![Downloads](https://img.shields.io/nuget/dt/Pop3.svg?style=plastic)](https://www.nuget.org/packages/Pop3)
-[![License](https://img.shields.io/github/license/rfinochi/pop3dotnet.svg?style=plastic)](opensource.org/licenses/mit-license.php)
+[![License](https://img.shields.io/github/license/rfinochi/pop3dotnet.svg?style=plastic)](https://opensource.org/licenses/mit-license.php)
 
 ## How to use
 
