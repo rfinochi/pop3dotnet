@@ -1,4 +1,4 @@
-# Small and simple library for retrieving messages from Post Office Protocol version 3 (POP3) servers with full support for .NET 4.7, .NET Standard 2.0 and asynchronous programming model.
+# Small and simple library for retrieving messages from Post Office Protocol version 3 (POP3) servers with full support for .NET 4.8, .NET Standard 2.0 and asynchronous programming model.
 
 [![Latest version](https://img.shields.io/nuget/v/Pop3.svg?style=plastic)](https://www.nuget.org/packages/Pop3)
 [![Downloads](https://img.shields.io/nuget/dt/Pop3.svg?style=plastic)](https://www.nuget.org/packages/Pop3)
