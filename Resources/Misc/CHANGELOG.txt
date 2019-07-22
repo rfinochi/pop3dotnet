@@ -32,3 +32,5 @@
 2.2.2.0:
 	- NEW: Tested in .NET Core 2.2.0 and compiled for .NET Standard 2.0 and .NET 4.7.2
 	- FIX: Incorrect buffer size for non US charsets
+2.2.7:
+	- NEW: Change license

@@ -3,9 +3,9 @@
     <property name="buildlog" value=".\build.log"/>
     <property name="buildlog.level" value="Verbose"/>
 
-    <property name="version" value="2.2.2.0"/>
-    <property name="projectVersion" value="2.2.2"/>
-    <property name="vsDir" value="C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE"/>
+    <property name="version" value="2.2.8"/>
+    <property name="projectVersion" value="2.2.8"/>
+    <property name="vsDir" value="C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE"/>
     <property name="nugetDir" value="c:\Users\ml\OneDrive\Tools\Dev\NuGet"/>
 
     <property name="assemblyFileName" value="Pop3.dll"/>
@@ -13,7 +13,7 @@
     <property name="assemblyFullPathCore" value="..\LibraryCore\bin\Release\netstandard2.0\${assemblyFileName}"/>
 	<property name="lib" value=".\lib"/>
 	<property name="libNet40" value="${lib}\net40"/>
-	<property name="libNet47" value="${lib}\net47"/>
+	<property name="libNet48" value="${lib}\net48"/>
 	<property name="libNetCore" value="${lib}\netstandard2.0"/>
 	<property name="globalAssemblyInfo" value="..\Resources\Misc\GlobalAssemblyInfo.cs" />
 
@@ -22,7 +22,7 @@
 		<delete dir="${lib}" />
 		<mkdir dir="${lib}"/>
         <mkdir dir="${libNet40}"/>
-        <mkdir dir="${libNet47}"/>
+        <mkdir dir="${libNet48}"/>
         <mkdir dir="${libNetCore}"/>
 
 		<echo message="Change version number"/>
@@ -89,8 +89,8 @@
 		<fail unless="${file::exists(assemblyFullPath)}">The file ${assemblyFullPath} not exist</fail>
 		<copy file="${assemblyFullPath}" tofile="${libNet40}\${assemblyFileName}"/>
 
-		<echo message="Compile .NET 4.7.2 and .NET Standard 2.0"/>
-		<xmlpoke file=".\Library.csproj" value="v4.7.2" xpath="//x:Project/x:PropertyGroup[1]/x:TargetFrameworkVersion">
+		<echo message="Compile .NET 4.8 and .NET Standard 2.0"/>
+		<xmlpoke file=".\Library.csproj" value="v4.8" xpath="//x:Project/x:PropertyGroup[1]/x:TargetFrameworkVersion">
 			<namespaces>
 				<namespace prefix="x" uri="http://schemas.microsoft.com/developer/msbuild/2003" />
 			</namespaces>
@@ -106,7 +106,7 @@
 			commandline="/rebuild Release ..\Pop3DotNet_BuildComplete.sln"
 		/>
 		<fail unless="${file::exists(assemblyFullPath)}">The file ${assemblyFullPath} not exist</fail>
-		<copy file="${assemblyFullPath}" tofile="${libNet47}\${assemblyFileName}"/>
+		<copy file="${assemblyFullPath}" tofile="${libNet48}\${assemblyFileName}"/>
 		<copy file="${assemblyFullPath}" tofile="${lib}\${assemblyFileName}"/>
 		<fail unless="${file::exists(assemblyFullPathCore)}">The file ${assemblyFullPathCore} not exist</fail>
 		<copy file="${assemblyFullPathCore}" tofile="${libNetCore}\${assemblyFileName}"/>
