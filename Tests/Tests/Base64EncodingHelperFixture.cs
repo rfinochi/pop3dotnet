@@ -12,7 +12,7 @@ namespace Pop3.Tests
         [TestMethod]
         public void EncodeDecode( )
         {
-            Assert.AreEqual( "Test StringX", Base64EncodingHelper.Decode( Base64EncodingHelper.Encode( "Test String" ) ) );
+            Assert.AreEqual( "Test String", Base64EncodingHelper.Decode( Base64EncodingHelper.Encode( "Test String" ) ) );
         }
 
         [TestMethod]
