@@ -52,11 +52,13 @@ await pop3Client.ConnectAsync( "SERVER", "USERNAME", "PASSWORD", true );
 
 Retrieve message list:
 
-```
+```c#
 var messages = await pop3Client.ListAsync( );
+```
 
 Retrieve messages:
 
+```c#
 foreach ( Pop3Message message in messages )
 { 
 	await pop3Client.RetrieveAsync( message );
