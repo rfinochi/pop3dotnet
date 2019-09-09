@@ -1,7 +1,7 @@
 # Small and simple library for retrieving messages from Post Office Protocol version 3 (POP3) servers with full support for .NET 4.8, .NET Standard 2.0 and asynchronous programming model.
 
 [![Build status](https://img.shields.io/appveyor/ci/rfinochi/pop3dotnet.svg?style=plastic)](https://ci.appveyor.com/project/rfinochi/pop3dotnet)
-[![Coverage Status](https://coveralls.io/repos/github/rfinochi/pop3dotnet/badge.svg?branch=master)](https://coveralls.io/github/rfinochi/pop3dotnet?branch=master)
+[![Coverage Status](https://img.shields.io/coveralls/github/rfinochi/pop3dotnet?style=plastic)](https://coveralls.io/github/rfinochi/pop3dotnet)
 [![GitHub issues](https://img.shields.io/github/issues/rfinochi/pop3dotnet?style=plastic)](https://github.com/rfinochi/pop3dotnet/issues)
 [![Latest version](https://img.shields.io/nuget/v/Pop3.svg?style=plastic)](https://www.nuget.org/packages/Pop3)
 [![Downloads](https://img.shields.io/nuget/dt/Pop3.svg?style=plastic)](https://www.nuget.org/packages/Pop3)
