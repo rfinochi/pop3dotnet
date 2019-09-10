@@ -255,7 +255,10 @@ namespace Pop3
                 {
                     body = String.Compare( this.ContentTransferEncoding, "base64", StringComparison.OrdinalIgnoreCase ) == 0 ? Base64EncodingHelper.Decode( body ) : body;
                 }
-                catch ( FormatException ) { }
+                catch ( FormatException )
+                {
+                    body = RawMessage.Remove( 0, ( this.RawMessage.IndexOf( "\r\n\r\n", StringComparison.OrdinalIgnoreCase ) ) );
+                }
             }
 
             this.Body = body;

@@ -33,7 +33,7 @@ namespace Pop3.TestClient
 
             GetMessagesAsync( server, userName, password, useSsl ).Wait( );
 
-            Console.WriteLine( "Press any key to close", Environment.NewLine );
+            Console.WriteLine( "Press any key to close {0}", Environment.NewLine );
             Console.ReadLine( );
         }
 
