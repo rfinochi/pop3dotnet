@@ -3,25 +3,23 @@
     <property name="buildlog" value=".\build.log"/>
     <property name="buildlog.level" value="Verbose"/>
 
-    <property name="version" value="2.2.8"/>
-    <property name="projectVersion" value="2.2.8"/>
+    <property name="version" value="2.3.1"/>
+    <property name="projectVersion" value="2.3.1"/>
     <property name="vsDir" value="C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE"/>
     <property name="nugetDir" value="c:\Users\ml\OneDrive\Tools\Dev\NuGet"/>
 
     <property name="assemblyFileName" value="Pop3.dll"/>
     <property name="assemblyFullPath" value=".\bin\Release\${assemblyFileName}"/>
-    <property name="assemblyFullPathCore" value="..\LibraryCore\bin\Release\netstandard2.0\${assemblyFileName}"/>
+    <property name="assemblyFullPathCore" value="..\LibraryCore\bin\Release\netstandard2.1\${assemblyFileName}"/>
 	<property name="lib" value=".\lib"/>
-	<property name="libNet40" value="${lib}\net40"/>
 	<property name="libNet48" value="${lib}\net48"/>
-	<property name="libNetCore" value="${lib}\netstandard2.0"/>
+	<property name="libNetCore" value="${lib}\netstandard2.1"/>
 	<property name="globalAssemblyInfo" value="..\Resources\Misc\GlobalAssemblyInfo.cs" />
 
     <target name="buildAndDelpoy">
 		<echo message="Clean old deploy directory"/>
 		<delete dir="${lib}" />
 		<mkdir dir="${lib}"/>
-        <mkdir dir="${libNet40}"/>
         <mkdir dir="${libNet48}"/>
         <mkdir dir="${libNetCore}"/>
 
@@ -70,26 +68,7 @@
 		<xmlpoke file="..\LibraryCore\LibraryCore.csproj" value="${version}" xpath="//Project/PropertyGroup[1]/VersionPrefix"/>
 		<xmlpoke file="..\TestClientCore\TestClientCore.csproj" value="${version}" xpath="//Project/PropertyGroup[1]/VersionPrefix"/>
 
-		<echo message="Compile .NET 4.0 version"/>
-		<xmlpoke file=".\Library.csproj" value="v4.0" xpath="//x:Project/x:PropertyGroup[1]/x:TargetFrameworkVersion">
-			<namespaces>
-				<namespace prefix="x" uri="http://schemas.microsoft.com/developer/msbuild/2003" />
-			</namespaces>
-		</xmlpoke>
-		<xmlpoke file=".\Library.csproj" value="FULL;NET40" xpath="//x:Project/x:PropertyGroup[3]/x:DefineConstants">
-			<namespaces>
-				<namespace prefix="x" uri="http://schemas.microsoft.com/developer/msbuild/2003" />
-			</namespaces>
-		</xmlpoke>
-		<exec
-			program="devenv.com"
-			basedir="${vsDir}"
-			commandline="/rebuild Release ..\Pop3DotNet_Build.sln"
-		/>
-		<fail unless="${file::exists(assemblyFullPath)}">The file ${assemblyFullPath} not exist</fail>
-		<copy file="${assemblyFullPath}" tofile="${libNet40}\${assemblyFileName}"/>
-
-		<echo message="Compile .NET 4.8 and .NET Standard 2.0"/>
+		<echo message="Compile .NET 4.8 and .NET Standard 2.1"/>
 		<xmlpoke file=".\Library.csproj" value="v4.8" xpath="//x:Project/x:PropertyGroup[1]/x:TargetFrameworkVersion">
 			<namespaces>
 				<namespace prefix="x" uri="http://schemas.microsoft.com/developer/msbuild/2003" />

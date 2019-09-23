@@ -1,12 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <VersionPrefix>2.2.8</VersionPrefix>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <VersionPrefix>2.3.1</VersionPrefix>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <AssemblyName>TestClientCore</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>TestClientCore</PackageId>
-    <RuntimeIdentifiers>win10-x86;win10-x64</RuntimeIdentifiers>
-    <RuntimeFrameworkVersion>2.0.0</RuntimeFrameworkVersion>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
