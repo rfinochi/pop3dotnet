@@ -3,8 +3,8 @@
     <property name="buildlog" value=".\build.log"/>
     <property name="buildlog.level" value="Verbose"/>
 
-    <property name="version" value="2.3.2"/>
-    <property name="projectVersion" value="2.3.2"/>
+    <property name="version" value="2.3.6"/>
+    <property name="projectVersion" value="2.3.6"/>
     <property name="vsDir" value="C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE"/>
     <property name="nugetDir" value="c:\Users\ml\OneDrive\Tools\Dev\NuGet"/>
 
@@ -104,7 +104,23 @@
             commandline="push Pop3.${projectVersion}.nupkg -Source https://www.nuget.org/api/v2/package -Verbosity detailed"
         />
 
+		<echo message="Deploy in Github"/>
+		<xmlpoke file="Library.nuspec" value="pop3dotnet" xpath="//package/metadata/id"/>
+		<exec
+            program="nuget.exe"
+            basedir="${nugetDir}"
+            workingdir=".\"
+            commandline="pack Library.nuspec -Verbosity detailed"
+        />
+		<exec
+            program="nuget.exe"
+            basedir="${nugetDir}"
+            workingdir=".\"
+            commandline="push pop3dotnet.${projectVersion}.nupkg -Source Github -Verbosity detailed"
+        />
+
 		<echo message="Final Cleanup"/>
+		<xmlpoke file="Library.nuspec" value="Pop3" xpath="//package/metadata/id"/>
 		<delete failonerror="false">
             <fileset basedir=".\">
                 <include name="**/*.nupkg"/>

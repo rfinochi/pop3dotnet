@@ -3,7 +3,7 @@
     <Description>Small and simple library for retrieving messages from Post Office Protocol version 3 (POP3) servers.</Description>
     <Copyright>Rodolfo Finochietti</Copyright>
     <AssemblyTitle>Pop3.NET</AssemblyTitle>
-    <VersionPrefix>2.3.2</VersionPrefix>
+    <VersionPrefix>2.3.6</VersionPrefix>
     <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>Pop3</AssemblyName>
     <PackageId>LibraryCore</PackageId>
