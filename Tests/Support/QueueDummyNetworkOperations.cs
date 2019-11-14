@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 namespace Pop3.Tests.Support
 {
-    public class QueueDummyNetworkOperations  : BaseDummyNetworkOperations
+    public class QueueDummyNetworkOperations : BaseDummyNetworkOperations
     {
         #region Private Vars
 
@@ -22,27 +22,27 @@ namespace Pop3.Tests.Support
 
         #region Constructors
 
-        public QueueDummyNetworkOperations( )
+        public QueueDummyNetworkOperations()
         {
-            _results = InitData( );
+            _results = InitData();
         }
 
-        public QueueDummyNetworkOperations( params string[] results )
+        public QueueDummyNetworkOperations(params string[] results)
         {
-            _results = new Queue<string>( );
+            _results = new Queue<string>();
 
-            foreach ( string result in results )
-                _results.Enqueue( result );
+            foreach (string result in results)
+                _results.Enqueue(result);
         }
 
         #endregion
 
         #region BaseDummyNetworkOperations Methods
 
-        protected override string GetData( )
+        protected override string GetData()
         {
-            if ( _results != null && _results.Count > 0 )
-                return _results.Dequeue( );
+            if (_results != null && _results.Count > 0)
+                return _results.Dequeue();
             else
                 return String.Empty;
         }
@@ -51,9 +51,9 @@ namespace Pop3.Tests.Support
 
         #region Private Methods
 
-        protected virtual Queue<string> InitData( )
+        protected virtual Queue<string> InitData()
         {
-            throw new NotImplementedException( );
+            throw new NotImplementedException();
         }
 
         #endregion

@@ -3,8 +3,8 @@
     <property name="buildlog" value=".\build.log"/>
     <property name="buildlog.level" value="Verbose"/>
 
-    <property name="version" value="2.3.1"/>
-    <property name="projectVersion" value="2.3.1"/>
+    <property name="version" value="2.3.2"/>
+    <property name="projectVersion" value="2.3.2"/>
     <property name="vsDir" value="C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE"/>
     <property name="nugetDir" value="c:\Users\ml\OneDrive\Tools\Dev\NuGet"/>
 

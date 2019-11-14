@@ -42,19 +42,19 @@ namespace Pop3
             get;
             internal set;
         }
-        
+
         public long Bytes
         {
             get;
             internal set;
         }
-        
+
         public bool Retrieved
         {
             get;
             internal set;
         }
-        
+
         public string RawHeader
         {
             get;
@@ -68,26 +68,26 @@ namespace Pop3
         }
 
         private string _from;
-        
+
         public string From
         {
             get
             {
-                if ( String.IsNullOrEmpty( _from ) )
-                    _from = GetHeaderData( FromHeader );
+                if (String.IsNullOrEmpty(_from))
+                    _from = GetHeaderData(FromHeader);
 
                 return _from;
             }
         }
 
         private string _to;
- 
+
         public string To
         {
             get
             {
-                if ( String.IsNullOrEmpty( _to ) )
-                    _to = GetHeaderData( ToHeader );
+                if (String.IsNullOrEmpty(_to))
+                    _to = GetHeaderData(ToHeader);
 
                 return _to;
             }
@@ -99,8 +99,8 @@ namespace Pop3
         {
             get
             {
-                if ( String.IsNullOrEmpty( _date ) )
-                    _date = GetHeaderData( DateHeader );
+                if (String.IsNullOrEmpty(_date))
+                    _date = GetHeaderData(DateHeader);
 
                 return _date;
             }
@@ -112,8 +112,8 @@ namespace Pop3
         {
             get
             {
-                if ( String.IsNullOrEmpty( _messageId ) )
-                    _messageId = GetHeaderData( MessageIdHeader );
+                if (String.IsNullOrEmpty(_messageId))
+                    _messageId = GetHeaderData(MessageIdHeader);
 
                 return _messageId;
             }
@@ -125,8 +125,8 @@ namespace Pop3
         {
             get
             {
-                if ( String.IsNullOrEmpty( _subject ) )
-                    _subject = GetHeaderData( SubjectHeader );
+                if (String.IsNullOrEmpty(_subject))
+                    _subject = GetHeaderData(SubjectHeader);
 
                 return _subject;
             }
@@ -138,8 +138,8 @@ namespace Pop3
         {
             get
             {
-                if ( _mimeVersion == 0 )
-                    _mimeVersion = ParseDoble( GetHeaderData( MimeVersionHeader ) );
+                if (_mimeVersion == 0)
+                    _mimeVersion = ParseDoble(GetHeaderData(MimeVersionHeader));
 
                 return _mimeVersion;
             }
@@ -151,8 +151,8 @@ namespace Pop3
         {
             get
             {
-                if ( String.IsNullOrEmpty( _contentType ) )
-                    ParseContentType( GetHeaderData( ContentTypeHeader ));
+                if (String.IsNullOrEmpty(_contentType))
+                    ParseContentType(GetHeaderData(ContentTypeHeader));
 
                 return _contentType;
             }
@@ -164,8 +164,8 @@ namespace Pop3
         {
             get
             {
-                if ( String.IsNullOrEmpty( _contentType ) )
-                    ParseContentType( GetHeaderData( ContentTypeHeader ) );
+                if (String.IsNullOrEmpty(_contentType))
+                    ParseContentType(GetHeaderData(ContentTypeHeader));
 
                 return _contentBoundary;
             }
@@ -177,8 +177,8 @@ namespace Pop3
         {
             get
             {
-                if ( String.IsNullOrEmpty( _contentTransferEncoding ) )
-                    _contentTransferEncoding = GetHeaderData( ContentTransferEncodingHeader );
+                if (String.IsNullOrEmpty(_contentTransferEncoding))
+                    _contentTransferEncoding = GetHeaderData(ContentTransferEncodingHeader);
 
                 return _contentTransferEncoding;
             }
@@ -190,7 +190,7 @@ namespace Pop3
             private set;
         }
 
-        private List<Pop3Attachment> _attachments = new List<Pop3Attachment>( );
+        private List<Pop3Attachment> _attachments = new List<Pop3Attachment>();
 
         public IEnumerable<Pop3Attachment> Attachments
         {
@@ -204,60 +204,60 @@ namespace Pop3
 
         #region Public Methods
 
-        public string GetHeaderData( string headerName )
+        public string GetHeaderData(string headerName)
         {
-            if ( String.IsNullOrEmpty( headerName ) )
-                throw new ArgumentNullException( "headerName" );
-            if ( String.IsNullOrEmpty( RawMessage ) && String.IsNullOrEmpty( RawHeader ) )
-                throw new InvalidOperationException( "Header can't be null" );
+            if (String.IsNullOrEmpty(headerName))
+                throw new ArgumentNullException("headerName");
+            if (String.IsNullOrEmpty(RawMessage) && String.IsNullOrEmpty(RawHeader))
+                throw new InvalidOperationException("Header can't be null");
 
-            if ( !headerName.EndsWith( ":", StringComparison.OrdinalIgnoreCase ) )
+            if (!headerName.EndsWith(":", StringComparison.OrdinalIgnoreCase))
                 headerName += ":";
 
-            string result = String.IsNullOrEmpty( RawHeader ) ? RawMessage : RawHeader;
+            string result = String.IsNullOrEmpty(RawHeader) ? RawMessage : RawHeader;
 
-            if ( result == null )
+            if (result == null)
                 return null;
 
-            int index = result.IndexOf( String.Format( CultureInfo.CurrentCulture, "\r\n{0}", headerName ), StringComparison.OrdinalIgnoreCase );
+            int index = result.IndexOf(String.Format(CultureInfo.CurrentCulture, "\r\n{0}", headerName), StringComparison.OrdinalIgnoreCase);
 
-            if ( index < 0 )
+            if (index < 0)
                 return null;
 
-            result = result.Remove( 0, ( index + headerName.Length + 2 ) ).Replace( "\r\n ", "" );
+            result = result.Remove(0, (index + headerName.Length + 2)).Replace("\r\n ", "");
 
-            index = Regex.Match( result, @"^[A-Za-z\-]+\:.*$", RegexOptions.Multiline ).Index;
+            index = Regex.Match(result, @"^[A-Za-z\-]+\:.*$", RegexOptions.Multiline).Index;
 
-            if ( index > 0 )
+            if (index > 0)
             {
-                return result.Remove( index, ( result.Length - index ) ).Trim( );
+                return result.Remove(index, (result.Length - index)).Trim();
             }
             else
             {
-                index = result.IndexOf( '\r' );
-                return result.Remove( index, ( result.Length - index ) ).Replace( "\n", String.Empty ).Trim( );
+                index = result.IndexOf('\r');
+                return result.Remove(index, (result.Length - index)).Replace("\n", String.Empty).Trim();
             }
         }
 
-        internal void ParseRawMessage( )
+        internal void ParseRawMessage()
         {
             string body;
 
-            if ( String.IsNullOrEmpty( this.RawMessage ) )
+            if (String.IsNullOrEmpty(this.RawMessage))
             {
                 body = String.Empty;
             }
             else
             {
-                body = RawMessage.Remove( 0, ( this.RawMessage.IndexOf( "\r\n\r\n", StringComparison.OrdinalIgnoreCase ) ) );
+                body = RawMessage.Remove(0, (this.RawMessage.IndexOf("\r\n\r\n", StringComparison.OrdinalIgnoreCase)));
 
                 try
                 {
-                    body = String.Compare( this.ContentTransferEncoding, "base64", StringComparison.OrdinalIgnoreCase ) == 0 ? Base64EncodingHelper.Decode( body ) : body;
+                    body = String.Compare(this.ContentTransferEncoding, "base64", StringComparison.OrdinalIgnoreCase) == 0 ? Base64EncodingHelper.Decode(body) : body;
                 }
-                catch ( FormatException )
+                catch (FormatException)
                 {
-                    body = RawMessage.Remove( 0, ( this.RawMessage.IndexOf( "\r\n\r\n", StringComparison.OrdinalIgnoreCase ) ) );
+                    body = RawMessage.Remove(0, (this.RawMessage.IndexOf("\r\n\r\n", StringComparison.OrdinalIgnoreCase)));
                 }
             }
 
@@ -268,26 +268,26 @@ namespace Pop3
 
         #region Private Methods
 
-        private void ParseContentType( string value )
+        private void ParseContentType(string value)
         {
             string type = value;
 
-            if ( type.Contains( ";" ) )
+            if (type.Contains(";"))
             {
-                string[] parts = type.Split( ';' );
+                string[] parts = type.Split(';');
 
-                _contentType = parts[ 0 ];
+                _contentType = parts[0];
 
-                for ( int x = 1; x < parts.Length; x++ )
+                for (int x = 1; x < parts.Length; x++)
                 {
-                    parts[ x ] = parts[ x ].Trim( );
-                    if ( parts[ x ].StartsWith( "boundary=\"", StringComparison.CurrentCulture ) )
+                    parts[x] = parts[x].Trim();
+                    if (parts[x].StartsWith("boundary=\"", StringComparison.CurrentCulture))
                     {
-                        _contentBoundary = parts[ x ].Substring( 10, parts[ x ].Length - 11 );
+                        _contentBoundary = parts[x].Substring(10, parts[x].Length - 11);
                     }
-                    else if ( parts[ x ].StartsWith( "boundary", StringComparison.CurrentCulture ) )
+                    else if (parts[x].StartsWith("boundary", StringComparison.CurrentCulture))
                     {
-                        _contentBoundary = parts[ x ].Substring( 9, parts[ x ].Length - 9 );
+                        _contentBoundary = parts[x].Substring(9, parts[x].Length - 9);
                     }
                 }
             }
@@ -297,16 +297,16 @@ namespace Pop3
             }
         }
 
-        private static double ParseDoble( string value )
+        private static double ParseDoble(string value)
         {
             double fnord;
-            if ( double.TryParse( value, out fnord ) )
+            if (double.TryParse(value, out fnord))
             {
                 return fnord;
             }
             else
             {
-                Debug.WriteLine( String.Format( CultureInfo.CurrentCulture, "Double parse error. Original value '{0}'.", value ) );
+                Debug.WriteLine(String.Format(CultureInfo.CurrentCulture, "Double parse error. Original value '{0}'.", value));
 
                 return 0;
             }

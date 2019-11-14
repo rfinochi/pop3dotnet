@@ -34,105 +34,105 @@ namespace Pop3.IO
         #region Public Methods
 
 #if FULL
-        public void Open( string hostName, int port )
+        public void Open(string hostName, int port)
         {
-            Open( hostName, port, false, true );
+            Open(hostName, port, false, true);
         }
 
-        public void Open( string hostName, int port, bool useSsl )
+        public void Open(string hostName, int port, bool useSsl)
         {
-            Open( hostName, port, useSsl, true );
+            Open(hostName, port, useSsl, true);
         }
 
-        public void Open( string hostName, int port, bool useSsl, bool checkCertificate )
+        public void Open(string hostName, int port, bool useSsl, bool checkCertificate)
         {
             _checkCertificate = checkCertificate;
 
-            if ( _tcpClient == null )
+            if (_tcpClient == null)
             {
-                _tcpClient = new TcpClient( );
-                _tcpClient.Connect( hostName, port );
+                _tcpClient = new TcpClient();
+                _tcpClient.Connect(hostName, port);
 
-                if ( useSsl )
+                if (useSsl)
                 {
-                    _stream = new SslStream( _tcpClient.GetStream( ), false, ValidateServerCertificate );
-                    ( (SslStream)_stream ).AuthenticateAsClient( hostName );
+                    _stream = new SslStream(_tcpClient.GetStream(), false, ValidateServerCertificate);
+                    ((SslStream)_stream).AuthenticateAsClient(hostName);
                 }
                 else
                 {
-                    _stream = _tcpClient.GetStream( );
+                    _stream = _tcpClient.GetStream();
                 }
             }
         }
 
-        private static bool ValidateServerCertificate( object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors )
+        private static bool ValidateServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
         {
-            if ( !_checkCertificate )
+            if (!_checkCertificate)
             {
                 return true;
             }
-            if ( sslPolicyErrors == SslPolicyErrors.None )
+            if (sslPolicyErrors == SslPolicyErrors.None)
             {
                 return true;
             }
             return false;
         }
 
-        public string Read( )
+        public string Read()
         {
-            if ( _stream == null )
-                throw new InvalidOperationException( "The Network Stream is null" );
+            if (_stream == null)
+                throw new InvalidOperationException("The Network Stream is null");
 
-            byte[] data = new byte[ 1 ];
-            char[] chars = new char[ 10 ];
-            StringBuilder sb = new StringBuilder( );
-            Decoder decoder = Encoding.UTF8.GetDecoder( );
+            byte[] data = new byte[1];
+            char[] chars = new char[10];
+            StringBuilder sb = new StringBuilder();
+            Decoder decoder = Encoding.UTF8.GetDecoder();
 
-            while ( true )
+            while (true)
             {
-                int dataLength = _stream.Read( data, 0, 1 );
-                if ( dataLength != 1 )
+                int dataLength = _stream.Read(data, 0, 1);
+                if (dataLength != 1)
                     break;
 
-                int charCount = decoder.GetChars( data, 0, 1, chars, 0 );
-                if ( charCount == 0 )
+                int charCount = decoder.GetChars(data, 0, 1, chars, 0);
+                if (charCount == 0)
                     continue;
-                         
-                for (int i = 0; i < charCount; i++)
-                    sb.Append( chars[ i ] );
 
-                if ( data[ 0 ] == '\n' )
+                for (int i = 0; i < charCount; i++)
+                    sb.Append(chars[i]);
+
+                if (data[0] == '\n')
                     break;
             }
 
-            return sb.ToString( );
+            return sb.ToString();
         }
 
-        public void Write( string data )
+        public void Write(string data)
         {
-            if ( _stream == null )
-                throw new InvalidOperationException( "The Network Stream is null" );
+            if (_stream == null)
+                throw new InvalidOperationException("The Network Stream is null");
 
-            UTF8Encoding en = new UTF8Encoding( );
-            byte[] writeBuffer = en.GetBytes( data );
+            UTF8Encoding en = new UTF8Encoding();
+            byte[] writeBuffer = en.GetBytes(data);
 
-            _stream.Write( writeBuffer, 0, writeBuffer.Length );
+            _stream.Write(writeBuffer, 0, writeBuffer.Length);
         }
 #endif
 
-        public void Close( )
+        public void Close()
         {
             IDisposable disposableStream = _stream as IDisposable;
-            if ( disposableStream != null )
-                disposableStream.Dispose( );
+            if (disposableStream != null)
+                disposableStream.Dispose();
 
-            if ( _tcpClient != null )
+            if (_tcpClient != null)
             {
 #if FULL
-                _tcpClient.Close( );
+                _tcpClient.Close();
 #endif
 #if !NET40
-                _tcpClient.Dispose( );
+                _tcpClient.Dispose();
 #endif
                 _tcpClient = null;
             }
@@ -143,67 +143,67 @@ namespace Pop3.IO
         #region Public Async Methods
 
 #if !NET40
-        public async Task OpenAsync( string hostName, int port )
+        public async Task OpenAsync(string hostName, int port)
         {
-            await OpenAsync( hostName, port, false ).ConfigureAwait( false );
+            await OpenAsync(hostName, port, false).ConfigureAwait(false);
         }
 
-        public async Task OpenAsync( string hostName, int port, bool useSsl )
+        public async Task OpenAsync(string hostName, int port, bool useSsl)
         {
-            if ( _tcpClient == null )
+            if (_tcpClient == null)
             {
-                _tcpClient = new TcpClient( );
-                await _tcpClient.ConnectAsync( hostName, port ).ConfigureAwait( false );
+                _tcpClient = new TcpClient();
+                await _tcpClient.ConnectAsync(hostName, port).ConfigureAwait(false);
 
-                if ( useSsl )
+                if (useSsl)
                 {
-                    _stream = new SslStream( _tcpClient.GetStream( ), false );
+                    _stream = new SslStream(_tcpClient.GetStream(), false);
 #if FULL
-                    ( (SslStream)_stream ).AuthenticateAsClient( hostName );
+                    ((SslStream)_stream).AuthenticateAsClient(hostName);
 #else
                     await ( (SslStream)_stream ).AuthenticateAsClientAsync( hostName ).ConfigureAwait( false );
 #endif
                 }
                 else
                 {
-                    _stream = _tcpClient.GetStream( );
+                    _stream = _tcpClient.GetStream();
                 }
             }
         }
 
-        public async Task<string> ReadAsync( )
+        public async Task<string> ReadAsync()
         {
-            if ( _stream == null )
-                throw new InvalidOperationException( "The Network Stream is null" );
+            if (_stream == null)
+                throw new InvalidOperationException("The Network Stream is null");
 
-            byte[] data = new byte[ 1 ];
-            StringBuilder sb = new StringBuilder( );
-            UTF8Encoding enc = new UTF8Encoding( );
+            byte[] data = new byte[1];
+            StringBuilder sb = new StringBuilder();
+            UTF8Encoding enc = new UTF8Encoding();
 
-            while ( true )
+            while (true)
             {
-                int dataLength = await _stream.ReadAsync( data, 0, 1 );
-                if ( dataLength != 1 )
+                int dataLength = await _stream.ReadAsync(data, 0, 1);
+                if (dataLength != 1)
                     break;
 
-                sb.Append( enc.GetString( data, 0, 1 ) );
+                sb.Append(enc.GetString(data, 0, 1));
 
-                if ( data[ 0 ] == '\n' )
+                if (data[0] == '\n')
                     break;
             }
 
-            return sb.ToString( );
+            return sb.ToString();
         }
 
-        public async Task WriteAsync( string data )
+        public async Task WriteAsync(string data)
         {
-            if ( _stream == null )
-                throw new InvalidOperationException( "The Network Stream is null" );
+            if (_stream == null)
+                throw new InvalidOperationException("The Network Stream is null");
 
-            UTF8Encoding en = new UTF8Encoding( );
-            byte[] writeBuffer = en.GetBytes( data );
+            UTF8Encoding en = new UTF8Encoding();
+            byte[] writeBuffer = en.GetBytes(data);
 
-            await _stream.WriteAsync( writeBuffer, 0, writeBuffer.Length ).ConfigureAwait( false );
+            await _stream.WriteAsync(writeBuffer, 0, writeBuffer.Length).ConfigureAwait(false);
         }
 #endif
 
@@ -213,11 +213,11 @@ namespace Pop3.IO
 
         #region Dispose-Finalize Pattern
 
-        public void Dispose( )
+        public void Dispose()
         {
-            Close( );
+            Close();
 
-            GC.SuppressFinalize( this );
+            GC.SuppressFinalize(this);
         }
 
         #endregion

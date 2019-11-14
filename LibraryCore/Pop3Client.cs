@@ -39,15 +39,15 @@ namespace Pop3
             _networkOperations = new StreamSocketNetworkOperations( );
         }
 #else
-        public Pop3Client( )
+        public Pop3Client()
         {
-            _networkOperations = new TcpClientNetworkOperations( );
+            _networkOperations = new TcpClientNetworkOperations();
         }
 
-        internal Pop3Client( INetworkOperations networkOperations )
+        internal Pop3Client(INetworkOperations networkOperations)
         {
-            if ( networkOperations == null )
-                throw new ArgumentNullException( "networkOperations", "The parameter networkOperation can't be null" );
+            if (networkOperations == null)
+                throw new ArgumentNullException("networkOperations", "The parameter networkOperation can't be null");
 
             _networkOperations = networkOperations;
         }
@@ -67,52 +67,52 @@ namespace Pop3
         #region Public Methods
 
 #if FULL
-        public void Connect( string server, string userName, string password )
+        public void Connect(string server, string userName, string password)
         {
-            Connect( server, userName, password, 110, false, true );
+            Connect(server, userName, password, 110, false, true);
         }
 
-        public void Connect( string server, string userName, string password, bool useSsl )
+        public void Connect(string server, string userName, string password, bool useSsl)
         {
-            Connect( server, userName, password, ( useSsl ? 995 : 110 ), useSsl, true );
+            Connect(server, userName, password, (useSsl ? 995 : 110), useSsl, true);
         }
 
-        public void Connect( string server, string userName, string password, bool useSsl, bool checkCertificate )
+        public void Connect(string server, string userName, string password, bool useSsl, bool checkCertificate)
         {
-            Connect( server, userName, password, ( useSsl ? 995 : 110 ), useSsl, checkCertificate );
+            Connect(server, userName, password, (useSsl ? 995 : 110), useSsl, checkCertificate);
         }
-        public void Connect( string server, string userName, string password, int port, bool useSsl )
+        public void Connect(string server, string userName, string password, int port, bool useSsl)
         {
-            Connect( server, userName, password, port, useSsl, true );
+            Connect(server, userName, password, port, useSsl, true);
         }
 
-        public void Connect( string server, string userName, string password, int port, bool useSsl, bool checkCertificate )
+        public void Connect(string server, string userName, string password, int port, bool useSsl, bool checkCertificate)
         {
-            if ( this.IsConnected )
-                throw new InvalidOperationException( "Pop3 client already connected" );
+            if (this.IsConnected)
+                throw new InvalidOperationException("Pop3 client already connected");
 
-            _networkOperations.Open( server, port, useSsl, checkCertificate );
+            _networkOperations.Open(server, port, useSsl, checkCertificate);
 
-            string response = _networkOperations.Read( );
+            string response = _networkOperations.Read();
 
-            if ( String.IsNullOrEmpty( response ) || response.Substring( 0, 3 ) != "+OK" )
-                throw new InvalidOperationException( response );
+            if (String.IsNullOrEmpty(response) || response.Substring(0, 3) != "+OK")
+                throw new InvalidOperationException(response);
 
-            SendCommand( String.Format( CultureInfo.InvariantCulture, "USER {0}", userName ) );
-            SendCommand( String.Format( CultureInfo.InvariantCulture, "PASS {0}", password ) );
+            SendCommand(String.Format(CultureInfo.InvariantCulture, "USER {0}", userName));
+            SendCommand(String.Format(CultureInfo.InvariantCulture, "PASS {0}", password));
 
             this.IsConnected = true;
         }
 
-        public void Disconnect( )
+        public void Disconnect()
         {
-            if ( !this.IsConnected )
+            if (!this.IsConnected)
                 return;
 
             try
             {
-                SendCommand( "QUIT" );
-                _networkOperations.Close( );
+                SendCommand("QUIT");
+                _networkOperations.Close();
             }
             finally
             {
@@ -120,138 +120,138 @@ namespace Pop3
             }
         }
 
-        public IEnumerable<Pop3Message> List( )
+        public IEnumerable<Pop3Message> List()
         {
-            if ( !this.IsConnected )
-                throw new InvalidOperationException( "Pop3 client is not connected to host" );
+            if (!this.IsConnected)
+                throw new InvalidOperationException("Pop3 client is not connected to host");
 
-            List<Pop3Message> result = new List<Pop3Message>( );
+            List<Pop3Message> result = new List<Pop3Message>();
 
-            SendCommand( "LIST" );
+            SendCommand("LIST");
 
-            while ( true )
+            while (true)
             {
-                string response = _networkOperations.Read( );
-                if ( response == ".\r\n" )
-                    return result.AsEnumerable( );
+                string response = _networkOperations.Read();
+                if (response == ".\r\n")
+                    return result.AsEnumerable();
 
-                Pop3Message message = new Pop3Message( );
+                Pop3Message message = new Pop3Message();
 
                 char[] seps = { ' ' };
-                string[] values = response.Split( seps );
+                string[] values = response.Split(seps);
 
-                message.Number = Int32.Parse( values[ 0 ], CultureInfo.InvariantCulture );
-                message.Bytes = Int32.Parse( values[ 1 ], CultureInfo.InvariantCulture );
+                message.Number = Int32.Parse(values[0], CultureInfo.InvariantCulture);
+                message.Bytes = Int32.Parse(values[1], CultureInfo.InvariantCulture);
                 message.Retrieved = false;
 
-                result.Add( message );
+                result.Add(message);
             }
         }
 
-        public void RetrieveHeader( Pop3Message message )
+        public void RetrieveHeader(Pop3Message message)
         {
-            if ( !this.IsConnected )
-                throw new InvalidOperationException( "Pop3 client is not connected to host" );
+            if (!this.IsConnected)
+                throw new InvalidOperationException("Pop3 client is not connected to host");
 
-            if ( message == null )
-                throw new ArgumentNullException( "message" );
+            if (message == null)
+                throw new ArgumentNullException("message");
 
-            SendCommand( "TOP", "0", message );
+            SendCommand("TOP", "0", message);
 
             StringBuilder rawHeader = new StringBuilder();
 
-            while ( true )
+            while (true)
             {
                 string response = _networkOperations.Read();
-                if ( response == ".\r\n" )
+                if (response == ".\r\n")
                     break;
 
-                rawHeader.Append( response );
+                rawHeader.Append(response);
             }
 
             message.RawHeader = rawHeader.ToString();
         }
 
-        public void RetrieveHeader( IEnumerable<Pop3Message> messages )
+        public void RetrieveHeader(IEnumerable<Pop3Message> messages)
         {
-            if ( !this.IsConnected )
-                throw new InvalidOperationException( "Pop3 client is not connected to host" );
-            if ( messages == null )
-                throw new ArgumentNullException( "messages" );
+            if (!this.IsConnected)
+                throw new InvalidOperationException("Pop3 client is not connected to host");
+            if (messages == null)
+                throw new ArgumentNullException("messages");
 
-            foreach ( Pop3Message message in messages )
-                RetrieveHeader( message );
+            foreach (Pop3Message message in messages)
+                RetrieveHeader(message);
         }
 
-        public void Retrieve( Pop3Message message )
+        public void Retrieve(Pop3Message message)
         {
-            if ( !this.IsConnected )
-                throw new InvalidOperationException( "Pop3 client is not connected to host" );
-            if ( message == null )
-                throw new ArgumentNullException( "message" );
+            if (!this.IsConnected)
+                throw new InvalidOperationException("Pop3 client is not connected to host");
+            if (message == null)
+                throw new ArgumentNullException("message");
 
-            SendCommand( "RETR", message );
+            SendCommand("RETR", message);
 
-            StringBuilder rawMessage = new StringBuilder( );
+            StringBuilder rawMessage = new StringBuilder();
 
-            while ( true )
+            while (true)
             {
-                string response = _networkOperations.Read( );
-                if ( response == ".\r\n" )
+                string response = _networkOperations.Read();
+                if (response == ".\r\n")
                     break;
 
-                rawMessage.Append( response );
+                rawMessage.Append(response);
             }
 
-            message.RawMessage = rawMessage.ToString( );
-            message.ParseRawMessage( );
+            message.RawMessage = rawMessage.ToString();
+            message.ParseRawMessage();
 
             message.Retrieved = true;
         }
 
-        public void Retrieve( IEnumerable<Pop3Message> messages )
+        public void Retrieve(IEnumerable<Pop3Message> messages)
         {
-            if ( !this.IsConnected )
-                throw new InvalidOperationException( "Pop3 client is not connected to host" );
-            if ( messages == null )
-                throw new ArgumentNullException( "messages" );
+            if (!this.IsConnected)
+                throw new InvalidOperationException("Pop3 client is not connected to host");
+            if (messages == null)
+                throw new ArgumentNullException("messages");
 
-            foreach ( Pop3Message message in messages )
-                Retrieve( message );
+            foreach (Pop3Message message in messages)
+                Retrieve(message);
         }
 
-        public IEnumerable<Pop3Message> ListAndRetrieveHeader( )
+        public IEnumerable<Pop3Message> ListAndRetrieveHeader()
         {
-            if ( !this.IsConnected )
-                throw new InvalidOperationException( "Pop3 client is not connected to host" );
+            if (!this.IsConnected)
+                throw new InvalidOperationException("Pop3 client is not connected to host");
 
-            IEnumerable<Pop3Message> messages = List( );
+            IEnumerable<Pop3Message> messages = List();
 
-            RetrieveHeader( messages );
+            RetrieveHeader(messages);
 
             return messages;
         }
 
-        public IEnumerable<Pop3Message> ListAndRetrieve( )
+        public IEnumerable<Pop3Message> ListAndRetrieve()
         {
-            if ( !this.IsConnected )
-                throw new InvalidOperationException( "Pop3 client is not connected to host" );
+            if (!this.IsConnected)
+                throw new InvalidOperationException("Pop3 client is not connected to host");
 
-            IEnumerable<Pop3Message> messages = List( );
+            IEnumerable<Pop3Message> messages = List();
 
-            Retrieve( messages );
+            Retrieve(messages);
 
             return messages;
         }
 
-        public void Delete( Pop3Message message )
+        public void Delete(Pop3Message message)
         {
-            if ( !this.IsConnected )
-                throw new InvalidOperationException( "Pop3 client is not connected to host" );
-            if ( message == null )
-                throw new ArgumentNullException( "message" );
+            if (!this.IsConnected)
+                throw new InvalidOperationException("Pop3 client is not connected to host");
+            if (message == null)
+                throw new ArgumentNullException("message");
 
-            SendCommand( "DELE", message );
+            SendCommand("DELE", message);
         }
 #endif
 
@@ -260,42 +260,42 @@ namespace Pop3
         #region Public Async Methods
 
 #if !NET40
-        public async Task ConnectAsync( string server, string userName, string password )
+        public async Task ConnectAsync(string server, string userName, string password)
         {
-            await ConnectAsync( server, userName, password, 110, false ).ConfigureAwait( false );
+            await ConnectAsync(server, userName, password, 110, false).ConfigureAwait(false);
         }
 
-        public async Task ConnectAsync( string server, string userName, string password, bool useSsl )
+        public async Task ConnectAsync(string server, string userName, string password, bool useSsl)
         {
-            await ConnectAsync( server, userName, password, ( useSsl ? 995 : 110 ), useSsl ).ConfigureAwait( false );
+            await ConnectAsync(server, userName, password, (useSsl ? 995 : 110), useSsl).ConfigureAwait(false);
         }
 
-        public async Task ConnectAsync( string server, string userName, string password, int port, bool useSsl )
+        public async Task ConnectAsync(string server, string userName, string password, int port, bool useSsl)
         {
-            if ( this.IsConnected )
-                throw new InvalidOperationException( "Pop3 client already connected" );
+            if (this.IsConnected)
+                throw new InvalidOperationException("Pop3 client already connected");
 
-            await _networkOperations.OpenAsync( server, port, useSsl ).ConfigureAwait( false );
+            await _networkOperations.OpenAsync(server, port, useSsl).ConfigureAwait(false);
 
-            string response = await _networkOperations.ReadAsync( );
-            if ( String.IsNullOrEmpty( response ) || response.Substring( 0, 3 ) != "+OK" )
-                throw new InvalidOperationException( response );
+            string response = await _networkOperations.ReadAsync();
+            if (String.IsNullOrEmpty(response) || response.Substring(0, 3) != "+OK")
+                throw new InvalidOperationException(response);
 
-            await SendCommandAsync( String.Format( CultureInfo.InvariantCulture, "USER {0}", userName ) ).ConfigureAwait( false );
-            await SendCommandAsync( String.Format( CultureInfo.InvariantCulture, "PASS {0}", password ) ).ConfigureAwait( false );
+            await SendCommandAsync(String.Format(CultureInfo.InvariantCulture, "USER {0}", userName)).ConfigureAwait(false);
+            await SendCommandAsync(String.Format(CultureInfo.InvariantCulture, "PASS {0}", password)).ConfigureAwait(false);
 
             this.IsConnected = true;
         }
 
-        public async Task DisconnectAsync( )
+        public async Task DisconnectAsync()
         {
-            if ( !this.IsConnected )
+            if (!this.IsConnected)
                 return;
 
             try
             {
-                await SendCommandAsync( "QUIT" ).ConfigureAwait( false );
-                _networkOperations.Close( );
+                await SendCommandAsync("QUIT").ConfigureAwait(false);
+                _networkOperations.Close();
             }
             finally
             {
@@ -303,144 +303,144 @@ namespace Pop3
             }
         }
 
-        [SuppressMessage( "Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures" )]
-        public async Task<IEnumerable<Pop3Message>> ListAsync( )
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
+        public async Task<IEnumerable<Pop3Message>> ListAsync()
         {
-            if ( !this.IsConnected )
-                throw new InvalidOperationException( "Pop3 client is not connected to host" );
+            if (!this.IsConnected)
+                throw new InvalidOperationException("Pop3 client is not connected to host");
 
-            List<Pop3Message> result = new List<Pop3Message>( );
+            List<Pop3Message> result = new List<Pop3Message>();
 
-            await SendCommandAsync( "LIST" ).ConfigureAwait( false );
+            await SendCommandAsync("LIST").ConfigureAwait(false);
 
-            while ( true )
+            while (true)
             {
-                string response = await _networkOperations.ReadAsync( ).ConfigureAwait( false );
-                if ( response == ".\r\n" )
-                    return result.AsEnumerable( );
+                string response = await _networkOperations.ReadAsync().ConfigureAwait(false);
+                if (response == ".\r\n")
+                    return result.AsEnumerable();
 
-                Pop3Message message = new Pop3Message( );
+                Pop3Message message = new Pop3Message();
 
                 char[] seps = { ' ' };
-                string[] values = response.Split( seps );
+                string[] values = response.Split(seps);
 
-                message.Number = Int32.Parse( values[ 0 ], CultureInfo.InvariantCulture );
-                message.Bytes = Int32.Parse( values[ 1 ], CultureInfo.InvariantCulture );
+                message.Number = Int32.Parse(values[0], CultureInfo.InvariantCulture);
+                message.Bytes = Int32.Parse(values[1], CultureInfo.InvariantCulture);
                 message.Retrieved = false;
 
-                result.Add( message );
+                result.Add(message);
             }
         }
 
-        public async Task RetrieveHeaderAsync( Pop3Message message )
+        public async Task RetrieveHeaderAsync(Pop3Message message)
         {
-            if ( !this.IsConnected )
-                throw new InvalidOperationException( "Pop3 client is not connected to host" );
+            if (!this.IsConnected)
+                throw new InvalidOperationException("Pop3 client is not connected to host");
 
-            if ( message == null )
-                throw new ArgumentNullException( "message" );
+            if (message == null)
+                throw new ArgumentNullException("message");
 
-            await SendCommandAsync( "TOP", "0", message ).ConfigureAwait( false );
+            await SendCommandAsync("TOP", "0", message).ConfigureAwait(false);
 
             StringBuilder rawHeader = new StringBuilder();
 
-            while ( true )
+            while (true)
             {
-                string response = await _networkOperations.ReadAsync( ).ConfigureAwait( false );
-                if ( response == ".\r\n" )
+                string response = await _networkOperations.ReadAsync().ConfigureAwait(false);
+                if (response == ".\r\n")
                     break;
 
-                rawHeader.Append( response );
+                rawHeader.Append(response);
             }
 
             message.RawHeader = rawHeader.ToString();
         }
 
-        public async Task RetrieveHeaderAsync( IEnumerable<Pop3Message> messages )
+        public async Task RetrieveHeaderAsync(IEnumerable<Pop3Message> messages)
         {
-            if ( !this.IsConnected )
-                throw new InvalidOperationException( "Pop3 client is not connected to host" );
+            if (!this.IsConnected)
+                throw new InvalidOperationException("Pop3 client is not connected to host");
 
-            if ( messages == null )
-                throw new ArgumentNullException( "messages" );
+            if (messages == null)
+                throw new ArgumentNullException("messages");
 
-            foreach ( Pop3Message message in messages )
-                await RetrieveHeaderAsync( message ).ConfigureAwait( false );
+            foreach (Pop3Message message in messages)
+                await RetrieveHeaderAsync(message).ConfigureAwait(false);
         }
 
-        public async Task RetrieveAsync( Pop3Message message )
+        public async Task RetrieveAsync(Pop3Message message)
         {
-            if ( !this.IsConnected )
-                throw new InvalidOperationException( "Pop3 client is not connected to host" );
+            if (!this.IsConnected)
+                throw new InvalidOperationException("Pop3 client is not connected to host");
 
-            if ( message == null )
-                throw new ArgumentNullException( "message" );
+            if (message == null)
+                throw new ArgumentNullException("message");
 
-            await SendCommandAsync( "RETR", message ).ConfigureAwait( false );
+            await SendCommandAsync("RETR", message).ConfigureAwait(false);
 
             StringBuilder rawMessage = new StringBuilder();
 
-            while ( true )
+            while (true)
             {
-                string response = await _networkOperations.ReadAsync( ).ConfigureAwait( false );
-                if ( response == ".\r\n" )
+                string response = await _networkOperations.ReadAsync().ConfigureAwait(false);
+                if (response == ".\r\n")
                     break;
 
-                rawMessage.Append( response );
+                rawMessage.Append(response);
             }
 
-            message.RawMessage = rawMessage.ToString( );
-            message.ParseRawMessage( );
+            message.RawMessage = rawMessage.ToString();
+            message.ParseRawMessage();
 
             message.Retrieved = true;
         }
 
-        public async Task RetrieveAsync( IEnumerable<Pop3Message> messages )
+        public async Task RetrieveAsync(IEnumerable<Pop3Message> messages)
         {
-            if ( !this.IsConnected )
-                throw new InvalidOperationException( "Pop3 client is not connected to host" );
-            if ( messages == null )
-                throw new ArgumentNullException( "messages" );
+            if (!this.IsConnected)
+                throw new InvalidOperationException("Pop3 client is not connected to host");
+            if (messages == null)
+                throw new ArgumentNullException("messages");
 
-            foreach ( Pop3Message message in messages )
-                await RetrieveAsync( message ).ConfigureAwait( false );
+            foreach (Pop3Message message in messages)
+                await RetrieveAsync(message).ConfigureAwait(false);
         }
 
-        [SuppressMessage( "Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures" )]
-        public async Task<IEnumerable<Pop3Message>> ListAndRetrieveHeaderAsync( )
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
+        public async Task<IEnumerable<Pop3Message>> ListAndRetrieveHeaderAsync()
         {
-            if ( !this.IsConnected )
-                throw new InvalidOperationException( "Pop3 client is not connected to host" );
+            if (!this.IsConnected)
+                throw new InvalidOperationException("Pop3 client is not connected to host");
 
-            IEnumerable<Pop3Message> messages = await ListAsync( ).ConfigureAwait( false );
+            IEnumerable<Pop3Message> messages = await ListAsync().ConfigureAwait(false);
 
-            await RetrieveHeaderAsync( messages ).ConfigureAwait( false );
+            await RetrieveHeaderAsync(messages).ConfigureAwait(false);
 
             return messages;
         }
 
-        [SuppressMessage( "Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures" )]
-        public async Task<IEnumerable<Pop3Message>> ListAndRetrieveAsync( )
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]
+        public async Task<IEnumerable<Pop3Message>> ListAndRetrieveAsync()
         {
-            if ( !this.IsConnected )
-                throw new InvalidOperationException( "Pop3 client is not connected to host" );
+            if (!this.IsConnected)
+                throw new InvalidOperationException("Pop3 client is not connected to host");
 
-            IEnumerable<Pop3Message> messages = await ListAsync( ).ConfigureAwait( false );
+            IEnumerable<Pop3Message> messages = await ListAsync().ConfigureAwait(false);
 
-            await RetrieveAsync( messages ).ConfigureAwait( false );
+            await RetrieveAsync(messages).ConfigureAwait(false);
 
             return messages;
         }
 
-        public async Task DeleteAsync( Pop3Message message )
+        public async Task DeleteAsync(Pop3Message message)
         {
-            if ( !this.IsConnected )
-                throw new InvalidOperationException( "Pop3 client is not connected to host" );
+            if (!this.IsConnected)
+                throw new InvalidOperationException("Pop3 client is not connected to host");
 
-            if ( message == null )
-                throw new ArgumentNullException( "message" );
+            if (message == null)
+                throw new ArgumentNullException("message");
 
-            await SendCommandAsync( "DELE", message ).ConfigureAwait( false );
+            await SendCommandAsync("DELE", message).ConfigureAwait(false);
         }
 #endif
 
@@ -449,31 +449,31 @@ namespace Pop3
         #region Private Methods
 
 #if FULL
-        private void SendCommand( string command, Pop3Message message )
+        private void SendCommand(string command, Pop3Message message)
         {
-            SendCommand( command, null, message );
+            SendCommand(command, null, message);
         }
 
-        private void SendCommand( string command, string aditionalParameters = null, Pop3Message message = null )
+        private void SendCommand(string command, string aditionalParameters = null, Pop3Message message = null)
         {
-            var request = new StringBuilder( );
+            var request = new StringBuilder();
 
-            if ( message == null )
-                request.AppendFormat( CultureInfo.InvariantCulture, "{0}", command );
+            if (message == null)
+                request.AppendFormat(CultureInfo.InvariantCulture, "{0}", command);
             else
-                request.AppendFormat( CultureInfo.InvariantCulture, "{0} {1}", command, message.Number );
+                request.AppendFormat(CultureInfo.InvariantCulture, "{0} {1}", command, message.Number);
 
-            if ( !String.IsNullOrEmpty( aditionalParameters ) )
-                request.AppendFormat( CultureInfo.InvariantCulture, " {0}", aditionalParameters );
+            if (!String.IsNullOrEmpty(aditionalParameters))
+                request.AppendFormat(CultureInfo.InvariantCulture, " {0}", aditionalParameters);
 
-            request.Append( "\r\n" );
+            request.Append("\r\n");
 
-            _networkOperations.Write( request.ToString( ) );
+            _networkOperations.Write(request.ToString());
 
-            var response = _networkOperations.Read( );
+            var response = _networkOperations.Read();
 
-            if ( String.IsNullOrEmpty( response ) || response.Substring( 0, 3 ) != "+OK" )
-                throw new InvalidOperationException( response );
+            if (String.IsNullOrEmpty(response) || response.Substring(0, 3) != "+OK")
+                throw new InvalidOperationException(response);
         }
 #endif
 
@@ -482,31 +482,31 @@ namespace Pop3
         #region Private Async Methods
 
 #if !NET40
-        private async Task SendCommandAsync( string command, Pop3Message message )
+        private async Task SendCommandAsync(string command, Pop3Message message)
         {
-            await SendCommandAsync( command, null, message ).ConfigureAwait( false );
+            await SendCommandAsync(command, null, message).ConfigureAwait(false);
         }
 
-        private async Task SendCommandAsync( string command, string aditionalParameters = null, Pop3Message message = null )
+        private async Task SendCommandAsync(string command, string aditionalParameters = null, Pop3Message message = null)
         {
-            var request = new StringBuilder( );
+            var request = new StringBuilder();
 
-            if ( message == null )
-                request.AppendFormat( CultureInfo.InvariantCulture, "{0}", command );
+            if (message == null)
+                request.AppendFormat(CultureInfo.InvariantCulture, "{0}", command);
             else
-                request.AppendFormat( CultureInfo.InvariantCulture, "{0} {1}", command, message.Number );
+                request.AppendFormat(CultureInfo.InvariantCulture, "{0} {1}", command, message.Number);
 
-            if ( !String.IsNullOrEmpty( aditionalParameters ) )
-                request.AppendFormat( " {0}", aditionalParameters );
+            if (!String.IsNullOrEmpty(aditionalParameters))
+                request.AppendFormat(" {0}", aditionalParameters);
 
-            request.Append( Environment.NewLine );
+            request.Append(Environment.NewLine);
 
-            await _networkOperations.WriteAsync( request.ToString( ) ).ConfigureAwait( false );
+            await _networkOperations.WriteAsync(request.ToString()).ConfigureAwait(false);
 
-            var response = await _networkOperations.ReadAsync( ).ConfigureAwait( false );
+            var response = await _networkOperations.ReadAsync().ConfigureAwait(false);
 
-            if ( String.IsNullOrEmpty( response ) || response.Substring( 0, 3 ) != "+OK" )
-                throw new InvalidOperationException( response );
+            if (String.IsNullOrEmpty(response) || response.Substring(0, 3) != "+OK")
+                throw new InvalidOperationException(response);
         }
 #endif
 
@@ -514,33 +514,38 @@ namespace Pop3
 
         #region Dispose-Finalize Pattern
 
-        public void Dispose( )
+        public void Dispose()
         {
-            Dispose( true );
-            GC.SuppressFinalize( this );
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
 #if RT
         ~InternalPop3Client( )
 #else
-        ~Pop3Client( )
+        ~Pop3Client()
 #endif
         {
-            Dispose( false );
+            Dispose(false);
         }
 
-        protected virtual void Dispose( bool disposing )
+        protected virtual void Dispose(bool disposing)
         {
-            if ( disposing )
+            if (disposing)
             {
-                if ( _networkOperations != null )
+#if FULL
+                Disconnect();
+#else
+                DisconnectAsync( ).Wait( );
+#endif
+
+                if (_networkOperations != null)
                 {
-                    _networkOperations.Close( );
-                    _networkOperations.Dispose( );
+                    _networkOperations.Close();
+                    _networkOperations.Dispose();
                     _networkOperations = null;
                 }
             }
-
         }
 
         #endregion

@@ -8,31 +8,31 @@ namespace Pop3.IO
         #region Methods
 
 #if FULL
-        void Open( string hostName, int port );
+        void Open(string hostName, int port);
 
-        void Open( string hostName, int port, bool useSsl );
+        void Open(string hostName, int port, bool useSsl);
 
-        void Open( string hostName, int port, bool useSsl, bool checkCertificate );
+        void Open(string hostName, int port, bool useSsl, bool checkCertificate);
 
-        string Read( );
+        string Read();
 
-        void Write( string data );
+        void Write(string data);
 #endif
 
-        void Close( );
+        void Close();
 
         #endregion
 
         #region Async Methods
 
 #if !NET40
-        Task OpenAsync( string hostName, int port );
+        Task OpenAsync(string hostName, int port);
 
-        Task OpenAsync( string hostName, int port, bool useSsl );
+        Task OpenAsync(string hostName, int port, bool useSsl);
 
-        Task<string> ReadAsync( );
+        Task<string> ReadAsync();
 
-        Task WriteAsync( string data );
+        Task WriteAsync(string data);
 #endif
 
         #endregion

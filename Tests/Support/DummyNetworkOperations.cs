@@ -22,7 +22,7 @@ namespace Pop3.Tests.Support
 
         #region Constructors
 
-        public DummyNetworkOperations( string result )
+        public DummyNetworkOperations(string result)
         {
             _result = result;
         }
@@ -31,7 +31,7 @@ namespace Pop3.Tests.Support
 
         #region BaseDummyNetworkOperations Methods
 
-        protected override string GetData( )
+        protected override string GetData()
         {
             return _result;
         }

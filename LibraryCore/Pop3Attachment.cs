@@ -16,12 +16,12 @@ namespace Pop3
         #region Properties
 
         private byte[] _data;
-        
+
         #endregion
 
         #region Constructors
 
-        internal Pop3Attachment( string name, string attachmentType, byte[] data )
+        internal Pop3Attachment(string name, string attachmentType, byte[] data)
         {
             this.Name = name;
             this.AttachmentType = attachmentType;
@@ -48,7 +48,7 @@ namespace Pop3
 
         #region Public Methods
 
-        public byte[] GetData( )
+        public byte[] GetData()
         {
             return _data;
         }
