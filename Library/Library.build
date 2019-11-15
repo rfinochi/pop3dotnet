@@ -82,7 +82,7 @@
 		<exec
 			program="devenv.com"
 			basedir="${vsDir}"
-			commandline="/rebuild Release ..\Pop3DotNet_BuildComplete.sln"
+			commandline="/rebuild Release ..\Pop3DotNetBuild.sln"
 		/>
 		<fail unless="${file::exists(assemblyFullPath)}">The file ${assemblyFullPath} not exist</fail>
 		<copy file="${assemblyFullPath}" tofile="${libNet48}\${assemblyFileName}"/>

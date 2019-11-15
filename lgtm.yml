@@ -1,7 +1,7 @@
 extraction:
   csharp:
     index:
-      solution: Pop3DotNet.sln
+      solution: Pop3DotNetCodeAnalysis.sln
       msbuild:
         configuration: release   
         platform: x64
