@@ -3,5 +3,5 @@ extraction:
     index:
       solution: Pop3DotNetCodeAnalysis.sln
       msbuild:
-        configuration: release   
+        configuration: release
         platform: x64
