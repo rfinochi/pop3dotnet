@@ -2,6 +2,7 @@
 
 [![Build status](https://img.shields.io/appveyor/ci/rfinochi/pop3dotnet.svg?style=plastic)](https://ci.appveyor.com/project/rfinochi/pop3dotnet)
 [![Coverage Status](https://img.shields.io/coveralls/github/rfinochi/pop3dotnet?style=plastic)](https://coveralls.io/github/rfinochi/pop3dotnet)
+[![CII Best Practices Summary](https://img.shields.io/cii/summary/4203?style=plastic)](https://bestpractices.coreinfrastructure.org/projects/4203)
 [![Total alerts](https://img.shields.io/lgtm/alerts/github/rfinochi/pop3dotnet.svg?logo=lgtm&style=plastic)](https://lgtm.com/projects/g/rfinochi/pop3dotnet/alerts/)
 [![Issues](https://img.shields.io/github/issues/rfinochi/pop3dotnet?style=plastic)](https://github.com/rfinochi/pop3dotnet/issues)
 ![Code Size](https://img.shields.io/github/languages/code-size/rfinochi/pop3dotnet?style=plastic)
