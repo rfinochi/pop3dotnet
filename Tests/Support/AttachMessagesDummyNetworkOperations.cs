@@ -125,7 +125,6 @@ namespace Pop3.Tests.Support
 
             //results.Enqueue( "+OK" );
 
-
             return results;
         }
 

@@ -564,7 +564,7 @@ namespace Pop3.Tests
             await pop3Client.ConnectAsync("SERVER", "USERNAME", "PASSWORD");
 
             IEnumerable<Pop3Message> result = await pop3Client.ListAsync();
-            List<Pop3Message> messages = new List<Pop3Message>(result); ;
+            List<Pop3Message> messages = new List<Pop3Message>(result);
 
             await pop3Client.RetrieveAsync(messages[0]);
             Assert.IsTrue(messages[0].Retrieved);
@@ -689,7 +689,7 @@ namespace Pop3.Tests
             await pop3Client.ConnectAsync("SERVER", "USERNAME", "PASSWORD");
 
             IEnumerable<Pop3Message> result = await pop3Client.ListAndRetrieveHeaderAsync();
-            List<Pop3Message> messages = new List<Pop3Message>(result); ;
+            List<Pop3Message> messages = new List<Pop3Message>(result);
 
             Assert.IsFalse(messages[0].Retrieved);
             Assert.IsNotNull(messages[0].RawHeader);
