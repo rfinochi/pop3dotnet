@@ -9,7 +9,7 @@
 ![Code Size](https://img.shields.io/github/languages/code-size/rfinochi/pop3dotnet?style=plastic)
 ![Latest Release](https://img.shields.io/github/v/release/rfinochi/pop3dotnet?include_prereleases&style=plastic)
 [![Latest Version](https://img.shields.io/nuget/v/Pop3.svg?style=plastic&logo=nuget)](https://www.nuget.org/packages/Pop3)
-[![Downloads](https://img.shields.io/nuget/dt/Pop3.svg?style=plastic)](https://www.nuget.org/packages/Pop3)
+[![Downloads](https://img.shields.io/nuget/dt/Pop3.svg?style=plastic&logo=nuget)](https://www.nuget.org/packages/Pop3)
 ![OSS Lifecycle](https://img.shields.io/osslifecycle/rfinichi/pop3dotnet?style=plastic)
 [![License](https://img.shields.io/github/license/rfinochi/pop3dotnet.svg?style=plastic)](https://opensource.org/licenses/mit-license.php)
 
