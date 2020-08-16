@@ -1,15 +1,16 @@
 # Small and simple library for retrieving messages from Post Office Protocol version 3 (POP3) servers with full support for .NET 4.8, .NET Standard 2.1 and asynchronous programming model.
 
-[![Build status](https://img.shields.io/appveyor/ci/rfinochi/pop3dotnet.svg?style=plastic)](https://ci.appveyor.com/project/rfinochi/pop3dotnet)
-[![Coverage Status](https://img.shields.io/coveralls/github/rfinochi/pop3dotnet?style=plastic)](https://coveralls.io/github/rfinochi/pop3dotnet)
-[![Total alerts](https://img.shields.io/lgtm/alerts/github/rfinochi/pop3dotnet.svg?logo=lgtm&style=plastic)](https://lgtm.com/projects/g/rfinochi/pop3dotnet/alerts/)
-[![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/rfinochi/pop3dotnet?style=plastic)](https://www.codefactor.io/repository/github/rfinochi/pop3dotnet/overview/master)
+[![Build status](https://img.shields.io/appveyor/ci/rfinochi/pop3dotnet.svg?style=plastic&logo=appveyor)](https://ci.appveyor.com/project/rfinochi/pop3dotnet)
+[![Coverage Status](https://img.shields.io/coveralls/github/rfinochi/pop3dotnet?style=plastic&logo=coveralls)](https://coveralls.io/github/rfinochi/pop3dotnet)
+[![Total alerts](https://img.shields.io/lgtm/alerts/github/rfinochi/pop3dotnet.svg?style=plastic&logo=lgtm)](https://lgtm.com/projects/g/rfinochi/pop3dotnet/alerts/)
+[![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/rfinochi/pop3dotnet?style=plastic&logo=codefactor)](https://www.codefactor.io/repository/github/rfinochi/pop3dotnet/overview/master)
 [![CII Best Practices Summary](https://img.shields.io/cii/summary/4203?style=plastic)](https://bestpractices.coreinfrastructure.org/projects/4203)
 [![Issues](https://img.shields.io/github/issues/rfinochi/pop3dotnet?style=plastic)](https://github.com/rfinochi/pop3dotnet/issues)
 ![Code Size](https://img.shields.io/github/languages/code-size/rfinochi/pop3dotnet?style=plastic)
 ![Latest Release](https://img.shields.io/github/v/release/rfinochi/pop3dotnet?include_prereleases&style=plastic)
-[![Latest Version](https://img.shields.io/nuget/v/Pop3.svg?style=plastic)](https://www.nuget.org/packages/Pop3)
+[![Latest Version](https://img.shields.io/nuget/v/Pop3.svg?style=plastic&logo=nuget)](https://www.nuget.org/packages/Pop3)
 [![Downloads](https://img.shields.io/nuget/dt/Pop3.svg?style=plastic)](https://www.nuget.org/packages/Pop3)
+![OSS Lifecycle](https://img.shields.io/osslifecycle/rfinichi/pop3dotnet?style=plastic)
 [![License](https://img.shields.io/github/license/rfinochi/pop3dotnet.svg?style=plastic)](https://opensource.org/licenses/mit-license.php)
 
 ## How to use
